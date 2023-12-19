@@ -1,0 +1,60 @@
+allow#:#Funktionen erlauben
+allow_info#:#Erlaube die folgenden Funktionen des iFrames.
+before_load_button#:#Inhalt anzeigen
+before_load_info#:#Externe Inhalte von %s werden geladen. Bitte bestätigen Sie, dass Sie den Inhalt sehen möchten.
+cmd_insert#:#Externen Inhalt einfügen
+delete#:#Löschen
+edit_content_info#:#Externer Inhalt von %s
+embed_content#:#Snippet einfügen
+embed_content_info#:#Fügen Sie das einzubettende Snippet hier ein, es wird verarbeitet und auf Sicherheit geprüft. Wenn das Snippet zulässig ist, wird es als iFrame gespeichert.
+embed_content_invalid#:#embed_content_invalid
+embed_content_invalid_content#:#Der eingegebene Inhalt ist ungültig, es wurde kein Inhalt zum Einbetten gefunden.
+embed_content_invalid_url#:#Die eingegebene URL ist ungültig oder wurde nicht für diese ILIAS-Installation freigegeben. Bitten wenden Sie sich an die Plattform-Administration.
+embed_section_title#:#Snippet automatisch einbetten
+form_title#:#Neues iFrame hinzufügen
+frameborder#:#Rahmen
+frameborder_info#:#Dicke des Rahmen um das iFrame in Pixeln.
+height#:#Höhe
+height_info#:#Höhe des iFrames in Pixeln
+iframe_section_title#:#Manuelle iFrame-Eingabe
+msg_form_invalid#:#Bitte prüfen Sie Ihre Eingaben im Formular.
+msg_form_saved#:#msg_form_saved
+msg_validation_failed#:#Die Validierung des Snippets ist fehlgeschlagen. Bitte überprüfen Sie das Snippet und versuchen Sie es erneut.
+not_embeddable_info#:#Der externer Inhalt von %s kann nicht eingebettet werden. <br>Grund: %s
+reason_not_whitelisted#:#Die Domain wurde von der ILIAS-Administration nicht für das Einbetten von Inhalten freigegeben.
+reason_unknown#:#Unbekannt, bitte kontaktieren Sie die ILIAS-Administration.
+responsive#:#Responsive Darstellung
+responsive_info#:#Die angegebene Höhe und Breite gelten als maximale Abmessungen. Das iFrame wird sich automatisch an die Breite des Containers anpassen und behält das Verhältnis aus der Höhe und Breite.
+saved_successfully#:#Gespeichert
+scripts#:#Scripts
+scripts_info#:#Manche iFrames erfordern zusätzliche Scripts, die hier als URLs (https://...) eingefügt werden können. Diese URLs werden ebenfalls geprüft, ob sie erlaubt sind.
+settings#:#Einstellungen
+settings_roles#:#Rollen
+settings_roles_info#:#Rollen, die neue externe Inhalte im Seiteneditor hinzufügen können.
+settings_title#:#Einstellungen
+tab_settings#:#Einstellungen
+tab_whitelist#:#Freigegebene Domains
+title#:#Titel
+title_info#:#Titel des iFrames
+url#:#URL
+url_info#:#URL des iFrames, beginnnen mit https://. Diese URL wird auf Sicherheit geprüft und muss auf der Liste der erlaubten URLs stehen.
+whitelist#:#Freigegebene Domains für externe Inhalte
+whitelist_add#:#Neuen Eintrag hinzufügen
+whitelist_added#:#Eintrag hinzugefügt
+whitelist_confirm_delete#:#Möchten Sie den folgenden Eintrag wirklich löschen?
+whitelist_confirm_delete_info#:#Eintrag gelöscht
+whitelist_delete#:#Eintrag löschen
+whitelist_description#:#Bemerkungen
+whitelist_description_info#:#Zusätzliche Informationen zum Eintrag, nur intern sichtbar
+whitelist_domain#:#Domain
+whitelist_domain_info#:#Freigegebene Domain, kann Wildcards '*' enthalten
+whitelist_edit#:#Eintrag bearbeiten
+whitelist_form_header#:#Whitelist-Eintrag
+whitelist_form_header_info#:#Erstellen oder bearbeiten eines Whitelist-Eintrages
+whitelist_msg_confirm_deleted#:#Einträge gelöscht
+whitelist_save#:#Eintrag speichern
+whitelist_title#:#Titel
+whitelist_title_info#:#Bspw. Youtube
+whitelist_updated#:#Aktualisiert
+width#:#Breite
+width_info#:#Breite des iFrames in Pixeln
