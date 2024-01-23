@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . "/../vendor/autoload.php";
+
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
@@ -15,6 +17,14 @@ class ilSrExternalPageContentPlugin extends ilPageComponentPlugin
     public function isValidParentType($a_type): bool
     {
         return true;
+    }
+
+    /**
+     * @description During development we just return the requested variable in CamelCase back
+     */
+    public function txt(string $a_var): string
+    {
+        return (str_replace(' ', ' ', ucwords(str_replace('_', ' ', $a_var))));
     }
 
 }

@@ -1,0 +1,15 @@
+{
+    "name": "sr/sr-external-page-content",
+    "autoload": {
+        "psr-4": {
+            "srag\\Plugins\\SrExternalPageContent\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Fabian Schmid",
+            "email": "fabian@sr.solutions"
+        }
+    ],
+    "require": {}
+}

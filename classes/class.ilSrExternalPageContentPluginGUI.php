@@ -1,6 +1,9 @@
 <?php
 
 use ILIAS\UI\Implementation\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Container\Form\Form;
+use srag\Plugins\SrExternalPageContent\Forms\ContentCreation;
+use srag\Plugins\SrExternalPageContent\Forms\IFrameSection;
 
 /**
  * @author            Fabian Schmid <fabian@sr.solution>
@@ -9,11 +12,16 @@ use ILIAS\UI\Implementation\Component\Input\Field\Input;
 class ilSrExternalPageContentPluginGUI extends ilPageComponentPluginGUI
 {
 
-    private const MODE_CREATE = "create";
-    private const MODE_UPDATE = 'update';
+    private const MODE_CREATE = self::CMD_CREATE;
+    private const MODE_UPDATE = self::CMD_UPDATE;
     private const MODE_PREVIEW = 'preview';
     private const MODE_PRESENTATION = 'presentation';
     private const F_EXTERNAL_CONTENT = 'external_content';
+    const CMD_INSERT = 'insert';
+    const CMD_EDIT = 'edit';
+    const CMD_CREATE = 'create';
+    const CMD_UPDATE = 'update';
+    const CMD_CANCEL = 'cancel';
     /**
      * @var ilGlobalTemplateInterface
      */
@@ -53,92 +61,76 @@ class ilSrExternalPageContentPluginGUI extends ilPageComponentPluginGUI
         parent::__construct();
     }
 
-    /**
-     * @description ATTENTION: WE ARE NOW RESETTING ALL TRAFOS ON THE INPUT TO AVOID THE ALREADY GIVEN STRIP_TAGS TRAFO!
-     */
-    private function makeInputHTMLAware(\ILIAS\UI\Component\Input\Field\Input $input): void
-    {
-        $reflection = new ReflectionClass(Input::class);
-        $operations_property = $reflection->getProperty('operations');
-        $operations_property->setAccessible(true);
-        $operations_property->setValue($input, []);
-    }
-
     public function executeCommand()
     {
         $cmd = $this->ctrl->getCmd();
         switch ($cmd) {
-            case 'insert':
-            case 'edit':
-            case 'create':
-            case 'update':
-            case 'cancel':
+            case self::CMD_INSERT:
+            case self::CMD_EDIT:
+            case self::CMD_CREATE:
+            case self::CMD_UPDATE:
+            case self::CMD_CANCEL:
                 $this->$cmd();
                 break;
         }
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->showForm();
     }
 
-    public function edit()
+    public function edit(): void
     {
-        $this->showForm();
+        $this->showForm(true);
     }
 
-    public function create()
-    {
-        $this->processForm();
-    }
-
-    public function update()
+    public function create(): void
     {
         $this->processForm();
     }
 
-    public function cancel()
+    public function update(): void
+    {
+        $this->processForm();
+    }
+
+    public function cancel(): void
     {
         $this->returnToParent();
     }
 
-    protected function showForm(): void
+    protected function showForm(bool $edit = false): void
     {
         $this->tpl->setContent(
             $this->ui->renderer()->render(
-                $this->initForm()
+                $this->initForm($edit)
             )
         );
     }
 
-    protected function initForm(): \ILIAS\UI\Component\Input\Container\Form\Form
+    protected function initForm(bool $edit = false): Form
     {
         $properties = $this->getProperties();
-        $factory = $this->ui->factory()->input()->field();
 
-        $textarea = $factory->textarea(
-            $this->plugin->txt(self::F_EXTERNAL_CONTENT),
-            $this->plugin->txt(self::F_EXTERNAL_CONTENT . '_info'),
-        );
-
-        $this->makeInputHTMLAware($textarea);
-
-        $inputs = [
-            $textarea->withValue($properties[self::F_EXTERNAL_CONTENT] ?? '')
-                     ->withAdditionalTransformation(
-                         $this->refinery->custom()->transformation(function ($value) use ($properties) {
-                             return [self::F_EXTERNAL_CONTENT => $value] + $properties;
-                         })
-                     ),
-        ];
+        if ($edit) {
+            $section = new ContentCreation(
+                $this->plugin,
+                $properties
+            );
+        } else {
+            $section = new IFrameSection(
+                $this->plugin,
+                $properties
+            );
+        }
 
         return $this->ui->factory()->input()->container()->form()->standard(
             $this->ctrl->getFormActionByClass(
                 self::class,
                 ($this->isCreationMode()) ? self::MODE_CREATE : self::MODE_UPDATE
             ),
-            $inputs
+            [$section->getSection()]
         )->withAdditionalTransformation(
             $this->refinery->custom()->transformation(function ($value) use ($properties) {
                 return $value;
@@ -179,7 +171,7 @@ class ilSrExternalPageContentPluginGUI extends ilPageComponentPluginGUI
         );
     }
 
-    protected function isPresentationMode($mode) : bool
+    protected function isPresentationMode($mode): bool
     {
         return (
             self::MODE_PRESENTATION === $mode ||
@@ -187,12 +179,11 @@ class ilSrExternalPageContentPluginGUI extends ilPageComponentPluginGUI
         );
     }
 
-    public function getElementHTML($a_mode, array $a_properties, $plugin_version)
+    public function getElementHTML($a_mode, array $a_properties, $plugin_version): string
     {
         if (!$this->isPresentationMode($a_mode)) {
             return $a_properties[self::F_EXTERNAL_CONTENT]; // TODO show info-block
         }
-
 
         return html_entity_decode($a_properties[self::F_EXTERNAL_CONTENT] ?? '');
     }

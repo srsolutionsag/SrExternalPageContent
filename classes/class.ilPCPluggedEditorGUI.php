@@ -3,6 +3,8 @@
 use ILIAS\COPage\Editor\Server\UIWrapper;
 
 /**
+ * @description       This was an attempt to create a custom editor for the page component which is shown in the tools slate.
+ *                    did not work.
  * @author            Fabian Schmid <fabian@sr.solution>
  */
 if (!class_exists('ilPCPluggedEditorGUI')) {
@@ -24,7 +26,7 @@ if (!class_exists('ilPCPluggedEditorGUI')) {
             int $style_id,
             $pcid
         ): string {
-            return "FORMFORMFORMFORMFORM";
+            return "";
         }
 
     }
