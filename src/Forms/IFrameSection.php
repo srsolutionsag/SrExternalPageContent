@@ -63,6 +63,11 @@ class IFrameSection extends Base implements FormElement
             $this->plugin->txt('frameborder_info')
         );
 
+        $inputs[] = $factory->textarea(
+            $this->plugin->txt('scripts'),
+            $this->plugin->txt('scripts_info')
+        );
+
         $allow_options = [
             'autoplay',
             'fullscreen',
@@ -77,7 +82,7 @@ class IFrameSection extends Base implements FormElement
             $this->plugin->txt('allow'),
             $allow_options,
             $this->plugin->txt('allow_info')
-        );
+        )->withDisabled(true);
 
         return $inputs;
     }
