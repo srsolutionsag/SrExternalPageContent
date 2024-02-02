@@ -24,6 +24,9 @@ class ilSrExternalPageContentPlugin extends ilPageComponentPlugin
      */
     public function txt(string $a_var): string
     {
+        if($a_var === 'cmd_insert') {
+            return parent::txt($a_var);
+        }
         return (str_replace(' ', ' ', ucwords(str_replace('_', ' ', $a_var))));
     }
 
