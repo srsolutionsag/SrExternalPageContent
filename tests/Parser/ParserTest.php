@@ -81,6 +81,24 @@ class ParserTest extends TestCase
                     'height' => '675',
                     'width' => '1200'
                 ]
+            ],
+            //            [
+            //                'content'=> '<iframe id="odysee-iframe" style="width:100%; aspect-ratio:16 / 9;" src="https://odysee.com/$/embed/@theswisshiker:6/gemütliche-wanderung-in-zürich-mit:8?r=F1nzvjpeB6mpCmTwd1QTaf2bPyumSMPQ" allowfullscreen></iframe>',
+            //                'data' => [
+            //                    'url' => 'https://odysee.com/$/embed/@theswisshiker:6/gemütliche-wanderung-in-zürich-mit:8?r=F1nzvjpeB6mpCmTwd1QTaf2bPyumSMPQ',
+            //                ]
+            //            ],
+            [
+                'content' => '<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;"> <iframe style="width:100%;height:100%;position:absolute;left:0px;top:0px;overflow:hidden" frameborder="0" type="text/html" src="https://www.dailymotion.com/embed/video/x7bnbnb?autoplay=1" width="100%" height="100%" allowfullscreen title="Dailymotion Video Player" allow="autoplay; web-share"> </iframe> </div>',
+                'data' => [
+                    'url' => 'https://www.dailymotion.com/embed/video/x7bnbnb?autoplay=1',
+                    'title' => 'Dailymotion Video Player',
+                    'frameborder' => '0',
+                    'allow' => ['autoplay', 'web-share'],
+                    'allowfullscreen' => true,
+                    'height' => 100,
+                    'width' => 100
+                ]
             ]
         ];
     }
@@ -95,7 +113,7 @@ class ParserTest extends TestCase
         $this->assertEquals($data['url'], $embeddable->getUrl());
         $this->assertEquals($data['title'], $embeddable->getTitle());
         $this->assertEquals($data['frameborder'], $embeddable->getFrameborder());
-        $this->assertEquals($data['allow'], $embeddable->getAllow());
+        $this->assertEquals($data['allow'] ?? [], $embeddable->getAllow());
         $this->assertEquals($data['referrerpolicy'], $embeddable->getReferrerpolicy());
         $this->assertEquals($data['allowfullscreen'], $embeddable->isAllowfullscreen());
         $this->assertEquals($data['height'], $embeddable->getHeight());
