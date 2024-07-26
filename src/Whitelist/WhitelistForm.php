@@ -20,6 +20,7 @@ use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Modal\RoundTrip;
+use ILIAS\Data\URI;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -91,6 +92,18 @@ class WhitelistForm extends BaseUIComponent
                 )
                 ->withRequired(true)
                 ->withValue($this->domain->getDomain())
+                ->withAdditionalTransformation(
+                    $this->travo(
+                        function (string $domain): string {
+                            $domain = trim($domain);
+                            try {
+                                return (new URI($domain))->getHost();
+                            } catch (\Throwable $e) {
+                                return $domain;
+                            }
+                        }
+                    )
+                )
                 ->withAdditionalTransformation(
                     $this->travo(
                         fn(string $domain): WhitelistedDomain => $this->domain = $this->domain->withDomain($domain)
