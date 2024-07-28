@@ -15,6 +15,7 @@ use srag\Plugins\SrExternalPageContent\BaseGUI;
 /**
  * @author            Fabian Schmid <fabian@sr.solution>
  * @ilCtrl_isCalledBy ilSrExternalPagePluginDispatcherGUI: ilSrExternalPageContentConfigGUI
+ * @ilCtrl_isCalledBy ilSrExternalPagePluginDispatcherGUI: ilUIPluginRouterGUI
  */
 class ilSrExternalPagePluginDispatcherGUI extends BaseGUI
 {
@@ -34,6 +35,15 @@ class ilSrExternalPagePluginDispatcherGUI extends BaseGUI
             if (strtolower($class) === $next_class) {
                 $this->tabs->activateTab($tab);
                 $this->ctrl->forwardCommand(new $class());
+            }
+        }
+
+        // check fo calls from ilUIPluginRouterGUI
+        foreach ($this->ctrl->getCallHistory() as $item) {
+            if (($item['cmdClass'] ?? '') === ilUIPluginRouterGUI::class) {
+                $this->tpl->setTitle($this->translator->txt('external_contents'));
+                $this->tpl->loadStandardTemplate();
+                $this->tpl->printToStdout();
                 return;
             }
         }

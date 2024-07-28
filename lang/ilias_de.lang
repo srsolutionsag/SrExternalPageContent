@@ -11,6 +11,7 @@ embed_content_invalid#:#embed_content_invalid
 embed_content_invalid_content#:#Der eingegebene Inhalt ist ungültig, es wurde kein Inhalt zum Einbetten gefunden.
 embed_content_invalid_url#:#Die eingegebene URL ist ungültig oder wurde nicht für diese ILIAS-Installation freigegeben. Bitten wenden Sie sich an die Plattform-Administration.
 embed_section_title#:#Snippet automatisch einbetten
+external_contents#:#Externe Inhalte
 form_title#:#Neues iFrame hinzufügen
 frameborder#:#Rahmen
 frameborder_info#:#Dicke des Rahmen um das iFrame in Pixeln.

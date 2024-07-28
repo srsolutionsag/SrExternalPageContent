@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 use srag\Plugins\SrExternalPageContent\Init;
 use srag\Plugins\SrExternalPageContent\DIC;
+use srag\Plugins\SrExternalPageContent\GlobalScreen\Menu;
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
@@ -26,9 +27,13 @@ class ilSrExternalPageContentPlugin extends ilPageComponentPlugin
     public function __construct(ilDBInterface $db, ilComponentRepositoryWrite $component_repository, string $id)
     {
         parent::__construct($db, $component_repository, $id);
-        global $sepcContainer;
+        global $sepcContainer, $DIC;
         $sepcContainer = Init::init($this, $this->getLanguageHandler());
         $this->dic = $sepcContainer;
+
+        if ($DIC->isDependencyAvailable('globalScreen')) {
+            $this->provider_collection->setMainBarProvider(new Menu($DIC, $this));
+        }
     }
 
     public function getPluginName(): string

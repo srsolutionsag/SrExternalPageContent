@@ -29,7 +29,7 @@ class Translator
             $current_content = file_get_contents($en_lang);
             $lines = explode("\n", $current_content);
             sort($lines);
-            $lines = array_filter($lines, fn($line): bool => trim($line) !== '' && trim($line) !== '0');
+            $lines = array_filter($lines, fn ($line): bool => trim($line) !== '' && trim($line) !== '0');
             file_put_contents($en_lang, implode("\n", $lines) . "\n");
 
             $language_handler->updateLanguages();

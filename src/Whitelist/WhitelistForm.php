@@ -53,7 +53,7 @@ class WhitelistForm extends BaseUIComponent
             $this->post_url,
             [$this->getSection()]
         )->withAdditionalTransformation(
-            $this->travo(fn($value): WhitelistedDomain => $this->domain)
+            $this->travo(fn ($value): WhitelistedDomain => $this->domain)
         );
     }
 
@@ -77,7 +77,7 @@ class WhitelistForm extends BaseUIComponent
             )
             ->withSubmitCaption($this->translator->txt('save', 'whitelist'))
             ->withAdditionalTransformation(
-                $this->travo(fn($value): WhitelistedDomain => $this->domain)
+                $this->travo(fn ($value): WhitelistedDomain => $this->domain)
             );
     }
 
@@ -106,7 +106,7 @@ class WhitelistForm extends BaseUIComponent
                 )
                 ->withAdditionalTransformation(
                     $this->travo(
-                        fn(string $domain): WhitelistedDomain => $this->domain = $this->domain->withDomain($domain)
+                        fn (string $domain): WhitelistedDomain => $this->domain = $this->domain->withDomain($domain)
                     )
                 ),
             'title' => $f
@@ -117,7 +117,7 @@ class WhitelistForm extends BaseUIComponent
                 ->withValue($this->domain->getTitle() ?? '')
                 ->withAdditionalTransformation(
                     $this->travo(
-                        fn(string $title): WhitelistedDomain => $this->domain = $this->domain->withTitle($title)
+                        fn (string $title): WhitelistedDomain => $this->domain = $this->domain->withTitle($title)
                     )
                 ),
             'description' => $f
@@ -128,7 +128,7 @@ class WhitelistForm extends BaseUIComponent
                 ->withValue($this->domain->getDescription() ?? '')
                 ->withAdditionalTransformation(
                     $this->travo(
-                        fn(string $description): WhitelistedDomain => $this->domain = $this->domain->withDescription(
+                        fn (string $description): WhitelistedDomain => $this->domain = $this->domain->withDescription(
                             $description
                         )
                     )
