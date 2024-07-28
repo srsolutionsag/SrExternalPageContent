@@ -5,12 +5,9 @@
     align-items: center; /* center vertically */
     border: 1px solid #7e7e7e;
     margin-bottom: 12px;
-    overflow: hidden;
+    overflow: scroll;
 }
 
-.sr-external-page-content-info {
-    text-align: center;
-}
 
 .sr-external-page-content-iframe {
     width: 100%;
@@ -19,7 +16,10 @@
 
 .sr-external-page-content-info {
     color: #7e7e7e;
-    padding: 30px;
+    padding: 3%;
+    margin-top: 12px;
+    font-size: 0.8em;
+    text-align: center;
 }
 
 .sr-external-page-content-loader {
