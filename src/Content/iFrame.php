@@ -17,6 +17,9 @@ namespace srag\Plugins\SrExternalPageContent\Content;
  */
 class iFrame extends BaseEmbeddable implements Embeddable
 {
+    public const DEFAULT_WIDTH = 160 * 3;
+    public const DEFAULT_HEIGHT = 90 * 3;
+
     protected string $title;
     protected int $height;
     protected int $width;
@@ -30,8 +33,8 @@ class iFrame extends BaseEmbeddable implements Embeddable
     {
         parent::__construct($id, $url, $properties);
         $this->title = $properties['title'] ?? '';
-        $this->height = (int) ($properties['height'] ?? 90 * 2);
-        $this->width = (int) ($properties['width'] ?? 160 * 2);
+        $this->height = (int) ($properties['height'] ?? self::DEFAULT_HEIGHT);
+        $this->width = (int) ($properties['width'] ?? self::DEFAULT_WIDTH);
         $this->frameborder = (int) ($properties['frameborder'] ?? 0);
         $this->allow = $properties['allow'] ?? [];
         $this->referrerpolicy = $properties['referrerpolicy'] ?? '';

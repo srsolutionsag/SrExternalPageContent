@@ -18,16 +18,22 @@ use srag\Plugins\SrExternalPageContent\Content\NotEmbeddable;
 use srag\Plugins\SrExternalPageContent\Helper\Sanitizer;
 use srag\Plugins\SrExternalPageContent\Content\NotEmbeddableReasons;
 
+use function PHPUnit\Framework\matches;
+
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class iFrameParser implements Parser
 {
     private Sanitizer $sanitizer;
+    private int $default_width;
+    private int $default_height;
 
     public function __construct()
     {
         $this->sanitizer = new Sanitizer();
+        $this->default_width = iFrame::DEFAULT_WIDTH;
+        $this->default_height = iFrame::DEFAULT_HEIGHT;
     }
 
     public function parse(string $snippet): Embeddable
@@ -60,13 +66,40 @@ class iFrameParser implements Parser
         if (in_array('fullscreen', $allow, true)) {
             $allowfullscreen = true;
         }
+        $style = $iframe->getAttribute('style');
+
         $width = $iframe->getAttribute('width');
+        if (empty($width) && preg_match('/width:[ ]?(?<value>([\d]+)(px|%))/m', $style, $width_matches)) {
+            $width = $width_matches['value'] ?? '';
+        }
+
         $height = $iframe->getAttribute('height');
+        if (empty($height) && preg_match('/height:[ ]?(?<value>([\d]+)(px|%))/m', $style, $height_matches)) {
+            $height = $height_matches['value'] ?? '';
+        }
+
+        // determine unit of width and height
+        if (strpos($width, 'px') !== false) {
+            $width = str_replace('px', '', $width);
+        } elseif (strpos($width, '%') !== false) {
+            $width = $this->default_width;
+        } else {
+            $width = (int) $width;
+        }
+
+        // determine unit of width and height
+        if (strpos($height, 'px') !== false) {
+            $height = str_replace('px', '', $height);
+        } elseif (strpos($height, '%') !== false) {
+            $height = $this->default_height;
+        } else {
+            $height = (int) $height;
+        }
 
         $properties = [
             'title' => $title,
-            'height' => empty($height) ? 'auto' : str_replace('px', '', $height),
-            'width' => empty($width) ? 'auto' : str_replace('px', '', $width),
+            'height' => $height,
+            'width' => $width,
             'frameborder' => $frameborder,
             'allow' => $allow,
             'referrerpolicy' => $referrerpolicy,
