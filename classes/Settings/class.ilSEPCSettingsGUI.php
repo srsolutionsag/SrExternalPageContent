@@ -22,7 +22,7 @@ use srag\Plugins\SrExternalPageContent\Settings\Settings;
  */
 class ilSEPCSettingsGUI extends BaseGUI
 {
-    public $lng;
+    private array $default_roles;
     private Settings $settings;
     private Refinery $refinery;
 
@@ -31,6 +31,7 @@ class ilSEPCSettingsGUI extends BaseGUI
         parent::__construct();
         $this->settings = $this->dic->settings();
         $this->refinery = $this->dic->refinery();
+        $this->default_roles = [2, 4];
     }
 
     public function executeCommand(): void
@@ -41,6 +42,12 @@ class ilSEPCSettingsGUI extends BaseGUI
     private function getForm(): Standard
     {
         $factory = $this->ui_factory->input();
+
+        $current_value = $this->settings->get('roles', $this->default_roles);
+        $options = $this->getGlobalAndLocalRoles();
+        $role_keys = array_keys($options);
+        $current_value = array_intersect($current_value, $role_keys);
+
         return $factory->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, self::CMD_UPDATE),
             [
@@ -48,10 +55,10 @@ class ilSEPCSettingsGUI extends BaseGUI
                     [
                         'roles' => $factory->field()->multiSelect(
                             $this->translator->txt('settings_roles'),
-                            $this->getGlobalAndLocalRoles(),
+                            $options,
                             $this->translator->txt('settings_roles_info')
                         )->withValue(
-                            $this->settings->get('roles', [2, 4])
+                            $current_value
                         )->withAdditionalTransformation(
                             $this->refinery->trafo(
                                 fn (array $role_ids): array => $this->settings->set('roles', $role_ids)
