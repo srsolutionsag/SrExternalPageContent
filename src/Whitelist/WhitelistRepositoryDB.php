@@ -33,7 +33,7 @@ class WhitelistRepositoryDB implements WhitelistRepository
 
     public function blank(): WhiteListedDomain
     {
-        return new WhitelistedDomain(0, '', '', '');
+        return new WhitelistedDomain(0, '', Status::STATUS_ACTIVE, '', '');
     }
 
     protected function insert(WhitelistedDomain $domain): WhitelistedDomain
@@ -42,7 +42,7 @@ class WhitelistRepositoryDB implements WhitelistRepository
         $this->db->insert($this->getTableName(), [
             'id' => ['integer', $next_id],
             'domain' => ['text', $domain->getDomain()],
-            'status' => ['integer', 1],
+            'status' => ['integer', $domain->getStatus()],
             'title' => ['text', $domain->getTitle()],
             'description' => ['text', $domain->getDescription()],
         ]);
@@ -54,7 +54,7 @@ class WhitelistRepositoryDB implements WhitelistRepository
     {
         $this->db->update($this->getTableName(), [
             'domain' => ['text', $domain->getDomain()],
-            'status' => ['integer', 1],
+            'status' => ['integer', $domain->getStatus()],
             'title' => ['text', $domain->getTitle()],
             'description' => ['text', $domain->getDescription()],
         ], [
@@ -87,7 +87,7 @@ class WhitelistRepositoryDB implements WhitelistRepository
     public function getPossibleMatches(string $domain): array
     {
         $set = $this->db->queryF(
-            'SELECT * FROM ' . $this->getTableName() . ' WHERE domain LIKE %s',
+            'SELECT * FROM ' . $this->getTableName() . ' WHERE domain LIKE %s AND status = 1',
             ['text'],
             ['%' . $domain . '%']
         );
@@ -104,6 +104,7 @@ class WhitelistRepositoryDB implements WhitelistRepository
         return new WhitelistedDomain(
             (int) $set['id'],
             $set['domain'],
+            (int) $set['status'],
             empty($set['title']) ? null : $set['title'],
             empty($set['description']) ? null : $set['description']
         );

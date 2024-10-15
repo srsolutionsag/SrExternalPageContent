@@ -19,11 +19,18 @@ class WhitelistedDomain
 {
     protected int $id;
     protected string $domain;
+    protected int $status;
     protected ?string $title = null;
     protected ?string $description = null;
 
-    public function __construct(int $id, string $domain, ?string $title = null, ?string $description = null)
-    {
+    public function __construct(
+        int $id,
+        string $domain,
+        int $status,
+        ?string $title = null,
+        ?string $description = null
+    ) {
+        $this->status = $status;
         $this->id = $id;
         $this->domain = $domain;
         $this->title = $title;
@@ -75,6 +82,23 @@ class WhitelistedDomain
     {
         $new = clone $this;
         $new->id = $id;
+        return $new;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status === Status::STATUS_ACTIVE;
+    }
+
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    public function withStatus(int $status): WhitelistedDomain
+    {
+        $new = clone $this;
+        $new->status = $status;
         return $new;
     }
 }

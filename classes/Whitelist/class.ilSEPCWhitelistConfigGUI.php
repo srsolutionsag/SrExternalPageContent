@@ -16,6 +16,7 @@ use srag\Plugins\SrExternalPageContent\Whitelist\WhitelistForm;
 use srag\Plugins\SrExternalPageContent\Whitelist\WhitelistedDomain;
 use ILIAS\UI\Component\Modal\InterruptiveItem;
 use srag\Plugins\SrExternalPageContent\Whitelist\WhitelistRepository;
+use srag\Plugins\SrExternalPageContent\Whitelist\Status;
 
 /**
  * @author            Fabian Schmid <fabian@sr.solutions>
@@ -24,6 +25,7 @@ use srag\Plugins\SrExternalPageContent\Whitelist\WhitelistRepository;
  */
 class ilSEPCWhitelistConfigGUI extends BaseGUI
 {
+    public const CMD_TOGGLE = 'toggle';
     private WhitelistRepository $repository;
 
     public function __construct()
@@ -35,6 +37,9 @@ class ilSEPCWhitelistConfigGUI extends BaseGUI
     public function executeCommand(): void
     {
         $this->performStandardCommands();
+        if ($this->ctrl->getCmd() === self::CMD_TOGGLE) {
+            $this->toggle();
+        }
     }
 
     protected function index(): void
@@ -51,6 +56,15 @@ class ilSEPCWhitelistConfigGUI extends BaseGUI
             $this->ctrl->getLinkTarget($this, self::CMD_INDEX)
         );
         $this->tpl->setContent($table->getHTML());
+    }
+
+    protected function toggle(): void
+    {
+        $domain = $this->resolveDomainsFromRequest()[0];
+        $domain = $domain->withStatus($domain->getStatus() === Status::STATUS_ACTIVE ? Status::STATUS_INACTIVE : Status::STATUS_ACTIVE);
+        $this->repository->store($domain);
+        $this->tpl->setOnScreenMessage('success', $this->translator->txt('whitelist_updated'), true);
+        $this->ctrl->redirect($this, self::CMD_INDEX);
     }
 
     protected function add(): void

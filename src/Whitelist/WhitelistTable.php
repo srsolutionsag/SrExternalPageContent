@@ -74,6 +74,11 @@ class WhitelistTable extends BaseUIComponent implements DataRetrieval
                     $this->url_builder->withURI($this->target_url->withParameter('cmd', 'edit')),
                     $this->token,
                 )->withAsync(true),
+                'toggle' => $f->action()->single(
+                    $this->translator->txt('toggle', 'whitelist'),
+                    $this->url_builder->withURI($this->target_url->withParameter('cmd', 'toggle')),
+                    $this->token,
+                )->withAsync(false),
             ]
         );
     }
@@ -92,6 +97,9 @@ class WhitelistTable extends BaseUIComponent implements DataRetrieval
                 ->withIsSortable(false),
             'title' => $f
                 ->text($this->translator->txt('title', 'whitelist'))
+                ->withIsSortable(false),
+            'active' => $f
+                ->statusIcon($this->translator->txt('active', 'whitelist'))
                 ->withIsSortable(false),
             'description' => $f
                 ->text($this->translator->txt('description', 'whitelist'))
@@ -114,12 +122,24 @@ class WhitelistTable extends BaseUIComponent implements DataRetrieval
         ?array $filter_data,
         ?array $additional_parameters
     ): Generator {
+        $ok = $this->factory->symbol()->icon()->custom(
+            'templates/default/images/icon_checked.svg',
+            '',
+            'small'
+        );
+        $nok = $this->factory->symbol()->icon()->custom(
+            'templates/default/images/icon_unchecked.svg',
+            '',
+            'small'
+        );
+
         foreach ($this->repository->getAll() as $domain) {
             yield $row_builder->buildDataRow(
                 (string) $domain->getId(),
                 [
                     'domain' => $domain->getDomain(),
                     'title' => $domain->getTitle(),
+                    'active' => $domain->isActive() ? $ok : $nok,
                     // shorten and append ellipsis if the description ist longer than 50 characters
                     'description' => strlen($domain->getDescription() ?? '') > self::DESCRIPTION_LENGTH
                         ? substr($domain->getDescription(), 0, self::DESCRIPTION_LENGTH) . '...'

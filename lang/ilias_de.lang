@@ -40,6 +40,8 @@ title_info#:#Titel des iFrames
 url#:#URL
 url_info#:#URL des iFrames, beginnnen mit https://. Diese URL wird auf Sicherheit geprüft und muss auf der Liste der erlaubten URLs stehen.
 whitelist#:#Freigegebene Domains für externe Inhalte
+whitelist_active#:#Aktiv
+whitelist_active_info#:#Aktiviert die Domain für die Verwendung im Seiteneditor
 whitelist_add#:#Neuen Eintrag hinzufügen
 whitelist_added#:#Eintrag hinzugefügt
 whitelist_confirm_delete#:#Möchten Sie den folgenden Eintrag wirklich löschen?
@@ -56,6 +58,7 @@ whitelist_msg_confirm_deleted#:#Einträge gelöscht
 whitelist_save#:#Eintrag speichern
 whitelist_title#:#Titel
 whitelist_title_info#:#Bspw. Youtube
+whitelist_toggle#:#De-/Aktivieren
 whitelist_updated#:#Aktualisiert
 width#:#Breite
 width_info#:#Breite des iFrames in Pixeln

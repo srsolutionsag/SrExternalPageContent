@@ -109,6 +109,17 @@ class WhitelistForm extends BaseUIComponent
                         fn (string $domain): WhitelistedDomain => $this->domain = $this->domain->withDomain($domain)
                     )
                 ),
+            'status' => $f
+                ->checkbox(
+                    $this->translator->txt('active', 'whitelist'),
+                    $this->translator->txt('active_info', 'whitelist')
+                )
+                ->withValue($this->domain->isActive())
+                ->withAdditionalTransformation(
+                    $this->travo(
+                        fn (bool $status): WhitelistedDomain => $this->domain = $this->domain->withStatus((int) $status)
+                    )
+                ),
             'title' => $f
                 ->text(
                     $this->translator->txt('title', 'whitelist'),
