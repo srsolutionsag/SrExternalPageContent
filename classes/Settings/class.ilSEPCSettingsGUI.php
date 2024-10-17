@@ -22,8 +22,14 @@ use srag\Plugins\SrExternalPageContent\Settings\Settings;
  */
 class ilSEPCSettingsGUI extends BaseGUI
 {
-    private array $default_roles;
+    private array $default_roles = [2, 4];
+    /**
+     * @readonly
+     */
     private Settings $settings;
+    /**
+     * @readonly
+     */
     private Refinery $refinery;
 
     public function __construct()
@@ -31,7 +37,6 @@ class ilSEPCSettingsGUI extends BaseGUI
         parent::__construct();
         $this->settings = $this->dic->settings();
         $this->refinery = $this->dic->refinery();
-        $this->default_roles = [2, 4];
     }
 
     public function executeCommand(): void

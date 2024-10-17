@@ -63,7 +63,13 @@ class ilSrExternalPageContentPluginGUI extends ilPageComponentPluginGUI
      * @var Factory
      */
     private $refinery;
+    /**
+     * @readonly
+     */
     private DIC $dependencies;
+    /**
+     * @readonly
+     */
     private Translator $translator;
 
     public function __construct()

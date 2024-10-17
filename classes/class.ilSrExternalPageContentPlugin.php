@@ -22,6 +22,9 @@ require_once __DIR__ . "/../vendor/autoload.php";
 class ilSrExternalPageContentPlugin extends ilPageComponentPlugin
 {
     public const PLUGIN_NAME = "SrExternalPageContent";
+    /**
+     * @readonly
+     */
     private DIC $dic;
 
     public function __construct(ilDBInterface $db, ilComponentRepositoryWrite $component_repository, string $id)

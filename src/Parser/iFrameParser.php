@@ -25,15 +25,16 @@ use function PHPUnit\Framework\matches;
  */
 class iFrameParser implements Parser
 {
+    /**
+     * @readonly
+     */
     private Sanitizer $sanitizer;
-    private int $default_width;
-    private int $default_height;
+    private int $default_width = iFrame::DEFAULT_WIDTH;
+    private int $default_height = iFrame::DEFAULT_HEIGHT;
 
     public function __construct()
     {
         $this->sanitizer = new Sanitizer();
-        $this->default_width = iFrame::DEFAULT_WIDTH;
-        $this->default_height = iFrame::DEFAULT_HEIGHT;
     }
 
     public function parse(string $snippet): Embeddable

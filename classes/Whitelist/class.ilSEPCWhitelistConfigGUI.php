@@ -26,6 +26,9 @@ use srag\Plugins\SrExternalPageContent\Whitelist\Status;
 class ilSEPCWhitelistConfigGUI extends BaseGUI
 {
     public const CMD_TOGGLE = 'toggle';
+    /**
+     * @readonly
+     */
     private WhitelistRepository $repository;
 
     public function __construct()
