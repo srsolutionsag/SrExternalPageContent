@@ -109,7 +109,7 @@ class ilSrExternalPageContentPluginGUI extends ilPageComponentPluginGUI
         } else {
             $embeddable = $this->dependencies->embeddables()->getById(
                 (int) $embeddable_id,
-                !$this->isPresentationMode($a_mode)
+                false
             );
         }
         return $embeddable;

@@ -2,8 +2,8 @@
 
 $id = "pcexcont";
 $version = '1.0.2';
-$ilias_min_version = "8.0";
-$ilias_max_version = "8.999";
+$ilias_min_version = "9.0";
+$ilias_max_version = "9.999";
 $responsible = "sr solutions ag";
 $responsible_mail = "support@sr.solutions";
 $supports_export = false;
