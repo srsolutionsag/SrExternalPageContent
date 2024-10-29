@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 1.0.3
+- [FIX] undefined variable
+
 ## Version 1.0.2
 - [FIX] border and scrollbars always visible
 - [FEATURE] de-/activation of whitelist entries
