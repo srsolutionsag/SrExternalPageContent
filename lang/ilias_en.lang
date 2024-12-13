@@ -1,0 +1,64 @@
+allow#:#Allow functions
+allow_info#:#Allow the following iFrame functions.
+before_load_button#:#Display content
+before_load_info#:#External content from %s is loading. Please confirm that you want to see the content.
+cmd_insert#:#Insert external content
+delete#:#Delete
+edit_content_info#:#External content from %s
+embed_content#:#Insert snippet
+embed_content_info#:#Insert the snippet to embed here, it will be processed and checked for security. If the snippet is valid, it will be saved as an iFrame.
+embed_content_invalid#:#embed_content_invalid
+embed_content_invalid_content#:#The content entered is invalid, no content found for embedding.
+embed_content_invalid_url#:#The URL entered is invalid or has not been released for this ILIAS installation. Please contact the platform administration.
+embed_section_title#:#Embed snippet automatically
+external_contents#:#External content
+form_title#:#Add new iFrame
+frameborder#:#Frame border
+frameborder_info#:#Thickness of the frame around the iFrame in pixels
+height#:#Height
+height_info#:#Height of the iFrame in pixels
+iframe_section_title#:#Manual iFrame entry
+msg_form_invalid#:#Please check your form entries.
+msg_form_saved#:#msg_form_saved
+msg_validation_failed#:#The snippet validation failed. Please review the snippet and try again.
+not_embeddable_info#:#The external content of %s cannot be embedded. <br>Reason: %s
+reason_not_whitelisted#:#The domain has not been released by the ILIAS administration for embedding content.
+reason_unknown#:#Unknown, please contact the ILIAS administration.
+responsive#:#Responsive display
+responsive_info#:#The specified height and width are considered maximum dimensions. The iFrame will automatically adjust to the width of the container and maintain the ratio of height and width.
+saved_successfully#:#Saved
+scripts#:#Scripts
+scripts_info#:#Some iFrames require additional scripts, which can be added here as URLs (https://...). These URLs are also checked to see if they are allowed.
+settings#:#Settings
+settings_roles#:#Roles
+settings_roles_info#:#Roles that can add new external content in the page editor.
+settings_title#:#Settings
+tab_settings#:#Settings
+tab_whitelist#:#Approved domains
+title#:#Title
+title_info#:#Title of the iFrame
+url#:#URL
+url_info#:#URL of the iFrame, starting with https://. This URL is checked for security and must be on the list of allowed URLs.
+whitelist#:#Approved domains for external content
+whitelist_active#:#Active
+whitelist_active_info#:#Activates the domain for use in the page editor
+whitelist_add#:#Add new entry
+whitelist_added#:#Entry added
+whitelist_confirm_delete#:#Are you sure you want to delete the following entry?
+whitelist_confirm_delete_info#:#Entry deleted
+whitelist_delete#:#Delete entry
+whitelist_description#:#Remarks
+whitelist_description_info#:#Additional information about the entry, only visible internally
+whitelist_domain#:#Domain
+whitelist_domain_info#:#Approved domain, can contain wildcards ‘*’
+whitelist_edit#:#Edit entry
+whitelist_form_header#:#Whitelist entry
+whitelist_form_header_info#:#Create or edit a whitelist entry
+whitelist_msg_confirm_deleted#:#Entries deleted
+whitelist_save#:#Save entry
+whitelist_title#:#Title
+whitelist_title_info#:#E.g. Youtube
+whitelist_toggle#:#Activate/Deactivate
+whitelist_updated#:#Updated
+width#:#Width
+width_info#:#Width of the iFrame in pixels
