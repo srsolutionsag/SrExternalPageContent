@@ -133,4 +133,16 @@ class ParserTest extends TestCase
         $this->assertEquals($data['height'], $embeddable->getHeight());
         $this->assertEquals($data['width'], $embeddable->getWidth());
     }
+
+    public function testParseScripts(): void
+    {
+        $iframe_parser = new iFrameParser();
+
+        $content = '<iframe src="https://zuugs.hfh.ch/h5panwendungen/wp-admin/admin-ajax.php?action=h5p_embed&id=1" width="1062" height="622" frameborder="0" allowfullscreen="allowfullscreen" title="Die sensomotorische Entwicklung (0-2 Jahre) Alois Bigger"></iframe><script src="https://zuugs.hfh.ch/h5panwendungen/wp-content/plugins/h5p/h5p-php-library/js/h5p-resizer.js" charset="UTF-8"></script>';
+
+        $embeddable = $iframe_parser->parse($content);
+        $this->assertIsArray($embeddable->getScripts());
+        $this->assertCount(1, $embeddable->getScripts());
+    }
+
 }

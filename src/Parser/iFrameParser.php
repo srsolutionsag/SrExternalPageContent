@@ -18,22 +18,18 @@ use srag\Plugins\SrExternalPageContent\Content\NotEmbeddable;
 use srag\Plugins\SrExternalPageContent\Helper\Sanitizer;
 use srag\Plugins\SrExternalPageContent\Content\NotEmbeddableReasons;
 
-use function PHPUnit\Framework\matches;
-
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class iFrameParser implements Parser
 {
     private Sanitizer $sanitizer;
-    private int $default_width;
-    private int $default_height;
+    private int $default_width = iFrame::DEFAULT_WIDTH;
+    private int $default_height = iFrame::DEFAULT_HEIGHT;
 
     public function __construct()
     {
         $this->sanitizer = new Sanitizer();
-        $this->default_width = iFrame::DEFAULT_WIDTH;
-        $this->default_height = iFrame::DEFAULT_HEIGHT;
     }
 
     public function parse(string $snippet): Embeddable
@@ -106,10 +102,19 @@ class iFrameParser implements Parser
             'allowfullscreen' => $allowfullscreen
         ];
 
+        // scripts parsen
+        $scripts = [];
+        $script_tags = $html->getElementsByTagName('script');
+
+        foreach ($script_tags as $script_tag) {
+            $scripts[] = $script_tag->getAttribute('src');
+        }
+
         return new iFrame(
             0,
             $url,
-            $properties
+            $properties,
+            $scripts
         );
     }
 

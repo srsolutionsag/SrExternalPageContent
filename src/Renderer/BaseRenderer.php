@@ -45,6 +45,12 @@ abstract class BaseRenderer
         $wrapper->setVariable('CONSENTED', '0');
         $wrapper->setVariable('CONTENT_ID', 'srepc_' . $embeddable->getId());
 
+        foreach ($embeddable->getScripts() as $script) {
+            $wrapper->setCurrentBlock('script');
+            $wrapper->setVariable('SCRIPT', $script);
+            $wrapper->parseCurrentBlock();
+        }
+
         return $wrapper->get();
     }
 
