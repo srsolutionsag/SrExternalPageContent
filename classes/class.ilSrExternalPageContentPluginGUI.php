@@ -80,10 +80,10 @@ class ilSrExternalPageContentPluginGUI extends ilPageComponentPluginGUI
         $this->translator = $this->dependencies->translator();
 
         $this->ui->mainTemplate()->addJavaScript(
-            './Customizing/global/plugins/Services/COPage/PageComponent/SrExternalPageContent/assets/js/content.js'
+            './Customizing/global/plugins/Services/COPage/PageComponent/SrExternalPageContent/assets/js/content.js?version=2'
         );
         $this->ui->mainTemplate()->addCss(
-            './Customizing/global/plugins/Services/COPage/PageComponent/SrExternalPageContent/assets/css/content.css'
+            './Customizing/global/plugins/Services/COPage/PageComponent/SrExternalPageContent/assets/css/content.css?version=2'
         );
 
         parent::__construct();
