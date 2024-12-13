@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 1.0.4
+- [FIX] missing english language file
+- [FIX] parse and output scripts
+- [FIX] reload CSS and JS
+
 ## Version 1.0.3
 - [FIX] undefined variable
 
