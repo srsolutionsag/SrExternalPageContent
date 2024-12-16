@@ -54,7 +54,14 @@ class EmbedSection extends Base implements FormElement
                      )
                      ->withAdditionalTransformation(
                          $this->refinery->constraint(
-                             fn (Embeddable $value): bool => $this->whitelist_check->isAllowed($value->getUrl()),
+                             function (Embeddable $value): bool {
+                                 $silent_creation = $this->dependencies->settings()->get('silent_creation', false);
+                                 if ($silent_creation) {
+                                     return $this->whitelist_check->createSilently($value->getUrl());
+                                 }
+
+                                 return $this->whitelist_check->isAllowed($value->getUrl());
+                             },
                              $this->translator->txt('embed_content_invalid_url')
                          )
                      )->withAdditionalTransformation($this->getFinalTransformation())

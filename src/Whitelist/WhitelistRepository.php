@@ -29,7 +29,14 @@ interface WhitelistRepository
 
     public function getById(int $id): ?WhitelistedDomain;
 
+    /**
+     * @return WhitelistedDomain[]
+     */
     public function getPossibleMatches(string $domain): array;
+    /**
+     * @return WhitelistedDomain[]
+     */
+    public function getPossibleMatchesIncludingInactive(string $domain): array;
 
     /**
      * @return WhitelistedDomain[]

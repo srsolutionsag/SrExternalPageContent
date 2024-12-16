@@ -22,7 +22,7 @@ use srag\Plugins\SrExternalPageContent\Settings\Settings;
  */
 class ilSEPCSettingsGUI extends BaseGUI
 {
-    private array $default_roles;
+    private array $default_roles = [2, 4];
     private Settings $settings;
     private Refinery $refinery;
 
@@ -31,7 +31,6 @@ class ilSEPCSettingsGUI extends BaseGUI
         parent::__construct();
         $this->settings = $this->dic->settings();
         $this->refinery = $this->dic->refinery();
-        $this->default_roles = [2, 4];
     }
 
     public function executeCommand(): void
@@ -43,10 +42,10 @@ class ilSEPCSettingsGUI extends BaseGUI
     {
         $factory = $this->ui_factory->input();
 
-        $current_value = $this->settings->get('roles', $this->default_roles);
+        $currently_selected_roles = $this->settings->get('roles', $this->default_roles);
         $options = $this->getGlobalAndLocalRoles();
         $role_keys = array_keys($options);
-        $current_value = array_intersect($current_value, $role_keys);
+        $currently_selected_roles = array_intersect($currently_selected_roles, $role_keys);
 
         return $factory->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, self::CMD_UPDATE),
@@ -58,12 +57,22 @@ class ilSEPCSettingsGUI extends BaseGUI
                             $options,
                             $this->translator->txt('settings_roles_info')
                         )->withValue(
-                            $current_value
+                            $currently_selected_roles
                         )->withAdditionalTransformation(
                             $this->refinery->trafo(
                                 fn (array $role_ids): array => $this->settings->set('roles', $role_ids)
                             )
-                        )
+                        ),
+                        'silent_creation' => $factory->field()->checkbox(
+                            $this->translator->txt('silent_creation'),
+                            $this->translator->txt('silent_creation_info')
+                        )->withValue(
+                            (bool) ($this->settings->get('silent_creation', false))
+                        )->withAdditionalTransformation(
+                            $this->refinery->trafo(
+                                fn (bool $checked): bool => $this->settings->set('silent_creation', $checked)
+                            )
+                        ),
                     ],
                     $this->translator->txt('settings_title')
                 ),

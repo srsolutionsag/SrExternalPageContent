@@ -13,14 +13,13 @@ declare(strict_types=1);
 use ILIAS\DI\UIServices;
 use ILIAS\Refinery\Factory;
 use ILIAS\UI\Component\Input\Container\Form\Form;
-use srag\Plugins\SrExternalPageContent\Forms\ContentCreation;
-use srag\Plugins\SrExternalPageContent\Forms\IFrameSection;
 use srag\Plugins\SrExternalPageContent\DIC;
 use srag\Plugins\SrExternalPageContent\Translator;
 use srag\Plugins\SrExternalPageContent\Content\Embeddable;
 use srag\Plugins\SrExternalPageContent\Content\iFrame;
 use srag\Plugins\SrExternalPageContent\Content\NotEmbeddable;
 use srag\Plugins\SrExternalPageContent\Content\NotEmbeddableReasons;
+use srag\Plugins\SrExternalPageContent\Forms\FormBuilder;
 
 /**
  * @author            Fabian Schmid <fabian@sr.solution>
@@ -160,20 +159,19 @@ class ilSrExternalPageContentPluginGUI extends ilPageComponentPluginGUI
 
     protected function initForm(bool $edit = false): Form
     {
+        $form_builder = new FormBuilder($this->dependencies);
+
+
+
         if (!$edit) {
-            $section = new ContentCreation(
-                $this->dependencies
-            );
+            $section = $form_builder->buildFor(null);
         } else {
-            $section = new IFrameSection(
-                $this->dependencies,
+            $section = $form_builder->buildFor(
                 $this->getEmbeddable($this->getProperties(), true)
             );
         }
 
-        $factory = $this->ui->factory()->input()->container()->form();
-
-        return $factory
+        return $this->ui->factory()->input()->container()->form()
             ->standard(
                 $this->ctrl->getFormActionByClass(
                     self::class,

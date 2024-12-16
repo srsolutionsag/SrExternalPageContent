@@ -28,6 +28,32 @@ class Check
         $this->parser = $parser;
     }
 
+    public function createSilently(string $url): bool
+    {
+        if ($this->isAllowed($url)) {
+            return true;
+        }
+
+        $extracted_host = $this->parser->extractHost($url);
+        if ($extracted_host === null) {
+            return false;
+        }
+
+        // possible matches
+        $extracted_domain = $this->parser->extractDomain($extracted_host);
+        $matches = $this->repository->getPossibleMatchesIncludingInactive($extracted_domain);
+
+        if ($matches !== []) {
+            return true;
+        }
+
+        $whitelist = $this->repository->blank()->withDomain($extracted_host)->withStatus(Status::STATUS_INACTIVE);
+
+        $this->repository->store($whitelist);
+
+        return true;
+    }
+
     public function isAllowed(string $url): bool
     {
         $extracted_host = $this->parser->extractHost($url);

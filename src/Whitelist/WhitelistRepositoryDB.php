@@ -99,6 +99,21 @@ class WhitelistRepositoryDB implements WhitelistRepository
         return $domains;
     }
 
+    public function getPossibleMatchesIncludingInactive(string $domain): array
+    {
+        $set = $this->db->queryF(
+            'SELECT * FROM ' . $this->getTableName() . ' WHERE domain LIKE %s',
+            ['text'],
+            ['%' . $domain . '%']
+        );
+        $domains = [];
+        while ($data = $this->db->fetchAssoc($set)) {
+            $domains[] = $this->buildFromDBSet($data);
+        }
+
+        return $domains;
+    }
+
     private function buildFromDBSet(array $set): WhitelistedDomain
     {
         return new WhitelistedDomain(

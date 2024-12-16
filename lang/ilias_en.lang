@@ -9,7 +9,7 @@ embed_content#:#Insert snippet
 embed_content_info#:#Insert the snippet to embed here, it will be processed and checked for security. If the snippet is valid, it will be saved as an iFrame.
 embed_content_invalid#:#embed_content_invalid
 embed_content_invalid_content#:#The content entered is invalid, no content found for embedding.
-embed_content_invalid_url#:#The URL entered is invalid or has not been released for this ILIAS installation. Please contact the platform administration.
+embed_content_invalid_url#:#The URL entered is invalid or has not been whitelisted for this ILIAS installation. Please contact the platform administration.
 embed_section_title#:#Embed snippet automatically
 external_contents#:#External content
 form_title#:#Add new iFrame
@@ -22,7 +22,8 @@ msg_form_invalid#:#Please check your form entries.
 msg_form_saved#:#msg_form_saved
 msg_validation_failed#:#The snippet validation failed. Please review the snippet and try again.
 not_embeddable_info#:#The external content of %s cannot be embedded. <br>Reason: %s
-reason_not_whitelisted#:#The domain has not been released by the ILIAS administration for embedding content.
+not_embeddable_section_title#:#The content cannot be edited because the URL has probably not been whitelisted.
+reason_not_whitelisted#:#The domain has not been whitelisted by the ILIAS administration for embedding content.
 reason_unknown#:#Unknown, please contact the ILIAS administration.
 responsive#:#Responsive display
 responsive_info#:#The specified height and width are considered maximum dimensions. The iFrame will automatically adjust to the width of the container and maintain the ratio of height and width.
@@ -33,6 +34,8 @@ settings#:#Settings
 settings_roles#:#Roles
 settings_roles_info#:#Roles that can add new external content in the page editor.
 settings_title#:#Settings
+silent_creation#:#"Silent" creation of whitelist entries
+silent_creation_info#:#If new content is created with URLs that are not yet on the whitelist, a whitelist entry is created but not activated.
 tab_settings#:#Settings
 tab_whitelist#:#Approved domains
 title#:#Title
