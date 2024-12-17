@@ -31,7 +31,7 @@ class SettingsRepositoryDB implements SettingsRepository
         $this->value_packer = new ValuePacker();
     }
 
-    protected function getKeyName(): string
+    protected function getIdName(): string
     {
         return 'keyword';
     }
@@ -74,10 +74,10 @@ class SettingsRepositoryDB implements SettingsRepository
         return $setting;
     }
 
-    public function getByKeyword(string $keyword): ?Setting
+    public function getById(string $keyword): ?Setting
     {
         $set = $this->db->queryF(
-            'SELECT * FROM ' . $this->getTableName() . ' WHERE ' . $this->getKeyName() . ' = %s',
+            'SELECT * FROM ' . $this->getTableName() . ' WHERE ' . $this->getIdName() . ' = %s',
             ['text'],
             [$keyword]
         );

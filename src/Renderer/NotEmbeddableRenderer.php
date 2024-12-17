@@ -24,7 +24,12 @@ class NotEmbeddableRenderer extends BaseRenderer implements Renderer
     public function render(Embeddable $embeddable): string
     {
         $url = $embeddable->getUrl();
-        $uri = new URI($url);
+        try {
+            $uri = new URI($url);
+            $host = $uri->getHost();
+        } catch (\Throwable $e) {
+            $host = $url;
+        }
 
         // content wrapper, we will move that later if there are other renderers
         $wrapper = new \ilTemplate(__DIR__ . '/../../templates/default/tpl.placeholder.html', false, false);
@@ -32,7 +37,7 @@ class NotEmbeddableRenderer extends BaseRenderer implements Renderer
         if ($embeddable instanceof NotEmbeddable) {
             $reason = $this->translator->txt('reason_' . $embeddable->getReason());
         }
-        $wrapper->setVariable('INFO', sprintf($this->translator->txt('not_embeddable_info'), $uri->getHost(), $reason));
+        $wrapper->setVariable('INFO', sprintf($this->translator->txt('not_embeddable_info'), $host, $reason));
         $wrapper->setVariable('WIDTH', $embeddable->getWidth());
         $wrapper->setVariable('HEIGHT', $embeddable->getHeight());
         $wrapper->setVariable('RESPONSIVE', $embeddable->isResponsive());

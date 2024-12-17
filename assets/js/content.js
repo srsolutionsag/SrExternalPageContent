@@ -51,26 +51,23 @@ document.addEventListener('DOMContentLoaded', function () {
         if (d.getAttribute('data-consented') === '1') {
             consented = '1';
         }
-
-        // var parent = d.parentElement;
-        // var rect = d.getBoundingClientRect();
-        // console.log(rect);
-
-        // set the height and width of the div
-        // d.style.height = height + 'px';
-        // d.style.width = width + 'px';
-
-
-
         const resizer = function () {
+            // parent container
             var parent = d.parentElement;
+            // get the width and height of the parent container
             var rect = parent.getBoundingClientRect();
+            // get the padding of the parent container
+            var computed = window.getComputedStyle(parent, null);
+            // calculate the available width inside the parent container
 
-            var parent_width = rect.width;
-            if(parent.id === 'il_center_col')  {
-                parent_width = parent_width - 30;
-            }
-            var parent_height = rect.height;
+            var parent_width = rect.width
+                - parseInt(computed.getPropertyValue('padding-left'))
+                - parseInt(computed.getPropertyValue('padding-right'));
+            // calculate the available height inside the parent container
+            var parent_height = rect.height
+                - parseInt(computed.getPropertyValue('padding-top'))
+                - parseInt(computed.getPropertyValue('padding-bottom'));
+
             var aspect_ratio = width / height;
             var new_width = parent_width;
             var new_height = parent_width / aspect_ratio;
@@ -80,31 +77,31 @@ document.addEventListener('DOMContentLoaded', function () {
                 new_height = new_width / aspect_ratio;
             }
 
-            if (new_width > width || new_height > height) {
+            if (responsive !== '1' && (new_width > width || new_height > height)) {
                 new_width = width;
                 new_height = height;
             }
 
-            // d.style.width = 'auto';
-            // d.style.height = 'auto';
             d.style.height = new_height + 'px';
+            d.style.maxHeight = new_height + 'px';
             d.style.width = new_width + 'px';
-            // d.style.minWidth = new_width + 'px';
-            // d.style.minHeight = new_height + 'px';
+            d.style.maxWidth = new_width + 'px';
         };
 
+        // call the resizer function multiple times to make sure the div is resized correctly, this is a workaround for
+        // the issue that the div is not resized correctly when the page is loaded since ILIAS loads quite slow
+        resizer();
+        setTimeout(resizer, 100);
+        setTimeout(resizer, 300);
+        setTimeout(resizer, 500);
+        setTimeout(resizer, 700);
+        setTimeout(resizer, 1000);
+
         if (responsive === '1') {
-            // call the resizer function multiple times to make sure the div is resized correctly, this is a workaround for
-            // the issue that the div is not resized correctly when the page is loaded since ILIAS loads quite slw
-            resizer();
-            setTimeout(resizer, 200);
-            setTimeout(resizer, 500);
-            setTimeout(resizer, 1000);
             // if the responsive attribute is set to true, register a resize event listener and resize the div to fill
             // the parent div but keep the aspect ratio and max width and height
             window.addEventListener('resize', resizer);
         }
-
 
 
         let event = new Event(content_id, {
@@ -117,7 +114,6 @@ document.addEventListener('DOMContentLoaded', function () {
             continue;
         }
 
-        console.log(consent, consented);
         if (consent === '0' || consented === '1') {
             content.dispatchEvent(event);
             d.removeChild(d.getElementsByClassName('sr-external-page-content-info')[0]);

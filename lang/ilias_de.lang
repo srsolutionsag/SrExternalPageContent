@@ -3,6 +3,8 @@ allow_info#:#Erlaube die folgenden Funktionen des iFrames.
 before_load_button#:#Inhalt anzeigen
 before_load_info#:#Externe Inhalte von %s werden geladen. Bitte bestätigen Sie, dass Sie den Inhalt sehen möchten.
 cmd_insert#:#Externen Inhalt einfügen
+compare_original#:#Original
+compare_proxy#:#Vorschau
 delete#:#Löschen
 edit_content_info#:#Externer Inhalt von %s
 embed_content#:#Snippet einfügen
@@ -18,11 +20,20 @@ frameborder_info#:#Dicke des Rahmen um das iFrame in Pixeln.
 height#:#Höhe
 height_info#:#Höhe des iFrames in Pixeln
 iframe_section_title#:#Manuelle iFrame-Eingabe
+migrate#:#Bestehende Inhalte migrieren (Beta)
+migrate_info#:#Hier werden alle Seiten des ILIAS-Seiteneditors aufgeführt, welche bisher iFrames direkt eingebettet haben. Diese Inhalte können migriert werden, um die neue iFrame-Verwaltung zu nutzen. Nachfolgend eine Vorschau der Inhalte, wie sie in der Datenbank nach der Migration aussehen könnten.
+migration_info_iframes#:#Die aktuelle Seite Seite enthält %s iFrames und kann migriert werden.
+migration_none_found#:#Keine Seiten gefunden, die migriert werden können.
+migration_start#:#Migration starten
+migration_success#:#Seite erfolgreich migriert
+migration_tool#:#Migration
 msg_form_invalid#:#Bitte prüfen Sie Ihre Eingaben im Formular.
 msg_form_saved#:#msg_form_saved
 msg_validation_failed#:#Die Validierung des Snippets ist fehlgeschlagen. Bitte überprüfen Sie das Snippet und versuchen Sie es erneut.
 not_embeddable_info#:#Der externer Inhalt von %s kann nicht eingebettet werden. <br>Grund: %s
 not_embeddable_section_title#:#Der Inhalt kann nicht bearbeitet werden, da vermutlich die URL nciht freigegeben wurde.
+perform_migration#:#Seite migrieren
+reason_not_found#:#Noch nicht angelegt (Vorschau) oder nicht gefunden.
 reason_not_whitelisted#:#Die Domain wurde von der ILIAS-Administration nicht für das Einbetten von Inhalten freigegeben.
 reason_unknown#:#Unbekannt, bitte kontaktieren Sie die ILIAS-Administration.
 responsive#:#Responsive Darstellung
@@ -36,6 +47,8 @@ settings_roles_info#:#Rollen, die neue externe Inhalte im Seiteneditor hinzufüg
 settings_title#:#Einstellungen
 silent_creation#:#"Stille" Erstellung von Whitelist-Einträgen
 silent_creation_info#:#Werden neue Einhalte mit URLs erstellt, die bisher nicht auf der Whitelist sind, wird ein Whitelisteintrag erstellt, aber nicht aktiviert.
+tab_fb#:#Zurück
+tab_migration#:#Migration
 tab_settings#:#Einstellungen
 tab_whitelist#:#Freigegebene Domains
 title#:#Titel

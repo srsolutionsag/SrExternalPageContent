@@ -13,8 +13,7 @@ declare(strict_types=1);
 use srag\Plugins\SrExternalPageContent\Init;
 use srag\Plugins\SrExternalPageContent\DIC;
 use srag\Plugins\SrExternalPageContent\GlobalScreen\Menu;
-
-require_once __DIR__ . "/../vendor/autoload.php";
+use srag\Plugins\SrExternalPageContent\GlobalScreen\Tool;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -33,6 +32,7 @@ class ilSrExternalPageContentPlugin extends ilPageComponentPlugin
 
         if ($DIC->isDependencyAvailable('globalScreen')) {
             $this->provider_collection->setMainBarProvider(new Menu($DIC, $this));
+            $this->provider_collection->setToolProvider(new Tool($DIC, $this, $sepcContainer));
         }
     }
 

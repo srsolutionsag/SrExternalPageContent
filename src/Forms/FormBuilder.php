@@ -37,7 +37,9 @@ class FormBuilder
         if ($embeddable instanceof NotEmbeddable) {
             return new NotEmbeddableSection($this->dependencies, $embeddable);
         }
-        throw new \InvalidArgumentException("No form available for type `" . ($embeddable !== null ? get_class($embeddable) : self::class) . "`");
+        throw new \InvalidArgumentException(
+            "No form available for type `" . ($embeddable !== null ? get_class($embeddable) : self::class) . "`"
+        );
     }
 
 }

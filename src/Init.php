@@ -27,6 +27,7 @@ use srag\Plugins\SrExternalPageContent\Settings\SettingsRepository;
 use srag\Plugins\SrExternalPageContent\Settings\SettingsRepositoryDB;
 use srag\Plugins\SrExternalPageContent\Settings\Settings;
 use srag\Plugins\SrExternalPageContent\Content\URLTranslator;
+use srag\Plugins\SrExternalPageContent\Migration\Page\PageRepository;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -76,6 +77,9 @@ class Init
         );
         $container[Settings::class] = static fn (): Settings => new Settings(
             $container[SettingsRepository::class]
+        );
+        $container[PageRepository::class] = static fn (): PageRepository => new PageRepository(
+            $DIC->database()
         );
 
         return self::$container = $container;

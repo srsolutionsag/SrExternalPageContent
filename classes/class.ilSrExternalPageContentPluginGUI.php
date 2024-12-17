@@ -20,6 +20,7 @@ use srag\Plugins\SrExternalPageContent\Content\iFrame;
 use srag\Plugins\SrExternalPageContent\Content\NotEmbeddable;
 use srag\Plugins\SrExternalPageContent\Content\NotEmbeddableReasons;
 use srag\Plugins\SrExternalPageContent\Forms\FormBuilder;
+use srag\Plugins\SrExternalPageContent\Migration\Preview\PreviewDTO;
 
 /**
  * @author            Fabian Schmid <fabian@sr.solution>
@@ -93,15 +94,20 @@ class ilSrExternalPageContentPluginGUI extends ilPageComponentPluginGUI
         bool $ensure_iframe
     ): Embeddable {
         $embeddable_id = $properties[self::EMBEDDABLE_ID] ?? null;
-        if ($embeddable_id === null || !$this->dependencies->embeddables()->has((int) $embeddable_id)) {
+        if ($embeddable_id === null || !$this->dependencies->embeddables()->has((string) $embeddable_id)) {
             if ($ensure_iframe) {
-                $embeddable = new iFrame(0, '');
+                $embeddable = new iFrame('', $properties['url'] ?? '');
             } else {
-                return new NotEmbeddable('', NotEmbeddableReasons::NO_URL);
+                $embeddable = null;
+                if (isset($properties['preview'])) {
+                    $embeddable = PreviewDTO::wakeup($properties['preview']);
+                }
+
+                return $embeddable ?? new NotEmbeddable($properties['url'] ?? '', NotEmbeddableReasons::NOT_FOUND);
             }
         } else {
             $embeddable = $this->dependencies->embeddables()->getById(
-                (int) $embeddable_id,
+                (string) $embeddable_id,
                 false
             );
         }
@@ -161,8 +167,6 @@ class ilSrExternalPageContentPluginGUI extends ilPageComponentPluginGUI
     {
         $form_builder = new FormBuilder($this->dependencies);
 
-
-
         if (!$edit) {
             $section = $form_builder->buildFor(null);
         } else {
@@ -172,13 +176,13 @@ class ilSrExternalPageContentPluginGUI extends ilPageComponentPluginGUI
         }
 
         return $this->ui->factory()->input()->container()->form()
-            ->standard(
-                $this->ctrl->getFormActionByClass(
-                    self::class,
-                    ($this->isCreationMode()) ? self::MODE_CREATE : self::MODE_UPDATE
-                ),
-                [$section->getSection()]
-            );
+                        ->standard(
+                            $this->ctrl->getFormActionByClass(
+                                self::class,
+                                ($this->isCreationMode()) ? self::MODE_CREATE : self::MODE_UPDATE
+                            ),
+                            [$section->getSection()]
+                        );
     }
 
     protected function processForm(): void

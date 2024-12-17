@@ -17,15 +17,16 @@ namespace srag\Plugins\SrExternalPageContent;
  */
 class Translator
 {
+    private const DEFAULT_LANGUAGE_FILE = "ilias_en.lang";
     private \ilPluginLanguage $language_handler;
-    private bool $auto_language_update = false;
+    private bool $auto_language_update = true;
 
     public function __construct(\ilPluginLanguage $language_handler)
     {
         $this->language_handler = $language_handler;
         if ($this->auto_language_update) {
             // sort language file entries
-            $en_lang = __DIR__ . "/../lang/ilias_de.lang";
+            $en_lang = __DIR__ . "/../lang/" . self::DEFAULT_LANGUAGE_FILE;
             $current_content = file_get_contents($en_lang);
             $lines = explode("\n", $current_content);
             sort($lines);
@@ -40,7 +41,7 @@ class Translator
     {
         $language_variable = ($module === null ? '' : $module . '_') . $a_var;
         if ($this->auto_language_update) {
-            $en_lang = __DIR__ . "/../lang/ilias_de.lang";
+            $en_lang = __DIR__ . "/../lang/" . self::DEFAULT_LANGUAGE_FILE;
 
             $current_content = file_get_contents($en_lang);
 
@@ -50,5 +51,12 @@ class Translator
         }
 
         return $this->language_handler->txt($language_variable);
+    }
+
+    public function sprintf(string $a_var, array $placeholders, ?string $module = null): string
+    {
+        $translation = $this->txt($a_var, $module);
+
+        return sprintf($translation, ...$placeholders);
     }
 }

@@ -19,6 +19,7 @@ use srag\Plugins\SrExternalPageContent\Content\EmbeddableRepository;
 use srag\Plugins\SrExternalPageContent\Renderer\RendererFactory;
 use srag\Plugins\SrExternalPageContent\Whitelist\Check;
 use srag\Plugins\SrExternalPageContent\Settings\Settings;
+use srag\Plugins\SrExternalPageContent\Migration\Page\PageRepository;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -68,6 +69,11 @@ class DIC extends Container
     public function settings(): Settings
     {
         return $this[Settings::class];
+    }
+
+    public function pageRepo(): PageRepository
+    {
+        return $this[PageRepository::class];
     }
 
 }

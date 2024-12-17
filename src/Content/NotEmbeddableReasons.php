@@ -16,5 +16,6 @@ class NotEmbeddableReasons
 {
     public const NO_URL = 'no_url';
     public const NO_REASON = 'unknown';
+    public const NOT_FOUND = 'not_found';
     public const NOT_WHITELISTED = 'not_whitelisted';
 }

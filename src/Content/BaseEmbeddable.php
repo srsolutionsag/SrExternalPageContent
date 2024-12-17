@@ -18,12 +18,12 @@ namespace srag\Plugins\SrExternalPageContent\Content;
 abstract class BaseEmbeddable implements Embeddable
 {
     protected array $scripts = [];
-    protected int $id;
+    protected string $id;
     protected string $url;
     protected array $properties = [];
 
     public function __construct(
-        int $id,
+        string $id,
         string $url,
         array $properties = [],
         array $scripts = []
@@ -39,12 +39,12 @@ abstract class BaseEmbeddable implements Embeddable
         return $this->url;
     }
 
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function withId(int $id): Embeddable
+    public function withId(string $id): Embeddable
     {
         $clone = clone $this;
         $clone->id = $id;

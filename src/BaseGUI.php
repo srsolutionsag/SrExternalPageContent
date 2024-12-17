@@ -17,6 +17,7 @@ use ILIAS\UI\Factory;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\HTTP\Services;
 use srag\Plugins\SrExternalPageContent\Helper\HTTPState;
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -32,6 +33,8 @@ abstract class BaseGUI
     public const CMD_UPDATE = 'update';
     public const CMD_DELETE = 'delete';
     public const CMD_CONFIRM_DELETE = 'confirmDelete';
+    public const CMD_PERFORM = 'perform';
+    protected BasicAccessCheckClosures $access_checks;
     protected \ilTabsGUI $tabs;
     protected Renderer $ui_renderer;
     protected Factory $ui_factory;
@@ -42,8 +45,9 @@ abstract class BaseGUI
     protected Services $http;
     protected \ilGlobalTemplateInterface $tpl;
     protected \ilCtrlInterface $ctrl;
+    protected ?string $fallback_uri = null;
 
-    public function __construct()
+    public function __construct(?string $fallback_uri = null)
     {
         global $sepcContainer;
         /** @var DIC $sepcContainer */
@@ -60,9 +64,19 @@ abstract class BaseGUI
         $this->ui_renderer = $sepcContainer->ilias()->ui()->renderer();
 
         $this->translator = $sepcContainer->translator();
+
+        $this->fallback_uri = $fallback_uri;
+
+        $this->access_checks = new BasicAccessCheckClosures();
     }
 
     abstract public function executeCommand(): void;
+
+    abstract public function checkAccess(): void;
+
+    public function saveParameters(): void
+    {
+    }
 
     protected function performStandardCommands(): void
     {
@@ -88,6 +102,9 @@ abstract class BaseGUI
                 break;
             case self::CMD_CONFIRM_DELETE:
                 $this->confirmDelete();
+                break;
+            case self::CMD_PERFORM:
+                $this->perform();
                 break;
             default:
                 break;

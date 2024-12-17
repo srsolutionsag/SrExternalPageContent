@@ -1,9 +1,11 @@
-<?php return array(
+<?php
+
+return array(
     'root' => array(
         'name' => 'sr/sr-external-page-content',
-        'pretty_version' => 'dev-release_8',
-        'version' => 'dev-release_8',
-        'reference' => '407d8b84f7f2435524520578c5d1aa014c85cb73',
+        'pretty_version' => 'dev-feature/8/content-migration',
+        'version' => 'dev-feature/8/content-migration',
+        'reference' => '912b48c379c780498ca69b4b03b73054102cd81a',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +13,9 @@
     ),
     'versions' => array(
         'sr/sr-external-page-content' => array(
-            'pretty_version' => 'dev-release_8',
-            'version' => 'dev-release_8',
-            'reference' => '407d8b84f7f2435524520578c5d1aa014c85cb73',
+            'pretty_version' => 'dev-feature/8/content-migration',
+            'version' => 'dev-feature/8/content-migration',
+            'reference' => '912b48c379c780498ca69b4b03b73054102cd81a',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

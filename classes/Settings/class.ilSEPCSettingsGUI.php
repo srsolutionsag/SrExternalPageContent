@@ -22,9 +22,11 @@ use srag\Plugins\SrExternalPageContent\Settings\Settings;
  */
 class ilSEPCSettingsGUI extends BaseGUI
 {
+    private const CMD_MIGRATE = 'migrate';
     private array $default_roles = [2, 4];
     private Settings $settings;
     private Refinery $refinery;
+    private array $valid_parent_types = ['crs', 'grp', 'root', 'cat'];
 
     public function __construct()
     {
@@ -33,9 +35,23 @@ class ilSEPCSettingsGUI extends BaseGUI
         $this->refinery = $this->dic->refinery();
     }
 
+    public function checkAccess(): void
+    {
+        if (!$this->access_checks->hasAdministrationAccess()) {
+            throw new ilException('Access Denied');
+        }
+    }
+
     public function executeCommand(): void
     {
         $this->performStandardCommands();
+        switch ($this->ctrl->getCmd(self::CMD_INDEX)) {
+            case self::CMD_MIGRATE:
+                $this->migrate();
+                break;
+            default:
+                break;
+        }
     }
 
     private function getForm(): Standard
@@ -82,6 +98,13 @@ class ilSEPCSettingsGUI extends BaseGUI
 
     protected function index(): void
     {
+        $this->dic->ilias()->toolbar()->addComponent(
+            $this->ui_factory->button()->standard(
+                $this->translator->txt(self::CMD_MIGRATE),
+                $this->ctrl->getLinkTarget($this, self::CMD_MIGRATE)
+            )
+        );
+
         $this->tpl->setContent(
             $this->ui_renderer->render($this->getForm())
         );
@@ -100,10 +123,10 @@ class ilSEPCSettingsGUI extends BaseGUI
         );
     }
 
+
     //
     // Helpers
     //
-    private array $valid_parent_types = ['crs', 'grp', 'root', 'cat'];
 
     public function translateRoleIds(array $role_ids): array
     {

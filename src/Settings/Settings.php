@@ -36,7 +36,7 @@ class Settings
             return $this->cache[$keyword];
         }
 
-        $setting = $this->settings_repository->getByKeyword($keyword);
+        $setting = $this->settings_repository->getById($keyword);
         $var = $setting !== null ? $setting->getValue() : $default;
         return $this->cache[$keyword] = $var;
     }
@@ -47,7 +47,7 @@ class Settings
      */
     public function set(string $keyword, $value)
     {
-        $setting = $this->settings_repository->getByKeyword($keyword) ?? new Setting($keyword, $value);
+        $setting = $this->settings_repository->getById($keyword) ?? new Setting($keyword, $value);
         $setting->setValue($value);
         $this->settings_repository->store($setting);
         $this->cache[$keyword] = $value;

@@ -33,6 +33,7 @@ interface WhitelistRepository
      * @return WhitelistedDomain[]
      */
     public function getPossibleMatches(string $domain): array;
+
     /**
      * @return WhitelistedDomain[]
      */

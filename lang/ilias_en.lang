@@ -3,6 +3,8 @@ allow_info#:#Allow the following iFrame functions.
 before_load_button#:#Display content
 before_load_info#:#External content from %s is loading. Please confirm that you want to see the content.
 cmd_insert#:#Insert external content
+compare_original#:#Original
+compare_proxy#:#Preview
 delete#:#Delete
 edit_content_info#:#External content from %s
 embed_content#:#Insert snippet
@@ -18,11 +20,20 @@ frameborder_info#:#Thickness of the frame around the iFrame in pixels
 height#:#Height
 height_info#:#Height of the iFrame in pixels
 iframe_section_title#:#Manual iFrame entry
+migrate#:#Migrate existing Contents (Beta)
+migrate_info#:#Hier werden alle Seiten des ILIAS-Seiteneditors aufgeführt, welche bisher iFrames direkt eingebettet haben. Diese Inhalte können migriert werden, um die neue iFrame-Verwaltung zu nutzen. Nachfolgend eine Vorschau der Inhalte, wie sie in der Datenbank nach der Migration aussehen könnten.
+migration_info_iframes#:#The current page contains %s iFrames and can be migrated.
+migration_none_found#:#No pages found that can be migrated.
+migration_start#:#Start Migration
+migration_success#:#Page migrated successfully
+migration_tool#:#Migration
 msg_form_invalid#:#Please check your form entries.
 msg_form_saved#:#msg_form_saved
 msg_validation_failed#:#The snippet validation failed. Please review the snippet and try again.
 not_embeddable_info#:#The external content of %s cannot be embedded. <br>Reason: %s
 not_embeddable_section_title#:#The content cannot be edited because the URL has probably not been whitelisted.
+perform_migration#:#Migrate page
+reason_not_found#:#Not yet created (preview) or not found.
 reason_not_whitelisted#:#The domain has not been whitelisted by the ILIAS administration for embedding content.
 reason_unknown#:#Unknown, please contact the ILIAS administration.
 responsive#:#Responsive display
@@ -36,6 +47,8 @@ settings_roles_info#:#Roles that can add new external content in the page editor
 settings_title#:#Settings
 silent_creation#:#"Silent" creation of whitelist entries
 silent_creation_info#:#If new content is created with URLs that are not yet on the whitelist, a whitelist entry is created but not activated.
+tab_fb#:#Back
+tab_migration#:#Migration
 tab_settings#:#Settings
 tab_whitelist#:#Approved domains
 title#:#Title

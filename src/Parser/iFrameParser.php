@@ -17,6 +17,7 @@ use srag\Plugins\SrExternalPageContent\Content\iFrame;
 use srag\Plugins\SrExternalPageContent\Content\NotEmbeddable;
 use srag\Plugins\SrExternalPageContent\Helper\Sanitizer;
 use srag\Plugins\SrExternalPageContent\Content\NotEmbeddableReasons;
+use srag\Plugins\SrExternalPageContent\Content\UniqueIdGenerator;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -26,10 +27,12 @@ class iFrameParser implements Parser
     private Sanitizer $sanitizer;
     private int $default_width = iFrame::DEFAULT_WIDTH;
     private int $default_height = iFrame::DEFAULT_HEIGHT;
+    private UniqueIdGenerator $id_generator;
 
     public function __construct()
     {
         $this->sanitizer = new Sanitizer();
+        $this->id_generator = new UniqueIdGenerator();
     }
 
     public function parse(string $snippet): Embeddable
@@ -99,7 +102,8 @@ class iFrameParser implements Parser
             'frameborder' => $frameborder,
             'allow' => $allow,
             'referrerpolicy' => $referrerpolicy,
-            'allowfullscreen' => $allowfullscreen
+            'allowfullscreen' => $allowfullscreen,
+            'responsive' => true,
         ];
 
         // scripts parsen
@@ -111,7 +115,7 @@ class iFrameParser implements Parser
         }
 
         return new iFrame(
-            0,
+            $this->id_generator->generate(),
             $url,
             $properties,
             $scripts

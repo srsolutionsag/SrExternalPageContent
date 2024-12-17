@@ -2,7 +2,8 @@
 
 Add external content to ILIAS content pages.
 
-This is an OpenSource project by sr solutions ag, CH-Burgdorf (https://sr.solutions)
+This is an OpenSource project by sr solutions ag,
+CH-Burgdorf (https://sr.solutions)
 
 This project is licensed under the GPL-3.0-only license
 
@@ -25,8 +26,14 @@ Update, activate and config the plugin using the ILIAS setup.
 
 # ILIAS Plugin SLA
 
-We love and live the philosophy of Open Source Software! Most of our developments, which we develop on behalf of customers or in our own work, we make publicly available to all interested parties free of charge at https://github.com/srsolutionsag.
+We love and live the philosophy of Open Source Software! Most of our
+developments, which we develop on behalf of customers or in our own work, we
+make publicly available to all interested parties free of charge
+at https://github.com/srsolutionsag.
 
-Do you use one of our plugins professionally? Secure the timely availability of this plugin also for future ILIAS versions by signing an SLA. Find out more about this at https://sr.solutions/plugins.
+Do you use one of our plugins professionally? Secure the timely availability of
+this plugin also for future ILIAS versions by signing an SLA. Find out more
+about this at https://sr.solutions/plugins.
 
-Please note that we only guarantee support and release maintenance for institutions that sign an SLA.
+Please note that we only guarantee support and release maintenance for
+institutions that sign an SLA.

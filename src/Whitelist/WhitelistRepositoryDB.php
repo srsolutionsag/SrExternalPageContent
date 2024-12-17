@@ -21,7 +21,7 @@ class WhitelistRepositoryDB implements WhitelistRepository
 {
     use DBIntKeyRepository;
 
-    protected function getKeyName(): string
+    protected function getIdName(): string
     {
         return 'id';
     }

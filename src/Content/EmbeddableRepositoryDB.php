@@ -10,18 +10,18 @@
 
 namespace srag\Plugins\SrExternalPageContent\Content;
 
-use srag\Plugins\SrExternalPageContent\Helper\DBIntKeyRepository;
+use srag\Plugins\SrExternalPageContent\Helper\DBStringKeyRepository;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class EmbeddableRepositoryDB implements EmbeddableRepository
 {
-    use DBIntKeyRepository;
+    use DBStringKeyRepository;
 
     private const TYPE_INT_IFRAME = 1;
 
-    protected function getKeyName(): string
+    protected function getIdName(): string
     {
         return 'id';
     }
@@ -29,6 +29,11 @@ class EmbeddableRepositoryDB implements EmbeddableRepository
     protected function getTableName(): string
     {
         return 'sr_epc_content';
+    }
+
+    public function blankIFrame(): iFrame
+    {
+        return new iFrame($this->newId(), "");
     }
 
     public function store(Embeddable $embeddable): Embeddable
@@ -45,9 +50,9 @@ class EmbeddableRepositoryDB implements EmbeddableRepository
 
     private function insert(Embeddable $embeddable): Embeddable
     {
-        $next_id = $this->db->nextId($this->getTableName());
+        $next_id = $this->newId();
         $this->db->insert($this->getTableName(), [
-            "id" => ["integer", $next_id],
+            "id" => ["text", $next_id],
             "type" => ["integer", $this->classToType($embeddable)],
             "status" => ["integer", 1],
             "url" => ["text", $embeddable->getUrl()],
@@ -67,7 +72,7 @@ class EmbeddableRepositoryDB implements EmbeddableRepository
             "properties" => ["clob", $this->sleep($embeddable->getProperties())],
             "scripts" => ["clob", $this->sleep($embeddable->getScripts())],
         ], [
-            "id" => ["integer", $embeddable->getId()]
+            "id" => ["text", $embeddable->getId()]
         ]);
 
         return $embeddable;
@@ -78,11 +83,11 @@ class EmbeddableRepositoryDB implements EmbeddableRepository
         $this->deleteById($embeddable->getId());
     }
 
-    public function getById(int $id, bool $skip_whitlist_check): ?Embeddable
+    public function getById(string $id, bool $skip_whitlist_check): ?Embeddable
     {
         $q = $this->db->queryF(
             "SELECT * FROM " . $this->getTableName() . " WHERE id = %s",
-            ["integer"],
+            ["text"],
             [$id]
         );
         $result = $this->db->fetchAssoc($q);
