@@ -15,6 +15,7 @@ use srag\Plugins\SrExternalPageContent\Content\EmbeddableRepository;
 use srag\Plugins\SrExternalPageContent\Migration\Transformation\XMLTransformation;
 use srag\Plugins\SrExternalPageContent\Parser\ParserFactory;
 use srag\Plugins\SrExternalPageContent\Migration\Page\PageProvider;
+use srag\Plugins\SrExternalPageContent\Whitelist\Check;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -29,13 +30,17 @@ class PageByPageWorkflow implements MigrationWorkflow
         ParserFactory $parser_factory,
         PageProvider $page_provider,
         EmbeddableRepository $embeddable_repository,
-        WorkflowSettings $workflow_settings
+        WorkflowSettings $workflow_settings,
+        Check $whitelist_check,
+        bool $create_silently = true
     ) {
         $this->page_provider = $page_provider;
         $this->transfomation = new XMLTransformation(
             $embeddable_repository,
             $parser_factory,
-            $workflow_settings
+            $workflow_settings,
+            $whitelist_check,
+            $create_silently
         );
     }
 

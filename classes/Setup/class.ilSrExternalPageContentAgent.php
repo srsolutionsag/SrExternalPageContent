@@ -76,6 +76,7 @@ class ilSrExternalPageContentAgent extends ilPluginDefaultAgent
      */
     protected function getObjectives(ObjectiveCollection $precondition): array
     {
+        return []; // REMOVE THIS LINE if you have additional objectives
         return [
             // db update steps
             new ilSrExternalPageContentUpdateStepsExecutedObjective(

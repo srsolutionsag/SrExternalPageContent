@@ -18,6 +18,7 @@ use srag\Plugins\SrExternalPageContent\Migration\Workflow\WorkflowSettings;
 use srag\Plugins\SrExternalPageContent\Content\iFrame;
 use srag\Plugins\SrExternalPageContent\Migration\Preview\PreviewDTO;
 use srag\Plugins\SrExternalPageContent\Helper\Hasher;
+use srag\Plugins\SrExternalPageContent\Whitelist\Check;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -37,19 +38,21 @@ class XMLTransformation implements Transformation
     private EmbeddableRepository $embeddable_repository;
     private ParserFactory $parser_factory;
     private WorkflowSettings $workflow_settings;
+    private bool $create_silently;
+    private Check $whitelist_check;
 
     public function __construct(
         EmbeddableRepository $embeddable_repository,
         ParserFactory $parser_factory,
-        WorkflowSettings $workflow_settings
+        WorkflowSettings $workflow_settings,
+        Check $whitelist_check,
+        bool $create_silently = true
     ) {
         $this->workflow_settings = $workflow_settings;
         $this->embeddable_repository = $embeddable_repository;
         $this->parser_factory = $parser_factory;
-    }
-
-    private function buildXPath(string $content): \DOMXPath
-    {
+        $this->create_silently = $create_silently;
+        $this->whitelist_check = $whitelist_check;
     }
 
     public function transform(string $former_content): string
@@ -73,6 +76,10 @@ class XMLTransformation implements Transformation
             }
 
             if (!$preview) {
+                if ($this->create_silently) {
+                    $this->whitelist_check->createSilently($embeddable->getUrl());
+                }
+
                 $embeddable = $this->embeddable_repository->store($embeddable);
             }
 

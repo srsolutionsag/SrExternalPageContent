@@ -22,6 +22,9 @@ use srag\Plugins\SrExternalPageContent\Parser\ParserFactory;
 use srag\Plugins\SrExternalPageContent\Content\EmbeddableRepositoryDB;
 use ILIAS\Setup\CLI\IOWrapper;
 use srag\Plugins\SrExternalPageContent\Content\EmbeddableRepository;
+use srag\Plugins\SrExternalPageContent\Whitelist\Check;
+use srag\Plugins\SrExternalPageContent\Whitelist\WhitelistRepositoryDB;
+use srag\Plugins\SrExternalPageContent\Whitelist\DomainParser;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -72,7 +75,9 @@ class FullMigration implements Migration
             new ParserFactory(),
             $this->page_provider,
             $this->embeddable_repository,
-            $this->settings
+            $this->settings,
+            new Check(new WhitelistRepositoryDB($this->db), new DomainParser()),
+            true
         );
         $this->after = null;
     }

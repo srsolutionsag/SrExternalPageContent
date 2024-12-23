@@ -23,6 +23,7 @@ use srag\Plugins\SrExternalPageContent\Migration\Page\ObjectPagesProvider;
 use srag\Plugins\SrExternalPageContent\Migration\Page\PageProvider;
 use srag\Plugins\SrExternalPageContent\Migration\Workflow\MigrationWorkflow;
 use srag\Plugins\SrExternalPageContent\Migration\Page\AllPagesProvider;
+use srag\Plugins\SrExternalPageContent\Whitelist\Check;
 
 /**
  * @author            Fabian Schmid <fabian@sr.solutions>
@@ -190,7 +191,9 @@ class ilSEPCMigrationGUI extends BaseGUI
             $this->dic[ParserFactory::class],
             $page_provider,
             $this->dic[EmbeddableRepository::class],
-            $workflow_settings
+            $workflow_settings,
+            $this->dic[Check::class],
+            (bool) $this->dic->settings()->get('silent_creation', false)
         );
 
         $query = $this->http_wrapper->query();
