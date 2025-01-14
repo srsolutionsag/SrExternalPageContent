@@ -36,6 +36,7 @@ perform_migration#:#Migrate page
 reason_not_found#:#Not yet created (preview) or not found.
 reason_not_whitelisted#:#The domain has not been whitelisted by the ILIAS administration for embedding content.
 reason_unknown#:#Unknown, please contact the ILIAS administration.
+reset#:#Reset Consents
 responsive#:#Responsive display
 responsive_info#:#The specified height and width are considered maximum dimensions. The iFrame will automatically adjust to the width of the container and maintain the ratio of height and width.
 saved_successfully#:#Saved

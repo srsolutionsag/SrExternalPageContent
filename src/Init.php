@@ -70,7 +70,8 @@ class Init
         );
         $container[RendererFactory::class] = static fn (): RendererFactory => new RendererFactory(
             $container[Check::class],
-            $container[Translator::class]
+            $container[Translator::class],
+            $container[Settings::class]
         );
         $container[SettingsRepository::class] = static fn (): SettingsRepository => new SettingsRepositoryDB(
             $DIC->database()

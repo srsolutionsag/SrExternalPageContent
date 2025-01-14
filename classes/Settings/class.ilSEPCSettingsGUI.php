@@ -23,6 +23,7 @@ use srag\Plugins\SrExternalPageContent\Settings\Settings;
 class ilSEPCSettingsGUI extends BaseGUI
 {
     private const CMD_MIGRATE = 'migrate';
+    public const CMD_RESET = 'reset';
     private array $default_roles = [2, 4];
     private Settings $settings;
     private Refinery $refinery;
@@ -46,8 +47,8 @@ class ilSEPCSettingsGUI extends BaseGUI
     {
         $this->performStandardCommands();
         switch ($this->ctrl->getCmd(self::CMD_INDEX)) {
-            case self::CMD_MIGRATE:
-                $this->migrate();
+            case self::CMD_RESET:
+                $this->reset();
                 break;
             default:
                 break;
@@ -100,14 +101,21 @@ class ilSEPCSettingsGUI extends BaseGUI
     {
         $this->dic->ilias()->toolbar()->addComponent(
             $this->ui_factory->button()->standard(
-                $this->translator->txt(self::CMD_MIGRATE),
-                $this->ctrl->getLinkTarget($this, self::CMD_MIGRATE)
+                $this->translator->txt(self::CMD_RESET),
+                $this->ctrl->getLinkTarget($this, self::CMD_RESET)
             )
         );
 
         $this->tpl->setContent(
             $this->ui_renderer->render($this->getForm())
         );
+    }
+
+    protected function reset(): void
+    {
+        $this->settings->set('reset_consent', time());
+        $this->tpl->setOnScreenMessage('success', $this->translator->txt('saved_successfully'), true);
+        $this->ctrl->redirect($this, self::CMD_INDEX);
     }
 
     protected function update(): void

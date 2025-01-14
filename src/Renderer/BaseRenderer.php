@@ -17,22 +17,26 @@ use srag\Plugins\SrExternalPageContent\Translator;
 use srag\Plugins\SrExternalPageContent\Content\Embeddable;
 use ILIAS\Data\URI;
 use srag\Plugins\SrExternalPageContent\Whitelist\Check;
+use srag\Plugins\SrExternalPageContent\Settings\Settings;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 abstract class BaseRenderer
 {
+    protected Settings $settings;
     protected Check $check;
     protected Services $irss;
     protected Translator $translator;
 
     public function __construct(
         Translator $translator,
-        Check $check
+        Check $check,
+        Settings $settings
     ) {
         global $DIC;
         $this->check = $check;
+        $this->settings = $settings;
         $this->translator = $translator;
         $this->irss = $DIC->resourceStorage();
     }
@@ -53,6 +57,7 @@ abstract class BaseRenderer
         $wrapper->setVariable('HEIGHT', $embeddable->getHeight());
         $wrapper->setVariable('RESPONSIVE', $embeddable->isResponsive());
         $wrapper->setVariable('MUST_CONSENT', '1');
+        $wrapper->setVariable('LAST_RESET', $this->settings->get('reset_consent', 0));
         $wrapper->setVariable('DOMAIN', $uri->getHost());
         $wrapper->setVariable(
             'CONSENTED',

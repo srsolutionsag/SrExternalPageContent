@@ -36,6 +36,7 @@ perform_migration#:#Seite migrieren
 reason_not_found#:#Noch nicht angelegt (Vorschau) oder nicht gefunden.
 reason_not_whitelisted#:#Die Domain wurde von der ILIAS-Administration nicht für das Einbetten von Inhalten freigegeben.
 reason_unknown#:#Unbekannt, bitte kontaktieren Sie die ILIAS-Administration.
+reset#:#Zustimmungen zurücksetzen
 responsive#:#Responsive Darstellung
 responsive_info#:#Die angegebene Höhe und Breite gelten als maximale Abmessungen. Das iFrame wird sich automatisch an die Breite des Containers anpassen und behält das Verhältnis aus der Höhe und Breite.
 saved_successfully#:#Gespeichert

@@ -48,12 +48,19 @@ document.addEventListener('DOMContentLoaded', function () {
         let content_id = d.getAttribute('data-content-id');
         let domain = d.getAttribute('data-domain');
         let thumbnail = d.getAttribute('data-thumbnail');
+        let reset = d.getAttribute('data-reset');
+        let last_reset = localStorage.getItem('last_reset');
+        if(reset > last_reset) {
+            localStorage.clear();
+            localStorage.setItem('last_reset', reset);
+        }
         let must_consent = d.getAttribute('data-must-consent');
         let consented_id = localStorage.getItem(content_id);
         let consented_domain = localStorage.getItem(domain);
         if (d.getAttribute('data-consented') === '1' || consented_domain === '1') {
             consented_id = '1';
         }
+
         const resizer = function () {
             // parent container
             var parent = d.parentElement;

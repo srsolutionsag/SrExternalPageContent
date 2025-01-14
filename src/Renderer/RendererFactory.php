@@ -17,6 +17,7 @@ use srag\Plugins\SrExternalPageContent\Content\iFrame;
 use srag\Plugins\SrExternalPageContent\Whitelist\Check;
 use srag\Plugins\SrExternalPageContent\Content\NotEmbeddable;
 use srag\Plugins\SrExternalPageContent\Translator;
+use srag\Plugins\SrExternalPageContent\Settings\Settings;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -24,31 +25,34 @@ use srag\Plugins\SrExternalPageContent\Translator;
 class RendererFactory
 {
     private Translator $translator;
-    protected Check $check;
+    private Settings $settings;
+    private Check $check;
 
     public function __construct(
         Check $check,
-        Translator $translator
+        Translator $translator,
+        Settings $settings
     ) {
         $this->translator = $translator;
         $this->check = $check;
+        $this->settings = $settings;
     }
 
     public function getFor(Embeddable $embeddable, bool $presentation_mode): Renderer
     {
         if (!$presentation_mode) {
-            return new EditPlaceholderRenderer($this->translator, $this->check);
+            return new EditPlaceholderRenderer($this->translator, $this->check, $this->settings);
         }
 
         // check the URL of the embeddable object against whitelist
         if ($embeddable instanceof NotEmbeddable || $this->check->isAllowed($embeddable->getUrl()) === false) {
-            return new NotEmbeddableRenderer($this->translator, $this->check);
+            return new NotEmbeddableRenderer($this->translator, $this->check, $this->settings);
         }
 
         if ($embeddable instanceof iFrame) {
-            return new iFrameRenderer($this->translator, $this->check);
+            return new iFrameRenderer($this->translator, $this->check, $this->settings);
         }
 
-        return new UnknownRenderer($this->translator, $this->check);
+        return new UnknownRenderer($this->translator, $this->check, $this->settings);
     }
 }
