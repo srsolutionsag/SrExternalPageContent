@@ -53,7 +53,7 @@ class WhitelistForm extends BaseUIComponent
             $this->post_url,
             [$this->getSection()]
         )->withAdditionalTransformation(
-            $this->travo(fn ($value): WhitelistedDomain => $this->domain)
+            $this->travo(fn($value): WhitelistedDomain => $this->domain)
         );
     }
 
@@ -76,7 +76,7 @@ class WhitelistForm extends BaseUIComponent
                 $this->post_url,
             )
             ->withAdditionalTransformation(
-                $this->travo(fn ($value): WhitelistedDomain => $this->domain)
+                $this->travo(fn($value): WhitelistedDomain => $this->domain)
             );
     }
 
@@ -105,7 +105,7 @@ class WhitelistForm extends BaseUIComponent
                 )
                 ->withAdditionalTransformation(
                     $this->travo(
-                        fn (string $domain): WhitelistedDomain => $this->domain = $this->domain->withDomain($domain)
+                        fn(string $domain): WhitelistedDomain => $this->domain = $this->domain->withDomain($domain)
                     )
                 ),
             'status' => $f
@@ -116,7 +116,18 @@ class WhitelistForm extends BaseUIComponent
                 ->withValue($this->domain->isActive())
                 ->withAdditionalTransformation(
                     $this->travo(
-                        fn (bool $status): WhitelistedDomain => $this->domain = $this->domain->withStatus((int) $status)
+                        fn(bool $status): WhitelistedDomain => $this->domain = $this->domain->withStatus((int) $status)
+                    )
+                ),
+            'auto_consent' => $f
+                ->checkbox(
+                    $this->translator->txt('auto_consent', 'whitelist'),
+                    $this->translator->txt('auto_consent_info', 'whitelist')
+                )
+                ->withValue($this->domain->isAutoConsent())
+                ->withAdditionalTransformation(
+                    $this->travo(
+                        fn(bool $auto_consent): WhitelistedDomain => $this->domain = $this->domain->withAutoConsent((bool) $auto_consent)
                     )
                 ),
             'title' => $f
@@ -127,7 +138,7 @@ class WhitelistForm extends BaseUIComponent
                 ->withValue($this->domain->getTitle() ?? '')
                 ->withAdditionalTransformation(
                     $this->travo(
-                        fn (string $title): WhitelistedDomain => $this->domain = $this->domain->withTitle($title)
+                        fn(string $title): WhitelistedDomain => $this->domain = $this->domain->withTitle($title)
                     )
                 ),
             'description' => $f
@@ -138,7 +149,7 @@ class WhitelistForm extends BaseUIComponent
                 ->withValue($this->domain->getDescription() ?? '')
                 ->withAdditionalTransformation(
                     $this->travo(
-                        fn (string $description): WhitelistedDomain => $this->domain = $this->domain->withDescription(
+                        fn(string $description): WhitelistedDomain => $this->domain = $this->domain->withDescription(
                             $description
                         )
                     )

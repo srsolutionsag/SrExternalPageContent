@@ -21,13 +21,13 @@ trait DBIntKeyRepository
 
     public function total(): int
     {
-        return $this->db->query('SELECT COUNT(' . $this->getKeyName() . ') FROM ' . $this->getTableName())->numRows();
+        return $this->db->query('SELECT COUNT(' . $this->getIdName() . ') FROM ' . $this->getTableName())->numRows();
     }
 
     public function has(int $id): bool
     {
         $set = $this->db->queryF(
-            'SELECT ' . $this->getKeyName() . ' FROM ' . $this->getTableName() . ' WHERE ' . $this->getKeyName(
+            'SELECT ' . $this->getIdName() . ' FROM ' . $this->getTableName() . ' WHERE ' . $this->getIdName(
             ) . ' = %s',
             ['integer'],
             [$id]
@@ -38,7 +38,7 @@ trait DBIntKeyRepository
     public function deleteById(int $id): void
     {
         $this->db->manipulateF(
-            'DELETE FROM ' . $this->getTableName() . ' WHERE ' . $this->getKeyName() . ' = %s',
+            'DELETE FROM ' . $this->getTableName() . ' WHERE ' . $this->getIdName() . ' = %s',
             ['integer'],
             [$id]
         );

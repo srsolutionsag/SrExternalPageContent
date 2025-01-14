@@ -23,9 +23,9 @@ interface Embeddable
 
     public function getScripts(): array;
 
-    public function getId(): int;
+    public function getId(): string;
 
-    public function withId(int $id): Embeddable;
+    public function withId(string $id): Embeddable;
 
     public function getWidth(): int;
 
@@ -33,4 +33,5 @@ interface Embeddable
 
     public function isResponsive(): bool;
 
+    public function getThumbnailRid(): ?string;
 }

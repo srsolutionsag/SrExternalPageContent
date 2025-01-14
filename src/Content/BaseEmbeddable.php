@@ -18,20 +18,23 @@ namespace srag\Plugins\SrExternalPageContent\Content;
 abstract class BaseEmbeddable implements Embeddable
 {
     protected array $scripts = [];
-    protected int $id;
+    protected string $id;
     protected string $url;
     protected array $properties = [];
+    protected ?string $thumbnail_rid = null;
 
     public function __construct(
-        int $id,
+        string $id,
         string $url,
         array $properties = [],
-        array $scripts = []
+        array $scripts = [],
+        ?string $thumbnail_rid = null
     ) {
         $this->scripts = $scripts;
         $this->id = $id;
         $this->properties = $properties;
         $this->url = $url;
+        $this->thumbnail_rid = $thumbnail_rid;
     }
 
     public function getUrl(): string
@@ -39,12 +42,12 @@ abstract class BaseEmbeddable implements Embeddable
         return $this->url;
     }
 
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function withId(int $id): Embeddable
+    public function withId(string $id): Embeddable
     {
         $clone = clone $this;
         $clone->id = $id;
@@ -79,4 +82,14 @@ abstract class BaseEmbeddable implements Embeddable
         return $this;
     }
 
+    public function getThumbnailRid(): ?string
+    {
+        return $this->thumbnail_rid;
+    }
+
+    public function setThumbnailRid(?string $thumbnail_rid): BaseEmbeddable
+    {
+        $this->thumbnail_rid = $thumbnail_rid;
+        return $this;
+    }
 }

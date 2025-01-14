@@ -23,7 +23,7 @@ interface SettingsRepository
 
     public function store(Setting $domain): Setting;
 
-    public function deleteByKeyword(string $keyword): void;
+    public function deleteById(string $keyword): void;
 
-    public function getByKeyword(string $keyword): ?Setting;
+    public function getById(string $keyword): ?Setting;
 }

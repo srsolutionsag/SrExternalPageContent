@@ -30,10 +30,10 @@ trait DBRepository
 
     public function total(): int
     {
-        return $this->db->query('SELECT COUNT(' . $this->getKeyName() . ') FROM ' . $this->getTableName())->numRows();
+        return $this->db->query('SELECT COUNT(' . $this->getIdName() . ') FROM ' . $this->getTableName())->numRows();
     }
 
-    abstract protected function getKeyName(): string;
+    abstract protected function getIdName(): string;
 
     abstract protected function getTableName(): string;
 

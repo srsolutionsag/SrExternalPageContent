@@ -17,6 +17,7 @@ namespace srag\Plugins\SrExternalPageContent\Whitelist;
  */
 class WhitelistedDomain
 {
+    protected bool $auto_consent;
     protected int $id;
     protected string $domain;
     protected int $status;
@@ -27,14 +28,28 @@ class WhitelistedDomain
         int $id,
         string $domain,
         int $status,
+        bool $auto_consent,
         ?string $title = null,
         ?string $description = null
     ) {
         $this->status = $status;
+        $this->auto_consent = $auto_consent;
         $this->id = $id;
         $this->domain = $domain;
         $this->title = $title;
         $this->description = $description;
+    }
+
+    public function isAutoConsent(): bool
+    {
+        return $this->auto_consent;
+    }
+
+    public function withAutoConsent(bool $auto_consent): WhitelistedDomain
+    {
+        $new = clone $this;
+        $new->auto_consent = $auto_consent;
+        return $new;
     }
 
     public function getDomain(): string

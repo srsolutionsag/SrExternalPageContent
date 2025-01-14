@@ -12,8 +12,6 @@ declare(strict_types=1);
 
 namespace srag\Plugins\SrExternalPageContent\Tests\Parser;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-
 use PHPUnit\Framework\TestCase;
 use srag\Plugins\SrExternalPageContent\Parser\iFrameParser;
 use srag\Plugins\SrExternalPageContent\Content\iFrame;
@@ -128,8 +126,8 @@ class ParserTest extends TestCase
         $this->assertEquals($data['title'], $embeddable->getTitle());
         $this->assertEquals($data['frameborder'], $embeddable->getFrameborder());
         $this->assertEquals($data['allow'] ?? [], $embeddable->getAllow());
-        $this->assertEquals($data['referrerpolicy'], $embeddable->getReferrerpolicy());
-        $this->assertEquals($data['allowfullscreen'], $embeddable->isAllowfullscreen());
+        $this->assertEquals($data['referrerpolicy'] ?? '', $embeddable->getReferrerpolicy());
+        $this->assertEquals($data['allowfullscreen'] ?? false, $embeddable->isAllowfullscreen());
         $this->assertEquals($data['height'], $embeddable->getHeight());
         $this->assertEquals($data['width'], $embeddable->getWidth());
     }

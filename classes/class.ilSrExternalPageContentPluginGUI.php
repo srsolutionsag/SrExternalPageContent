@@ -13,18 +13,19 @@ declare(strict_types=1);
 use ILIAS\DI\UIServices;
 use ILIAS\Refinery\Factory;
 use ILIAS\UI\Component\Input\Container\Form\Form;
-use srag\Plugins\SrExternalPageContent\Forms\ContentCreation;
-use srag\Plugins\SrExternalPageContent\Forms\IFrameSection;
 use srag\Plugins\SrExternalPageContent\DIC;
 use srag\Plugins\SrExternalPageContent\Translator;
 use srag\Plugins\SrExternalPageContent\Content\Embeddable;
 use srag\Plugins\SrExternalPageContent\Content\iFrame;
 use srag\Plugins\SrExternalPageContent\Content\NotEmbeddable;
 use srag\Plugins\SrExternalPageContent\Content\NotEmbeddableReasons;
+use srag\Plugins\SrExternalPageContent\Forms\FormBuilder;
+use srag\Plugins\SrExternalPageContent\Migration\Preview\PreviewDTO;
 
 /**
  * @author            Fabian Schmid <fabian@sr.solution>
  * @ilCtrl_isCalledBy ilSrExternalPageContentPluginGUI: ilPCPluggedGUI
+ * @ilCtrl_Calls ilSrExternalPageContentPluginGUI: ilCtrlAwareStorageUploadHandler
  */
 class ilSrExternalPageContentPluginGUI extends ilPageComponentPluginGUI
 {
@@ -94,15 +95,20 @@ class ilSrExternalPageContentPluginGUI extends ilPageComponentPluginGUI
         bool $ensure_iframe
     ): Embeddable {
         $embeddable_id = $properties[self::EMBEDDABLE_ID] ?? null;
-        if ($embeddable_id === null || !$this->dependencies->embeddables()->has((int) $embeddable_id)) {
+        if ($embeddable_id === null || !$this->dependencies->embeddables()->has((string) $embeddable_id)) {
             if ($ensure_iframe) {
-                $embeddable = new iFrame(0, '');
+                $embeddable = new iFrame('', $properties['url'] ?? '');
             } else {
-                return new NotEmbeddable('', NotEmbeddableReasons::NO_URL);
+                $embeddable = null;
+                if (isset($properties['preview'])) {
+                    $embeddable = PreviewDTO::wakeup($properties['preview']);
+                }
+
+                return $embeddable ?? new NotEmbeddable($properties['url'] ?? '', NotEmbeddableReasons::NOT_FOUND);
             }
         } else {
             $embeddable = $this->dependencies->embeddables()->getById(
-                (int) $embeddable_id,
+                (string) $embeddable_id,
                 false
             );
         }
@@ -160,27 +166,24 @@ class ilSrExternalPageContentPluginGUI extends ilPageComponentPluginGUI
 
     protected function initForm(bool $edit = false): Form
     {
+        $form_builder = new FormBuilder($this->dependencies);
+
         if (!$edit) {
-            $section = new ContentCreation(
-                $this->dependencies
-            );
+            $section = $form_builder->buildFor(null);
         } else {
-            $section = new IFrameSection(
-                $this->dependencies,
+            $section = $form_builder->buildFor(
                 $this->getEmbeddable($this->getProperties(), true)
             );
         }
 
-        $factory = $this->ui->factory()->input()->container()->form();
-
-        return $factory
-            ->standard(
-                $this->ctrl->getFormActionByClass(
-                    self::class,
-                    ($this->isCreationMode()) ? self::MODE_CREATE : self::MODE_UPDATE
-                ),
-                [$section->getSection()]
-            );
+        return $this->ui->factory()->input()->container()->form()
+                        ->standard(
+                            $this->ctrl->getFormActionByClass(
+                                self::class,
+                                ($this->isCreationMode()) ? self::MODE_CREATE : self::MODE_UPDATE
+                            ),
+                            [$section->getSection()]
+                        );
     }
 
     protected function processForm(): void

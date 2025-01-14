@@ -17,6 +17,7 @@ use srag\Plugins\SrExternalPageContent\Content\iFrame;
 use srag\Plugins\SrExternalPageContent\Content\NotEmbeddable;
 use srag\Plugins\SrExternalPageContent\Helper\Sanitizer;
 use srag\Plugins\SrExternalPageContent\Content\NotEmbeddableReasons;
+use srag\Plugins\SrExternalPageContent\Content\UniqueIdGenerator;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -26,10 +27,12 @@ class iFrameParser implements Parser
     private Sanitizer $sanitizer;
     private int $default_width = iFrame::DEFAULT_WIDTH;
     private int $default_height = iFrame::DEFAULT_HEIGHT;
+    private UniqueIdGenerator $id_generator;
 
     public function __construct()
     {
         $this->sanitizer = new Sanitizer();
+        $this->id_generator = new UniqueIdGenerator();
     }
 
     public function parse(string $snippet): Embeddable
@@ -75,18 +78,18 @@ class iFrameParser implements Parser
         }
 
         // determine unit of width and height
-        if (str_contains($width, 'px')) {
+        if (strpos($width, 'px') !== false) {
             $width = str_replace('px', '', $width);
-        } elseif (str_contains($width, '%')) {
+        } elseif (strpos($width, '%') !== false) {
             $width = $this->default_width;
         } else {
             $width = (int) $width;
         }
 
         // determine unit of width and height
-        if (str_contains($height, 'px')) {
+        if (strpos($height, 'px') !== false) {
             $height = str_replace('px', '', $height);
-        } elseif (str_contains($height, '%')) {
+        } elseif (strpos($height, '%') !== false) {
             $height = $this->default_height;
         } else {
             $height = (int) $height;
@@ -99,7 +102,8 @@ class iFrameParser implements Parser
             'frameborder' => $frameborder,
             'allow' => $allow,
             'referrerpolicy' => $referrerpolicy,
-            'allowfullscreen' => $allowfullscreen
+            'allowfullscreen' => $allowfullscreen,
+            'responsive' => true,
         ];
 
         // scripts parsen
@@ -111,7 +115,7 @@ class iFrameParser implements Parser
         }
 
         return new iFrame(
-            0,
+            $this->id_generator->generate(),
             $url,
             $properties,
             $scripts

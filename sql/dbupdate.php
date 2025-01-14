@@ -50,3 +50,21 @@ if (!$ilDB->tableExists('sr_epc_settings')) {
 }
 
 ?>
+<#4>
+<?php
+// we switch to text for the id column since we want to use UUIDs
+
+/** @var $ilDB \ilDBInterface */
+
+$ilDB->modifyTableColumn('sr_epc_content', 'id', [
+    'type' => 'text',
+    'length' => 64
+]);
+
+$ilDB->dropSequence('sr_epc_content');
+
+// ********************************************************************
+// NO MORE STEPS AFTER HERE
+// Please use the Setup/Objective mechanism to add more Database Steps
+// ********************************************************************
+?>

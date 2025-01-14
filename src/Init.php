@@ -27,6 +27,7 @@ use srag\Plugins\SrExternalPageContent\Settings\SettingsRepository;
 use srag\Plugins\SrExternalPageContent\Settings\SettingsRepositoryDB;
 use srag\Plugins\SrExternalPageContent\Settings\Settings;
 use srag\Plugins\SrExternalPageContent\Content\URLTranslator;
+use srag\Plugins\SrExternalPageContent\Migration\Page\PageRepository;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -46,36 +47,40 @@ class Init
         global $DIC;
 
         $container = new DIC();
-        $container[Container::class] = static fn (): Container => $DIC;
-        $container[Refinery::class] = static fn (): Refinery => new Refinery($DIC->refinery());
-        $container[\ilSrExternalPageContentPlugin::class] = static fn (): \ilSrExternalPageContentPlugin => $plugin;
-        $container[Translator::class] = static fn (): Translator => new Translator($language_handler);
-        $container[ParserFactory::class] = static fn (): ParserFactory => new ParserFactory();
-        $container[WhitelistRepository::class] = static fn (): WhitelistRepository => new WhitelistRepositoryDB(
+        $container[Container::class] = static fn(): Container => $DIC;
+        $container[Refinery::class] = static fn(): Refinery => new Refinery($DIC->refinery());
+        $container[\ilSrExternalPageContentPlugin::class] = static fn(): \ilSrExternalPageContentPlugin => $plugin;
+        $container[Translator::class] = static fn(): Translator => new Translator($language_handler);
+        $container[ParserFactory::class] = static fn(): ParserFactory => new ParserFactory();
+        $container[WhitelistRepository::class] = static fn(): WhitelistRepository => new WhitelistRepositoryDB(
             $DIC->database()
         );
-        $container[DomainParser::class] = static fn (): DomainParser => new DomainParser();
-        $container[Check::class] = static fn (): Check => new Check(
+        $container[DomainParser::class] = static fn(): DomainParser => new DomainParser();
+        $container[Check::class] = static fn(): Check => new Check(
             $container[WhitelistRepository::class],
             $container[DomainParser::class]
         );
-        $container[URLTranslator::class] = static fn (): URLTranslator => new URLTranslator();
-        $container[EmbeddableRepository::class] = static fn (): EmbeddableRepository => new EmbeddableRepositoryWapper(
+        $container[URLTranslator::class] = static fn(): URLTranslator => new URLTranslator();
+        $container[EmbeddableRepository::class] = static fn(): EmbeddableRepository => new EmbeddableRepositoryWapper(
             new EmbeddableRepositoryDB(
                 $DIC->database()
             ),
             $container[Check::class],
             $container[URLTranslator::class]
         );
-        $container[RendererFactory::class] = static fn (): RendererFactory => new RendererFactory(
+        $container[RendererFactory::class] = static fn(): RendererFactory => new RendererFactory(
             $container[Check::class],
-            $container[Translator::class]
+            $container[Translator::class],
+            $container[Settings::class]
         );
-        $container[SettingsRepository::class] = static fn (): SettingsRepository => new SettingsRepositoryDB(
+        $container[SettingsRepository::class] = static fn(): SettingsRepository => new SettingsRepositoryDB(
             $DIC->database()
         );
-        $container[Settings::class] = static fn (): Settings => new Settings(
+        $container[Settings::class] = static fn(): Settings => new Settings(
             $container[SettingsRepository::class]
+        );
+        $container[PageRepository::class] = static fn(): PageRepository => new PageRepository(
+            $DIC->database()
         );
 
         return self::$container = $container;

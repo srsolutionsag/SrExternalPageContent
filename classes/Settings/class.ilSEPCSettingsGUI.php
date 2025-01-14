@@ -22,9 +22,12 @@ use srag\Plugins\SrExternalPageContent\Settings\Settings;
  */
 class ilSEPCSettingsGUI extends BaseGUI
 {
+    private const CMD_MIGRATE = 'migrate';
+    public const CMD_RESET = 'reset';
     private array $default_roles = [2, 4];
     private Settings $settings;
     private Refinery $refinery;
+    private array $valid_parent_types = ['crs', 'grp', 'root', 'cat'];
 
     public function __construct()
     {
@@ -33,19 +36,33 @@ class ilSEPCSettingsGUI extends BaseGUI
         $this->refinery = $this->dic->refinery();
     }
 
+    public function checkAccess(): void
+    {
+        if (!$this->access_checks->hasAdministrationAccess()) {
+            throw new ilException('Access Denied');
+        }
+    }
+
     public function executeCommand(): void
     {
         $this->performStandardCommands();
+        switch ($this->ctrl->getCmd(self::CMD_INDEX)) {
+            case self::CMD_RESET:
+                $this->reset();
+                break;
+            default:
+                break;
+        }
     }
 
     private function getForm(): Standard
     {
         $factory = $this->ui_factory->input();
 
-        $current_value = $this->settings->get('roles', $this->default_roles);
+        $currently_selected_roles = $this->settings->get('roles', $this->default_roles);
         $options = $this->getGlobalAndLocalRoles();
         $role_keys = array_keys($options);
-        $current_value = array_intersect($current_value, $role_keys);
+        $currently_selected_roles = array_intersect($currently_selected_roles, $role_keys);
 
         return $factory->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, self::CMD_UPDATE),
@@ -57,12 +74,22 @@ class ilSEPCSettingsGUI extends BaseGUI
                             $options,
                             $this->translator->txt('settings_roles_info')
                         )->withValue(
-                            $current_value
+                            $currently_selected_roles
                         )->withAdditionalTransformation(
                             $this->refinery->trafo(
                                 fn(array $role_ids): array => $this->settings->set('roles', $role_ids)
                             )
-                        )
+                        ),
+                        'silent_creation' => $factory->field()->checkbox(
+                            $this->translator->txt('silent_creation'),
+                            $this->translator->txt('silent_creation_info')
+                        )->withValue(
+                            (bool) ($this->settings->get('silent_creation', false))
+                        )->withAdditionalTransformation(
+                            $this->refinery->trafo(
+                                fn(bool $checked): bool => $this->settings->set('silent_creation', $checked)
+                            )
+                        ),
                     ],
                     $this->translator->txt('settings_title')
                 ),
@@ -72,9 +99,23 @@ class ilSEPCSettingsGUI extends BaseGUI
 
     protected function index(): void
     {
+        $this->dic->ilias()->toolbar()->addComponent(
+            $this->ui_factory->button()->standard(
+                $this->translator->txt(self::CMD_RESET),
+                $this->ctrl->getLinkTarget($this, self::CMD_RESET)
+            )
+        );
+
         $this->tpl->setContent(
             $this->ui_renderer->render($this->getForm())
         );
+    }
+
+    protected function reset(): void
+    {
+        $this->settings->set('reset_consent', time());
+        $this->tpl->setOnScreenMessage('success', $this->translator->txt('saved_successfully'), true);
+        $this->ctrl->redirect($this, self::CMD_INDEX);
     }
 
     protected function update(): void
@@ -90,10 +131,10 @@ class ilSEPCSettingsGUI extends BaseGUI
         );
     }
 
+
     //
     // Helpers
     //
-    private array $valid_parent_types = ['crs', 'grp', 'root', 'cat'];
 
     public function translateRoleIds(array $role_ids): array
     {

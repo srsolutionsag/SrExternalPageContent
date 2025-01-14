@@ -16,6 +16,7 @@ use srag\Plugins\SrExternalPageContent\DIC;
 use srag\Plugins\SrExternalPageContent\Content\iFrame;
 use ILIAS\Refinery\Transformation;
 use srag\Plugins\SrExternalPageContent\Content\Embeddable;
+use ILIAS\FileUpload\MimeType;
 
 class IFrameSection extends Base implements FormElement
 {
@@ -50,12 +51,12 @@ class IFrameSection extends Base implements FormElement
             ->withRequired(true)
             ->withAdditionalTransformation(
                 $this->refinery->constraint(
-                    fn ($d): bool => $this->whitelist_check->isAllowed($d),
+                    fn($d): bool => $this->whitelist_check->isAllowed($d),
                     $this->translator->txt('embed_content_invalid_url')
                 )
             )
             ->withAdditionalTransformation(
-                $this->refinery->trafo(fn ($d): string => $this->embeddable->setUrl($d)->getUrl())
+                $this->refinery->trafo(fn($d): string => $this->embeddable->setUrl($d)->getUrl())
             );
 
         $inputs[] = $factory
@@ -65,7 +66,7 @@ class IFrameSection extends Base implements FormElement
             )
             ->withValue($this->embeddable->getTitle())
             ->withAdditionalTransformation(
-                $this->refinery->trafo(fn ($d): string => $this->embeddable->setTitle($d)->getTitle())
+                $this->refinery->trafo(fn($d): string => $this->embeddable->setTitle($d)->getTitle())
             );
 
         $inputs[] = $factory
@@ -75,7 +76,7 @@ class IFrameSection extends Base implements FormElement
             )
             ->withValue($this->embeddable->getWidth())
             ->withAdditionalTransformation(
-                $this->refinery->trafo(fn ($d): int => $this->embeddable->setWidth((int) $d)->getWidth())
+                $this->refinery->trafo(fn($d): int => $this->embeddable->setWidth((int) $d)->getWidth())
             );
 
         $inputs[] = $factory
@@ -85,7 +86,7 @@ class IFrameSection extends Base implements FormElement
             )
             ->withValue($this->embeddable->getHeight())
             ->withAdditionalTransformation(
-                $this->refinery->trafo(fn ($d): int => $this->embeddable->setHeight((int) $d)->getHeight())
+                $this->refinery->trafo(fn($d): int => $this->embeddable->setHeight((int) $d)->getHeight())
             );
 
         $inputs[] = $factory
@@ -95,7 +96,7 @@ class IFrameSection extends Base implements FormElement
             )
             ->withValue($this->embeddable->isResponsive())
             ->withAdditionalTransformation(
-                $this->refinery->trafo(fn ($d): bool => $this->embeddable->setResponsive((bool) $d)->isResponsive())
+                $this->refinery->trafo(fn($d): bool => $this->embeddable->setResponsive((bool) $d)->isResponsive())
             );
 
         $inputs[] = $factory
@@ -104,7 +105,7 @@ class IFrameSection extends Base implements FormElement
                 $this->translator->txt('frameborder_info')
             )->withValue($this->embeddable->getFrameborder())
             ->withAdditionalTransformation(
-                $this->refinery->trafo(fn ($d): int => $this->embeddable->setFrameborder((int) $d)->getFrameborder())
+                $this->refinery->trafo(fn($d): int => $this->embeddable->setFrameborder((int) $d)->getFrameborder())
             );
 
         $inputs[] = $factory
@@ -114,10 +115,20 @@ class IFrameSection extends Base implements FormElement
             )
             ->withValue(implode("\n", $this->embeddable->getScripts()))
             ->withAdditionalTransformation(
-                $this->refinery->trafo(fn ($d): array => $this->embeddable->setScripts(explode("\n", $d))->getScripts())
+                $this->refinery->trafo(fn($d): array => $this->embeddable->setScripts(explode("\n", $d))->getScripts())
+            );
+
+        $inputs[] = $factory
+            ->file(new \ilSrExternalPagePluginUploadHandlerGUI(), $this->translator->txt('thumbnail'))
+            ->withAcceptedMimeTypes([MimeType::IMAGE__JPEG, MimeType::IMAGE__PNG])
+            ->withMaxFiles(1)
+            ->withValue($this->embeddable->getThumbnailRid() === null ? [] : [$this->embeddable->getThumbnailRid()])
+            ->withAdditionalTransformation(
+                $this->refinery->trafo(fn($d): ?string => $this->embeddable->setThumbnailRid($d[0] ?? null)->getThumbnailRid())
             )->withAdditionalTransformation(
                 $this->getFinalTransformation()
             );
+
         /*
         $allow_options = [
             'autoplay',
@@ -141,7 +152,7 @@ class IFrameSection extends Base implements FormElement
     protected function getFinalTransformation(): Transformation
     {
         return $this->refinery->trafo(
-            fn ($value): Embeddable => $this->embeddable_repository->store($this->embeddable)
+            fn($value): Embeddable => $this->embeddable_repository->store($this->embeddable)
         );
     }
 

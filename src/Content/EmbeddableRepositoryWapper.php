@@ -37,7 +37,12 @@ class EmbeddableRepositoryWapper implements EmbeddableRepository
         return $this->repository->total();
     }
 
-    public function has(int $id): bool
+    public function blankIFrame(): iFrame
+    {
+        return $this->repository->blankIFrame();
+    }
+
+    public function has(string $id): bool
     {
         return $this->repository->has($id);
     }
@@ -47,7 +52,7 @@ class EmbeddableRepositoryWapper implements EmbeddableRepository
         return $this->repository->store($embeddable);
     }
 
-    public function deleteById(int $id): void
+    public function deleteById(string $id): void
     {
         $this->repository->deleteById($id);
     }
@@ -57,7 +62,7 @@ class EmbeddableRepositoryWapper implements EmbeddableRepository
         $this->repository->delete($embeddable);
     }
 
-    public function getById(int $id, bool $skip_whitlist_check): ?Embeddable
+    public function getById(string $id, bool $skip_whitlist_check): ?Embeddable
     {
         $embeddable = $this->repository->getById($id, $skip_whitlist_check);
         if (($embeddable !== null) && ($skip_whitlist_check || $this->check->isAllowed($embeddable->getUrl()))) {

@@ -34,6 +34,13 @@ class ilSEPCWhitelistConfigGUI extends BaseGUI
         $this->repository = $this->dic->whitelist();
     }
 
+    public function checkAccess(): void
+    {
+        if (!$this->access_checks->hasAdministrationAccess()) {
+            throw new ilException('Access Denied');
+        }
+    }
+
     public function executeCommand(): void
     {
         $this->performStandardCommands();
@@ -61,7 +68,9 @@ class ilSEPCWhitelistConfigGUI extends BaseGUI
     protected function toggle(): void
     {
         $domain = $this->resolveDomainsFromRequest()[0];
-        $domain = $domain->withStatus($domain->getStatus() === Status::STATUS_ACTIVE ? Status::STATUS_INACTIVE : Status::STATUS_ACTIVE);
+        $domain = $domain->withStatus(
+            $domain->getStatus() === Status::STATUS_ACTIVE ? Status::STATUS_INACTIVE : Status::STATUS_ACTIVE
+        );
         $this->repository->store($domain);
         $this->tpl->setOnScreenMessage('success', $this->translator->txt('whitelist_updated'), true);
         $this->ctrl->redirect($this, self::CMD_INDEX);

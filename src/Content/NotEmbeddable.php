@@ -51,12 +51,12 @@ class NotEmbeddable implements Embeddable
         return [];
     }
 
-    public function getId(): int
+    public function getId(): string
     {
-        return 0;
+        return '';
     }
 
-    public function withId(int $id): Embeddable
+    public function withId(string $id): Embeddable
     {
         return $this;
     }
@@ -81,4 +81,8 @@ class NotEmbeddable implements Embeddable
         return true;
     }
 
+    public function getThumbnailRid(): ?string
+    {
+        return null;
+    }
 }

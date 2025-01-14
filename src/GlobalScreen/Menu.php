@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace srag\Plugins\SrExternalPageContent\GlobalScreen;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuPluginProvider;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use srag\Plugins\SrExternalPageContent\DIC;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;

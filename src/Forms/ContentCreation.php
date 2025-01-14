@@ -26,7 +26,7 @@ class ContentCreation extends Base implements FormElement
         $embed = new EmbedSection($this->dependencies);
         $iframe = new IFrameSection(
             $this->dependencies,
-            new iFrame(0, '')
+            new iFrame('', '')
         );
         $ff = $this->ui_factory->input();
         return [

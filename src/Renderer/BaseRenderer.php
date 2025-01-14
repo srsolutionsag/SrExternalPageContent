@@ -12,23 +12,41 @@ declare(strict_types=1);
 
 namespace srag\Plugins\SrExternalPageContent\Renderer;
 
+use ILIAS\ResourceStorage\Services;
 use srag\Plugins\SrExternalPageContent\Translator;
 use srag\Plugins\SrExternalPageContent\Content\Embeddable;
 use ILIAS\Data\URI;
+use srag\Plugins\SrExternalPageContent\Whitelist\Check;
+use srag\Plugins\SrExternalPageContent\Settings\Settings;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 abstract class BaseRenderer
 {
-    public function __construct(protected Translator $translator)
-    {
+    protected Settings $settings;
+    protected Check $check;
+    protected Services $irss;
+    protected Translator $translator;
+
+    public function __construct(
+        Translator $translator,
+        Check $check,
+        Settings $settings
+    ) {
+        global $DIC;
+        $this->check = $check;
+        $this->settings = $settings;
+        $this->translator = $translator;
+        $this->irss = $DIC->resourceStorage();
     }
 
     protected function wrap(Embeddable $embeddable, string $content): string
     {
         $url = $embeddable->getUrl();
         $uri = new URI($url);
+
+        $whitelisted_domain = $this->check->getBest($url);
 
         // content wrapper, we will move that later if there are other renderers
         $wrapper = new \ilTemplate(__DIR__ . '/../../templates/default/tpl.content_wrapper.html', false, false);
@@ -38,9 +56,18 @@ abstract class BaseRenderer
         $wrapper->setVariable('WIDTH', $embeddable->getWidth());
         $wrapper->setVariable('HEIGHT', $embeddable->getHeight());
         $wrapper->setVariable('RESPONSIVE', $embeddable->isResponsive());
-        $wrapper->setVariable('CONSENT', '1');
-        $wrapper->setVariable('CONSENTED', '0');
+        $wrapper->setVariable('MUST_CONSENT', '1');
+        $wrapper->setVariable('LAST_RESET', $this->settings->get('reset_consent', 0));
+        $wrapper->setVariable('DOMAIN', $uri->getHost());
+        $wrapper->setVariable(
+            'CONSENTED',
+            $whitelisted_domain === null ? '0' : ($whitelisted_domain->isAutoConsent() ? '1' : '0')
+        );
         $wrapper->setVariable('CONTENT_ID', 'srepc_' . $embeddable->getId());
+        $thumbnail_src = $embeddable->getThumbnailRid() === null ? '' : $this->irss->consume()->src(
+            $this->irss->manage()->find($embeddable->getThumbnailRid())
+        )->getSrc();
+        $wrapper->setVariable('THUMBNAIL', $thumbnail_src);
 
         foreach ($embeddable->getScripts() as $script) {
             $wrapper->setCurrentBlock('script');

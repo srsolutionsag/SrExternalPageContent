@@ -17,14 +17,16 @@ interface EmbeddableRepository
 {
     public function total(): int;
 
-    public function has(int $id): bool;
+    public function blankIFrame(): iFrame;
+
+    public function has(string $id): bool;
 
     public function store(Embeddable $embeddable): Embeddable;
 
-    public function deleteById(int $id): void;
+    public function deleteById(string $id): void;
 
     public function delete(Embeddable $embeddable): void;
 
-    public function getById(int $id, bool $skip_whitlist_check): ?Embeddable;
+    public function getById(string $id, bool $skip_whitlist_check): ?Embeddable;
 
 }

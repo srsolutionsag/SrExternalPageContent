@@ -12,14 +12,12 @@ declare(strict_types=1);
 
 namespace srag\Plugins\SrExternalPageContent\Tests\Whitelist;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use srag\Plugins\SrExternalPageContent\Whitelist\DomainParser;
 use srag\Plugins\SrExternalPageContent\Whitelist\WhitelistRepository;
 use srag\Plugins\SrExternalPageContent\Whitelist\Check;
 use srag\Plugins\SrExternalPageContent\Whitelist\WhitelistedDomain;
-
-require_once __DIR__ . '/../../vendor/autoload.php';
+use srag\Plugins\SrExternalPageContent\Whitelist\Status;
 
 class CheckTest extends TestCase
 {
@@ -43,7 +41,7 @@ class CheckTest extends TestCase
                          ->method('getPossibleMatches')
                          ->with('youtube.com')
                          ->willReturn([
-                             new WhitelistedDomain(1, '*.youtube.com', 'YouTube', 'YouTube'),
+                             new WhitelistedDomain(1, '*.youtube.com', Status::STATUS_ACTIVE, 'YouTube', 'YouTube'),
                          ]);
 
         $this->assertTrue(
@@ -57,9 +55,9 @@ class CheckTest extends TestCase
                          ->method('getPossibleMatches')
                          ->with('youtube.com')
                          ->willReturn([
-                             new WhitelistedDomain(1, 'download.youtube.com'),
-                             new WhitelistedDomain(2, 'video.youtube.com'),
-                             new WhitelistedDomain(2, 'play.youtube.com'),
+                             new WhitelistedDomain(1, 'download.youtube.com', Status::STATUS_ACTIVE),
+                             new WhitelistedDomain(2, 'video.youtube.com', Status::STATUS_ACTIVE),
+                             new WhitelistedDomain(2, 'play.youtube.com', Status::STATUS_ACTIVE),
                          ]);
 
         $this->assertFalse(
@@ -73,7 +71,7 @@ class CheckTest extends TestCase
                          ->method('getPossibleMatches')
                          ->with('youtube.com')
                          ->willReturn([
-                             new WhitelistedDomain(1, '*'),
+                             new WhitelistedDomain(1, '*', Status::STATUS_ACTIVE),
                          ]);
 
         $this->assertTrue(
@@ -87,7 +85,7 @@ class CheckTest extends TestCase
                          ->method('getPossibleMatches')
                          ->with('youtube.com')
                          ->willReturn([
-                             new WhitelistedDomain(1, '*.com'),
+                             new WhitelistedDomain(1, '*.com', Status::STATUS_ACTIVE),
                          ]);
 
         $this->assertTrue(

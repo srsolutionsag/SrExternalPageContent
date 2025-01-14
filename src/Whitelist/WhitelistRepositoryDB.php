@@ -21,7 +21,7 @@ class WhitelistRepositoryDB implements WhitelistRepository
 {
     use DBIntKeyRepository;
 
-    protected function getKeyName(): string
+    protected function getIdName(): string
     {
         return 'id';
     }
@@ -45,6 +45,7 @@ class WhitelistRepositoryDB implements WhitelistRepository
             'status' => ['integer', $domain->getStatus()],
             'title' => ['text', $domain->getTitle()],
             'description' => ['text', $domain->getDescription()],
+            'auto_consent' => ['integer', $domain->isAutoConsent()],
         ]);
 
         return $domain->withId($next_id);
@@ -57,6 +58,7 @@ class WhitelistRepositoryDB implements WhitelistRepository
             'status' => ['integer', $domain->getStatus()],
             'title' => ['text', $domain->getTitle()],
             'description' => ['text', $domain->getDescription()],
+            'auto_consent' => ['integer', $domain->isAutoConsent()],
         ], [
             'id' => ['integer', $domain->getId()],
         ]);
@@ -99,12 +101,28 @@ class WhitelistRepositoryDB implements WhitelistRepository
         return $domains;
     }
 
+    public function getPossibleMatchesIncludingInactive(string $domain): array
+    {
+        $set = $this->db->queryF(
+            'SELECT * FROM ' . $this->getTableName() . ' WHERE domain LIKE %s',
+            ['text'],
+            ['%' . $domain . '%']
+        );
+        $domains = [];
+        while ($data = $this->db->fetchAssoc($set)) {
+            $domains[] = $this->buildFromDBSet($data);
+        }
+
+        return $domains;
+    }
+
     private function buildFromDBSet(array $set): WhitelistedDomain
     {
         return new WhitelistedDomain(
             (int) $set['id'],
             $set['domain'],
             (int) $set['status'],
+            (bool) $set['auto_consent'],
             empty($set['title']) ? null : $set['title'],
             empty($set['description']) ? null : $set['description']
         );

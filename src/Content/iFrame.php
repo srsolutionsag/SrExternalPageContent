@@ -29,9 +29,14 @@ class iFrame extends BaseEmbeddable implements Embeddable
     protected bool $allowfullscreen;
     protected bool $responsive;
 
-    public function __construct(int $id, string $url, array $properties = [], array $scripts = [])
-    {
-        parent::__construct($id, $url, $properties, $scripts);
+    public function __construct(
+        string $id,
+        string $url,
+        array $properties = [],
+        array $scripts = [],
+        ?string $thumbnail_rid = null
+    ) {
+        parent::__construct($id, $url, $properties, $scripts, $thumbnail_rid);
         $this->title = $properties['title'] ?? '';
         $this->height = (int) ($properties['height'] ?? self::DEFAULT_HEIGHT);
         $this->width = (int) ($properties['width'] ?? self::DEFAULT_WIDTH);
