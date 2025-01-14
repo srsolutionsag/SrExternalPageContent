@@ -61,6 +61,8 @@ whitelist_active#:#Aktiv
 whitelist_active_info#:#Aktiviert die Domain für die Verwendung im Seiteneditor
 whitelist_add#:#Neuen Eintrag hinzufügen
 whitelist_added#:#Eintrag hinzugefügt
+whitelist_auto_consent#:#Ohne Zustimmung anzeigen
+whitelist_auto_consent_info#:#Wenn aktiviert, werden Inhalte mit dieser Domain direkt ohne Zustimmung angezeigt.
 whitelist_confirm_delete#:#Möchten Sie den folgenden Eintrag wirklich löschen?
 whitelist_confirm_delete_info#:#Eintrag gelöscht
 whitelist_delete#:#Eintrag löschen

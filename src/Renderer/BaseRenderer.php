@@ -16,18 +16,23 @@ use ILIAS\ResourceStorage\Services;
 use srag\Plugins\SrExternalPageContent\Translator;
 use srag\Plugins\SrExternalPageContent\Content\Embeddable;
 use ILIAS\Data\URI;
+use srag\Plugins\SrExternalPageContent\Whitelist\Check;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 abstract class BaseRenderer
 {
+    protected Check $check;
     protected Services $irss;
     protected Translator $translator;
 
-    public function __construct(Translator $translator)
-    {
+    public function __construct(
+        Translator $translator,
+        Check $check
+    ) {
         global $DIC;
+        $this->check = $check;
         $this->translator = $translator;
         $this->irss = $DIC->resourceStorage();
     }
@@ -36,6 +41,8 @@ abstract class BaseRenderer
     {
         $url = $embeddable->getUrl();
         $uri = new URI($url);
+
+        $whitelisted_domain = $this->check->getBest($url);
 
         // content wrapper, we will move that later if there are other renderers
         $wrapper = new \ilTemplate(__DIR__ . '/../../templates/default/tpl.content_wrapper.html', false, false);
@@ -47,7 +54,10 @@ abstract class BaseRenderer
         $wrapper->setVariable('RESPONSIVE', $embeddable->isResponsive());
         $wrapper->setVariable('MUST_CONSENT', '1');
         $wrapper->setVariable('DOMAIN', $uri->getHost());
-        $wrapper->setVariable('CONSENTED', '0');
+        $wrapper->setVariable(
+            'CONSENTED',
+            $whitelisted_domain === null ? '0' : ($whitelisted_domain->isAutoConsent() ? '1' : '0')
+        );
         $wrapper->setVariable('CONTENT_ID', 'srepc_' . $embeddable->getId());
         $thumbnail_src = $embeddable->getThumbnailRid() === null ? '' : $this->irss->consume()->src(
             $this->irss->manage()->find($embeddable->getThumbnailRid())

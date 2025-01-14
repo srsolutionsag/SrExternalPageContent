@@ -35,4 +35,19 @@ class ilSrExternalPageContentDBUpdateSteps implements \ilDatabaseUpdateSteps
             'notnull' => false
         ]);
     }
+
+    public function step_2(): void
+    {
+        if ($this->db->tableColumnExists('sr_epc_whitelist', 'auto_consent')) {
+            return;
+        }
+
+        // create table column
+        $this->db->addTableColumn('sr_epc_whitelist', 'auto_consent', [
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ]);
+    }
 }

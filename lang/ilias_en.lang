@@ -61,6 +61,8 @@ whitelist_active#:#Active
 whitelist_active_info#:#Activates the domain for use in the page editor
 whitelist_add#:#Add new entry
 whitelist_added#:#Entry added
+whitelist_auto_consent#:#Show content without asking
+whitelist_auto_consent_info#:#If activated, the content will be displayed without asking for consent.
 whitelist_confirm_delete#:#Are you sure you want to delete the following entry?
 whitelist_confirm_delete_info#:#Entry deleted
 whitelist_delete#:#Delete entry

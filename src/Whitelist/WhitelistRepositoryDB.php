@@ -45,6 +45,7 @@ class WhitelistRepositoryDB implements WhitelistRepository
             'status' => ['integer', $domain->getStatus()],
             'title' => ['text', $domain->getTitle()],
             'description' => ['text', $domain->getDescription()],
+            'auto_consent' => ['integer', $domain->isAutoConsent()],
         ]);
 
         return $domain->withId($next_id);
@@ -57,6 +58,7 @@ class WhitelistRepositoryDB implements WhitelistRepository
             'status' => ['integer', $domain->getStatus()],
             'title' => ['text', $domain->getTitle()],
             'description' => ['text', $domain->getDescription()],
+            'auto_consent' => ['integer', $domain->isAutoConsent()],
         ], [
             'id' => ['integer', $domain->getId()],
         ]);
@@ -120,6 +122,7 @@ class WhitelistRepositoryDB implements WhitelistRepository
             (int) $set['id'],
             $set['domain'],
             (int) $set['status'],
+            (bool) $set['auto_consent'],
             empty($set['title']) ? null : $set['title'],
             empty($set['description']) ? null : $set['description']
         );

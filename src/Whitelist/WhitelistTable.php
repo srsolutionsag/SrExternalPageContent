@@ -101,6 +101,9 @@ class WhitelistTable extends BaseUIComponent implements DataRetrieval
             'active' => $f
                 ->statusIcon($this->translator->txt('active', 'whitelist'))
                 ->withIsSortable(false),
+            'auto_consent' => $f
+                ->statusIcon($this->translator->txt('auto_consent', 'whitelist'))
+                ->withIsSortable(false),
             'description' => $f
                 ->text($this->translator->txt('description', 'whitelist'))
                 ->withIsSortable(false),
@@ -140,6 +143,7 @@ class WhitelistTable extends BaseUIComponent implements DataRetrieval
                     'domain' => $domain->getDomain(),
                     'title' => $domain->getTitle(),
                     'active' => $domain->isActive() ? $ok : $nok,
+                    'auto_consent' => $domain->isAutoConsent() ? $ok : $nok,
                     // shorten and append ellipsis if the description ist longer than 50 characters
                     'description' => strlen($domain->getDescription() ?? '') > self::DESCRIPTION_LENGTH
                         ? substr($domain->getDescription(), 0, self::DESCRIPTION_LENGTH) . '...'

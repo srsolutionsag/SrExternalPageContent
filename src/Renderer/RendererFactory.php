@@ -37,18 +37,18 @@ class RendererFactory
     public function getFor(Embeddable $embeddable, bool $presentation_mode): Renderer
     {
         if (!$presentation_mode) {
-            return new EditPlaceholderRenderer($this->translator);
+            return new EditPlaceholderRenderer($this->translator, $this->check);
         }
 
         // check the URL of the embeddable object against whitelist
         if ($embeddable instanceof NotEmbeddable || $this->check->isAllowed($embeddable->getUrl()) === false) {
-            return new NotEmbeddableRenderer($this->translator);
+            return new NotEmbeddableRenderer($this->translator, $this->check);
         }
 
         if ($embeddable instanceof iFrame) {
-            return new iFrameRenderer($this->translator);
+            return new iFrameRenderer($this->translator, $this->check);
         }
 
-        return new UnknownRenderer($this->translator);
+        return new UnknownRenderer($this->translator, $this->check);
     }
 }

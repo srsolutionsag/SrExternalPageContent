@@ -80,4 +80,18 @@ class Check
 
         return $this->cache[$extracted_host] = false;
     }
+
+    public function getBest(string $url): ?WhitelistedDomain
+    {
+        $extracted_host = $this->parser->extractHost($url);
+        if ($extracted_host === null) {
+            return null;
+        }
+
+        // possible matches
+        $extracted_domain = $this->parser->extractDomain($extracted_host);
+        $matches = $this->repository->getPossibleMatches($extracted_domain);
+
+        return $matches[0] ?? null;
+    }
 }

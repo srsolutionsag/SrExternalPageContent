@@ -120,6 +120,17 @@ class WhitelistForm extends BaseUIComponent
                         fn (bool $status): WhitelistedDomain => $this->domain = $this->domain->withStatus((int) $status)
                     )
                 ),
+            'auto_consent' => $f
+                ->checkbox(
+                    $this->translator->txt('auto_consent', 'whitelist'),
+                    $this->translator->txt('auto_consent_info', 'whitelist')
+                )
+                ->withValue($this->domain->isAutoConsent())
+                ->withAdditionalTransformation(
+                    $this->travo(
+                        fn (bool $auto_consent): WhitelistedDomain => $this->domain = $this->domain->withAutoConsent((bool) $auto_consent)
+                    )
+                ),
             'title' => $f
                 ->text(
                     $this->translator->txt('title', 'whitelist'),
