@@ -18,6 +18,7 @@ use srag\Plugins\SrExternalPageContent\Whitelist\Check;
 use srag\Plugins\SrExternalPageContent\Content\NotEmbeddable;
 use srag\Plugins\SrExternalPageContent\Translator;
 use srag\Plugins\SrExternalPageContent\Settings\Settings;
+use srag\Plugins\SrExternalPageContent\Content\iFramePreview;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -40,6 +41,11 @@ class RendererFactory
 
     public function getFor(Embeddable $embeddable, bool $presentation_mode): Renderer
     {
+        // we always want to render the iFramePreview
+        if($embeddable instanceof iFramePreview) {
+            return new iFrameRenderer($this->translator, $this->check, $this->settings);
+        }
+
         if (!$presentation_mode) {
             return new EditPlaceholderRenderer($this->translator, $this->check, $this->settings);
         }

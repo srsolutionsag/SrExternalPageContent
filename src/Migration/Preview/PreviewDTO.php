@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace srag\Plugins\SrExternalPageContent\Migration\Preview;
 
 use srag\Plugins\SrExternalPageContent\Content\iFrame;
+use srag\Plugins\SrExternalPageContent\Content\iFramePreview;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -38,7 +39,7 @@ class PreviewDTO
         } catch (\Throwable $e) {
             return null;
         }
-        return new iFrame(
+        return new iFramePreview(
             $iframe_data['id'],
             $iframe_data['url'],
             $iframe_data['properties'],
