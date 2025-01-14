@@ -123,12 +123,12 @@ class WhitelistTable extends BaseUIComponent implements DataRetrieval
         ?array $additional_parameters
     ): Generator {
         $ok = $this->factory->symbol()->icon()->custom(
-            'templates/default/images/icon_checked.svg',
+            'templates/default/images/standard/icon_checked.svg',
             '',
             'small'
         );
         $nok = $this->factory->symbol()->icon()->custom(
-            'templates/default/images/icon_unchecked.svg',
+            'templates/default/images/standard/icon_unchecked.svg',
             '',
             'small'
         );
