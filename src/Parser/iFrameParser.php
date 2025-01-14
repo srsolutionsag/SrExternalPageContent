@@ -18,6 +18,7 @@ use srag\Plugins\SrExternalPageContent\Content\NotEmbeddable;
 use srag\Plugins\SrExternalPageContent\Helper\Sanitizer;
 use srag\Plugins\SrExternalPageContent\Content\NotEmbeddableReasons;
 use srag\Plugins\SrExternalPageContent\Content\UniqueIdGenerator;
+use ILIAS\Data\URI;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -55,6 +56,19 @@ class iFrameParser implements Parser
             return new NotEmbeddable('', NotEmbeddableReasons::NO_URL);
         }
         $url = $this->sanitizer->sanitizeURL($iframe->getAttribute('src'));
+
+        // prepend https if not present
+        if (strpos($url, 'http') !== 0) {
+            $url = 'https://' . ltrim($url, '/');
+        }
+
+        // test URL
+        try {
+            $url_test = new URI($url);
+        } catch (\Throwable $e) {
+            return new NotEmbeddable($url, NotEmbeddableReasons::NO_URL, $e->getMessage());
+        }
+
         $title = $this->sanitizer->sanitizeEncoding($iframe->getAttribute('title'));
         $frameborder = (int) $iframe->getAttribute('frameborder');
         $allow = explode(';', $iframe->getAttribute('allow'));

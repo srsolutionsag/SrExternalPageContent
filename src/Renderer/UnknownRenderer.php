@@ -17,7 +17,7 @@ use srag\Plugins\SrExternalPageContent\Content\Embeddable;
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class UnknownRenderer extends BaseRenderer
+class UnknownRenderer extends BaseRenderer implements Renderer
 {
     public function render(Embeddable $embeddable): string
     {
