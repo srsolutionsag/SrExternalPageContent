@@ -30,6 +30,7 @@ migration_tool#:#Migration
 msg_form_invalid#:#Bitte prüfen Sie Ihre Eingaben im Formular.
 msg_form_saved#:#msg_form_saved
 msg_validation_failed#:#Die Validierung des Snippets ist fehlgeschlagen. Bitte überprüfen Sie das Snippet und versuchen Sie es erneut.
+next_page#:#Nächste Seite
 not_embeddable_info#:#Der externer Inhalt von %s kann nicht eingebettet werden. <br>Grund: %s
 not_embeddable_section_title#:#Der Inhalt kann nicht bearbeitet werden, da vermutlich die URL nciht freigegeben wurde.
 perform_migration#:#Seite migrieren

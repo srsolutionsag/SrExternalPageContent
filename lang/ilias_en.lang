@@ -30,6 +30,7 @@ migration_tool#:#Migration
 msg_form_invalid#:#Please check your form entries.
 msg_form_saved#:#msg_form_saved
 msg_validation_failed#:#The snippet validation failed. Please review the snippet and try again.
+next_page#:#Next Page
 not_embeddable_info#:#The external content of %s cannot be embedded. <br>Reason: %s
 not_embeddable_section_title#:#The content cannot be edited because the URL has probably not been whitelisted.
 perform_migration#:#Migrate page
