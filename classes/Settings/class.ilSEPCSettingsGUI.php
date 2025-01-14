@@ -23,13 +23,7 @@ use srag\Plugins\SrExternalPageContent\Settings\Settings;
 class ilSEPCSettingsGUI extends BaseGUI
 {
     private array $default_roles = [2, 4];
-    /**
-     * @readonly
-     */
     private Settings $settings;
-    /**
-     * @readonly
-     */
     private Refinery $refinery;
 
     public function __construct()
@@ -66,7 +60,7 @@ class ilSEPCSettingsGUI extends BaseGUI
                             $current_value
                         )->withAdditionalTransformation(
                             $this->refinery->trafo(
-                                fn (array $role_ids): array => $this->settings->set('roles', $role_ids)
+                                fn(array $role_ids): array => $this->settings->set('roles', $role_ids)
                             )
                         )
                     ],

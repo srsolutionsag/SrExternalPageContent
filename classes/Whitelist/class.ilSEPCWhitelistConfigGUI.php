@@ -26,9 +26,6 @@ use srag\Plugins\SrExternalPageContent\Whitelist\Status;
 class ilSEPCWhitelistConfigGUI extends BaseGUI
 {
     public const CMD_TOGGLE = 'toggle';
-    /**
-     * @readonly
-     */
     private WhitelistRepository $repository;
 
     public function __construct()
@@ -106,7 +103,7 @@ class ilSEPCWhitelistConfigGUI extends BaseGUI
 
         $confirmation = $confirmation->withAffectedItems(
             array_map(
-                fn (WhitelistedDomain $domain): InterruptiveItem => $this->ui_factory->modal()->interruptiveItem(
+                fn(WhitelistedDomain $domain): InterruptiveItem => $this->ui_factory->modal()->interruptiveItem(
                     (string) $domain->getId(),
                     $domain->getDomain()
                 ),
@@ -169,7 +166,7 @@ class ilSEPCWhitelistConfigGUI extends BaseGUI
     private function resolveDomainsFromRequest(): array
     {
         return array_map(
-            fn ($item): ?WhitelistedDomain => $this->repository->getById((int) $item),
+            fn($item): ?WhitelistedDomain => $this->repository->getById((int) $item),
             $this->resolveItemsFromRequest('wl_id')
         );
     }

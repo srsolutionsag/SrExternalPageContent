@@ -18,16 +18,11 @@ use srag\Plugins\SrExternalPageContent\Content\NotEmbeddable;
 use srag\Plugins\SrExternalPageContent\Helper\Sanitizer;
 use srag\Plugins\SrExternalPageContent\Content\NotEmbeddableReasons;
 
-use function PHPUnit\Framework\matches;
-
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class iFrameParser implements Parser
 {
-    /**
-     * @readonly
-     */
     private Sanitizer $sanitizer;
     private int $default_width = iFrame::DEFAULT_WIDTH;
     private int $default_height = iFrame::DEFAULT_HEIGHT;
@@ -80,18 +75,18 @@ class iFrameParser implements Parser
         }
 
         // determine unit of width and height
-        if (strpos($width, 'px') !== false) {
+        if (str_contains($width, 'px')) {
             $width = str_replace('px', '', $width);
-        } elseif (strpos($width, '%') !== false) {
+        } elseif (str_contains($width, '%')) {
             $width = $this->default_width;
         } else {
             $width = (int) $width;
         }
 
         // determine unit of width and height
-        if (strpos($height, 'px') !== false) {
+        if (str_contains($height, 'px')) {
             $height = str_replace('px', '', $height);
-        } elseif (strpos($height, '%') !== false) {
+        } elseif (str_contains($height, '%')) {
             $height = $this->default_height;
         } else {
             $height = (int) $height;
@@ -107,10 +102,19 @@ class iFrameParser implements Parser
             'allowfullscreen' => $allowfullscreen
         ];
 
+        // scripts parsen
+        $scripts = [];
+        $script_tags = $html->getElementsByTagName('script');
+
+        foreach ($script_tags as $script_tag) {
+            $scripts[] = $script_tag->getAttribute('src');
+        }
+
         return new iFrame(
             0,
             $url,
-            $properties
+            $properties,
+            $scripts
         );
     }
 

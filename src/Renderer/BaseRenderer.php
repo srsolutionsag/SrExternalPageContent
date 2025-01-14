@@ -21,11 +21,8 @@ use ILIAS\Data\URI;
  */
 abstract class BaseRenderer
 {
-    protected Translator $translator;
-
-    public function __construct(Translator $translator)
+    public function __construct(protected Translator $translator)
     {
-        $this->translator = $translator;
     }
 
     protected function wrap(Embeddable $embeddable, string $content): string
@@ -44,6 +41,12 @@ abstract class BaseRenderer
         $wrapper->setVariable('CONSENT', '1');
         $wrapper->setVariable('CONSENTED', '0');
         $wrapper->setVariable('CONTENT_ID', 'srepc_' . $embeddable->getId());
+
+        foreach ($embeddable->getScripts() as $script) {
+            $wrapper->setCurrentBlock('script');
+            $wrapper->setVariable('SCRIPT', $script);
+            $wrapper->parseCurrentBlock();
+        }
 
         return $wrapper->get();
     }

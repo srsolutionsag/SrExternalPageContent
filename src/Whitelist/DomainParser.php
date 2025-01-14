@@ -20,9 +20,6 @@ use srag\Plugins\SrExternalPageContent\Helper\Sanitizer;
  */
 class DomainParser
 {
-    /**
-     * @readonly
-     */
     private Sanitizer $sanitizer;
 
     public function __construct()

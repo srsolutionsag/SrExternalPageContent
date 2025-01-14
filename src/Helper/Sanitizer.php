@@ -24,8 +24,8 @@ class Sanitizer
 
     public function sanitizeURL(string $string): string
     {
-        $string = @mb_convert_encoding($string, 'HTML-ENTITIES', 'UTF-8');
-        $string = @mb_convert_encoding($string, 'ASCII', 'UTF-8');
+        $string = mb_convert_encoding($string, 'HTML-ENTITIES', 'UTF-8');
+        $string = mb_convert_encoding($string, 'ASCII', 'UTF-8');
         return (string) filter_var($string, FILTER_SANITIZE_URL);
     }
 
