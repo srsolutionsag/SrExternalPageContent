@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.0.1
+- [FIX] missing english language file
+- [FIX] parse and output scripts
+- [FIX] reload CSS and JS
+- [FIX] undefined variable
+
 ## Version 2.0.0
 - [FEATURE] Support for ILIAS 9
 
