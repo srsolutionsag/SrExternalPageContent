@@ -33,7 +33,7 @@ class WhitelistRepositoryDB implements WhitelistRepository
 
     public function blank(): WhiteListedDomain
     {
-        return new WhitelistedDomain(0, '', Status::STATUS_ACTIVE, '', '');
+        return new WhitelistedDomain(0, '', Status::STATUS_ACTIVE, false, '', '');
     }
 
     protected function insert(WhitelistedDomain $domain): WhitelistedDomain

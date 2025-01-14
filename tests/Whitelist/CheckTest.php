@@ -41,7 +41,7 @@ class CheckTest extends TestCase
                          ->method('getPossibleMatches')
                          ->with('youtube.com')
                          ->willReturn([
-                             new WhitelistedDomain(1, '*.youtube.com', Status::STATUS_ACTIVE, 'YouTube', 'YouTube'),
+                             new WhitelistedDomain(1, '*.youtube.com', Status::STATUS_ACTIVE, false, 'YouTube', 'YouTube'),
                          ]);
 
         $this->assertTrue(
@@ -55,9 +55,9 @@ class CheckTest extends TestCase
                          ->method('getPossibleMatches')
                          ->with('youtube.com')
                          ->willReturn([
-                             new WhitelistedDomain(1, 'download.youtube.com', Status::STATUS_ACTIVE),
-                             new WhitelistedDomain(2, 'video.youtube.com', Status::STATUS_ACTIVE),
-                             new WhitelistedDomain(2, 'play.youtube.com', Status::STATUS_ACTIVE),
+                             new WhitelistedDomain(1, 'download.youtube.com', Status::STATUS_ACTIVE, false),
+                             new WhitelistedDomain(2, 'video.youtube.com', Status::STATUS_ACTIVE, false),
+                             new WhitelistedDomain(2, 'play.youtube.com', Status::STATUS_ACTIVE, false),
                          ]);
 
         $this->assertFalse(
@@ -71,7 +71,7 @@ class CheckTest extends TestCase
                          ->method('getPossibleMatches')
                          ->with('youtube.com')
                          ->willReturn([
-                             new WhitelistedDomain(1, '*', Status::STATUS_ACTIVE),
+                             new WhitelistedDomain(1, '*', Status::STATUS_ACTIVE, false),
                          ]);
 
         $this->assertTrue(
@@ -85,7 +85,7 @@ class CheckTest extends TestCase
                          ->method('getPossibleMatches')
                          ->with('youtube.com')
                          ->willReturn([
-                             new WhitelistedDomain(1, '*.com', Status::STATUS_ACTIVE),
+                             new WhitelistedDomain(1, '*.com', Status::STATUS_ACTIVE, false),
                          ]);
 
         $this->assertTrue(
