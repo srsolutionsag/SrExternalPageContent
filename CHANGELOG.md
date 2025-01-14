@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 2.0.2
+- [FIX] ILIAS 9 compatibility
+- [FIX] Table Icons
+
 ## Version 2.0.1
 - [FIX] missing english language file
 - [FIX] parse and output scripts
