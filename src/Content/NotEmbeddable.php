@@ -81,4 +81,8 @@ class NotEmbeddable implements Embeddable
         return true;
     }
 
+    public function getThumbnailRid(): ?string
+    {
+        return null;
+    }
 }
