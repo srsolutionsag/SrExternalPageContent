@@ -22,8 +22,17 @@ class ilSrExternalPageContentDBUpdateSteps implements \ilDatabaseUpdateSteps
         $this->db = $db;
     }
 
-    //    public function step_1(): void
-    //    {
-    //
-    //    }
+    public function step_1(): void
+    {
+        if ($this->db->tableColumnExists('sr_epc_content', 'thumb_rid')) {
+            return;
+        }
+
+        // create table column
+        $this->db->addTableColumn('sr_epc_content', 'thumb_rid', [
+            'type' => 'text',
+            'length' => 64,
+            'notnull' => false
+        ]);
+    }
 }

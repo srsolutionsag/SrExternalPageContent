@@ -21,17 +21,20 @@ abstract class BaseEmbeddable implements Embeddable
     protected string $id;
     protected string $url;
     protected array $properties = [];
+    protected ?string $thumbnail_rid = null;
 
     public function __construct(
         string $id,
         string $url,
         array $properties = [],
-        array $scripts = []
+        array $scripts = [],
+        ?string $thumbnail_rid = null
     ) {
         $this->scripts = $scripts;
         $this->id = $id;
         $this->properties = $properties;
         $this->url = $url;
+        $this->thumbnail_rid = $thumbnail_rid;
     }
 
     public function getUrl(): string
@@ -79,4 +82,14 @@ abstract class BaseEmbeddable implements Embeddable
         return $this;
     }
 
+    public function getThumbnailRid(): ?string
+    {
+        return $this->thumbnail_rid;
+    }
+
+    public function setThumbnailRid(?string $thumbnail_rid): BaseEmbeddable
+    {
+        $this->thumbnail_rid = $thumbnail_rid;
+        return $this;
+    }
 }

@@ -33,4 +33,5 @@ interface Embeddable
 
     public function isResponsive(): bool;
 
+    public function getThumbnailRid(): ?string;
 }

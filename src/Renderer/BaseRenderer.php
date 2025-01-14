@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace srag\Plugins\SrExternalPageContent\Renderer;
 
+use ILIAS\ResourceStorage\Services;
 use srag\Plugins\SrExternalPageContent\Translator;
 use srag\Plugins\SrExternalPageContent\Content\Embeddable;
 use ILIAS\Data\URI;
@@ -21,11 +22,14 @@ use ILIAS\Data\URI;
  */
 abstract class BaseRenderer
 {
+    protected Services $irss;
     protected Translator $translator;
 
     public function __construct(Translator $translator)
     {
+        global $DIC;
         $this->translator = $translator;
+        $this->irss = $DIC->resourceStorage();
     }
 
     protected function wrap(Embeddable $embeddable, string $content): string
@@ -41,9 +45,14 @@ abstract class BaseRenderer
         $wrapper->setVariable('WIDTH', $embeddable->getWidth());
         $wrapper->setVariable('HEIGHT', $embeddable->getHeight());
         $wrapper->setVariable('RESPONSIVE', $embeddable->isResponsive());
-        $wrapper->setVariable('CONSENT', '1');
+        $wrapper->setVariable('MUST_CONSENT', '1');
+        $wrapper->setVariable('DOMAIN', $uri->getHost());
         $wrapper->setVariable('CONSENTED', '0');
         $wrapper->setVariable('CONTENT_ID', 'srepc_' . $embeddable->getId());
+        $thumbnail_src = $embeddable->getThumbnailRid() === null ? '' : $this->irss->consume()->src(
+            $this->irss->manage()->find($embeddable->getThumbnailRid())
+        )->getSrc();
+        $wrapper->setVariable('THUMBNAIL', $thumbnail_src);
 
         foreach ($embeddable->getScripts() as $script) {
             $wrapper->setCurrentBlock('script');

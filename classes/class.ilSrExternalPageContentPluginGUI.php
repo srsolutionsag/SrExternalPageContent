@@ -25,6 +25,7 @@ use srag\Plugins\SrExternalPageContent\Migration\Preview\PreviewDTO;
 /**
  * @author            Fabian Schmid <fabian@sr.solution>
  * @ilCtrl_isCalledBy ilSrExternalPageContentPluginGUI: ilPCPluggedGUI
+ * @ilCtrl_Calls ilSrExternalPageContentPluginGUI: ilCtrlAwareStorageUploadHandler
  */
 class ilSrExternalPageContentPluginGUI extends ilPageComponentPluginGUI
 {

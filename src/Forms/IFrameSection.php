@@ -16,6 +16,7 @@ use srag\Plugins\SrExternalPageContent\DIC;
 use srag\Plugins\SrExternalPageContent\Content\iFrame;
 use ILIAS\Refinery\Transformation;
 use srag\Plugins\SrExternalPageContent\Content\Embeddable;
+use ILIAS\FileUpload\MimeType;
 
 class IFrameSection extends Base implements FormElement
 {
@@ -115,9 +116,19 @@ class IFrameSection extends Base implements FormElement
             ->withValue(implode("\n", $this->embeddable->getScripts()))
             ->withAdditionalTransformation(
                 $this->refinery->trafo(fn ($d): array => $this->embeddable->setScripts(explode("\n", $d))->getScripts())
+            );
+
+        $inputs[] = $factory
+            ->file(new \ilSrExternalPagePluginUploadHandlerGUI(), $this->translator->txt('thumbnail'))
+            ->withAcceptedMimeTypes([MimeType::IMAGE__JPEG, MimeType::IMAGE__PNG])
+            ->withMaxFiles(1)
+            ->withValue($this->embeddable->getThumbnailRid() === null ? [] : [$this->embeddable->getThumbnailRid()])
+            ->withAdditionalTransformation(
+                $this->refinery->trafo(fn ($d): ?string => $this->embeddable->setThumbnailRid($d[0] ?? null)->getThumbnailRid())
             )->withAdditionalTransformation(
                 $this->getFinalTransformation()
             );
+
         /*
         $allow_options = [
             'autoplay',

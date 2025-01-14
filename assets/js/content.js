@@ -46,10 +46,13 @@ document.addEventListener('DOMContentLoaded', function () {
         let width = d.getAttribute('data-width');
         let responsive = d.getAttribute('data-responsive');
         let content_id = d.getAttribute('data-content-id');
-        let consent = d.getAttribute('data-consent');
-        let consented = localStorage.getItem(content_id);
-        if (d.getAttribute('data-consented') === '1') {
-            consented = '1';
+        let domain = d.getAttribute('data-domain');
+        let thumbnail = d.getAttribute('data-thumbnail');
+        let must_consent = d.getAttribute('data-must-consent');
+        let consented_id = localStorage.getItem(content_id);
+        let consented_domain = localStorage.getItem(domain);
+        if (d.getAttribute('data-consented') === '1' || consented_domain === '1') {
+            consented_id = '1';
         }
         const resizer = function () {
             // parent container
@@ -103,38 +106,54 @@ document.addEventListener('DOMContentLoaded', function () {
             window.addEventListener('resize', resizer);
         }
 
+        if(thumbnail !== '') {
+            d.style.backgroundImage = 'url(' + thumbnail + ')';
+            must_consent = '1';
+            consented_id = '0';
+            consented_domain = '0';
+        }
 
-        let event = new Event(content_id, {
-            bubbles: true,
-            cancelable: false
-        });
-
-        let content = d.getElementsByClassName('sr-external-page-loadable')[0];
+        const content = d.getElementsByClassName('sr-external-page-loadable')[0];
         if (!content) {
             continue;
         }
 
-        if (consent === '0' || consented === '1') {
+        const event = new Event(content_id, {
+            bubbles: true,
+            cancelable: false
+        });
+
+        const applyConsent = function () {
             content.dispatchEvent(event);
             d.removeChild(d.getElementsByClassName('sr-external-page-content-info')[0]);
+        };
+
+        // if consent if not/no longer needed, we proceed directly
+        if (
+            must_consent === '0'
+            || consented_domain === '1'
+            || consented_id === '1'
+        ) {
+            applyConsent();
             continue;
+        } else {
+            // find button element inside the div
+            let button = d.getElementsByClassName('sr-external-page-content-loader')[0];
+            if (!button) {
+                continue;
+            }
+
+            button.addEventListener('click', function (e) {
+                content.dispatchEvent(event);
+
+                // document.cookie = content_id + "=true";
+                // use local storage to store the consent
+                localStorage.setItem(content_id, '1');
+                localStorage.setItem(domain, '1');
+
+                d.removeChild(button.parentElement);
+            });
         }
-
-        // find button element inside the div
-        let button = d.getElementsByClassName('sr-external-page-content-loader')[0];
-        if (!button) {
-            continue;
-        }
-
-        button.addEventListener('click', function (e) {
-            content.dispatchEvent(event);
-
-            // document.cookie = content_id + "=true";
-            // use local storage to store the consent
-            localStorage.setItem(content_id, '1');
-
-            d.removeChild(button.parentElement);
-        });
     }
 
 });

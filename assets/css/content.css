@@ -6,6 +6,13 @@
     /*border: 1px solid #7e7e7e;*/
     margin-bottom: 12px;
     overflow: scroll;
+
+    /*background-image: url('https://picture.mactechnews.de/GalleryMedium/Gallery-Testbild-von-jan_jan.391762.jpg');*/
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-origin: box;
+    background-position-x: center;
+    background-position-y: center;
 }
 
 
@@ -26,6 +33,7 @@
 .sr-external-page-content-loader {
     background-color: transparent;
     border: 2px solid #7e7e7e;
+    background-color: #e6e6e6;
     border-radius: 18px;
     height: 36px;
     height: 36px;

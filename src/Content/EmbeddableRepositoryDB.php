@@ -58,6 +58,7 @@ class EmbeddableRepositoryDB implements EmbeddableRepository
             "url" => ["text", $embeddable->getUrl()],
             "properties" => ["clob", $this->sleep($embeddable->getProperties())],
             "scripts" => ["clob", $this->sleep($embeddable->getScripts())],
+            "thumb_rid" => ["text", $embeddable->getThumbnailRid()],
         ]);
 
         return $embeddable->withId($next_id);
@@ -71,6 +72,7 @@ class EmbeddableRepositoryDB implements EmbeddableRepository
             "url" => ["text", $embeddable->getUrl()],
             "properties" => ["clob", $this->sleep($embeddable->getProperties())],
             "scripts" => ["clob", $this->sleep($embeddable->getScripts())],
+            "thumb_rid" => ["text", $embeddable->getThumbnailRid()],
         ], [
             "id" => ["text", $embeddable->getId()]
         ]);
@@ -106,7 +108,8 @@ class EmbeddableRepositoryDB implements EmbeddableRepository
             (int) $set["id"],
             $set["url"],
             $this->wakeProperties($set["properties"]),
-            $this->wakeProperties($set["scripts"])
+            $this->wakeProperties($set["scripts"]),
+            $set["thumb_rid"] ?? null
         );
     }
 
