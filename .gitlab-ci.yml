@@ -16,7 +16,3 @@ include:
       src_namespace: ilias-plugins-internal-srexternalpagecontent-release_8
     rules:
       - if: $CI_COMMIT_BRANCH != "release_8"
-
-build:
-  # Override trigger
-  when: manual
