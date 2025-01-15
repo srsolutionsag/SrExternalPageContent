@@ -8,8 +8,6 @@ include:
     inputs:
       ilias_image: "srsolutions/ilias:8"
       target_dir: Customizing/global/plugins/Services/COPage/PageComponent/SrExternalPageContent
-    rules:
-      - when: manual
 
   - component: $CI_SERVER_FQDN/Intern/gitlab-ci-components/review-ilias@master
 
