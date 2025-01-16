@@ -38,4 +38,9 @@ class SinglePageProvider implements PageProvider
         return 1;
     }
 
+    public function canHaveNext(): bool
+    {
+        return false;
+    }
+
 }

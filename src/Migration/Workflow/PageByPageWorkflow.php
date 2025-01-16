@@ -66,4 +66,9 @@ class PageByPageWorkflow implements MigrationWorkflow
         return $this->page;
     }
 
+    public function mayHaveNext(): bool
+    {
+        return $this->page_provider->canHaveNext();
+    }
+
 }
