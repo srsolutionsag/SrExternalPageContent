@@ -40,6 +40,7 @@ class Tool extends AbstractDynamicToolPluginProvider
         'crs',
         'root',
         'grp',
+        'cat',
         'fold'
     ];
 
