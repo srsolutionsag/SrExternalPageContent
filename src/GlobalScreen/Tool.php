@@ -37,7 +37,10 @@ class Tool extends AbstractDynamicToolPluginProvider
 
     private array $supported_types_single_migration = [
         'lm',
-        'root'
+        'crs',
+        'root',
+        'grp',
+        'fold'
     ];
 
     public function isInterestedInContexts(): ContextCollection
