@@ -38,4 +38,9 @@ class ObjectPagesProvider implements PageProvider
         return count($this->repository->getByObjId($this->object_id));
     }
 
+    public function canHaveNext(): bool
+    {
+        return true;
+    }
+
 }

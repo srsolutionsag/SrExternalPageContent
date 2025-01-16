@@ -20,4 +20,6 @@ interface PageProvider
     public function next(?int $after = null): ?Page;
 
     public function count(): int;
+
+    public function canHaveNext(): bool;
 }

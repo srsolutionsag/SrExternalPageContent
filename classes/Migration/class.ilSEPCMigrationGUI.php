@@ -129,7 +129,7 @@ class ilSEPCMigrationGUI extends BaseGUI
         );
 
         $workflow->start($current_page->getPageId());
-        if ($workflow->getLast() !== null) {
+        if ($workflow->mayHaveNext() && $workflow->getLast() !== null) {
             $this->ctrl->setParameter($this, self::P_LAST_WID, (string) $current_page->getPageId());
             $this->toolbar->addComponent(
                 $this->ui_factory->button()->standard(

@@ -36,4 +36,9 @@ class AllPagesProvider implements PageProvider
         return $this->repository->countPages();
     }
 
+    public function canHaveNext(): bool
+    {
+        return true;
+    }
+
 }

@@ -26,4 +26,5 @@ interface MigrationWorkflow
 
     public function getLast(): ?Page;
 
+    public function mayHaveNext(): bool;
 }
