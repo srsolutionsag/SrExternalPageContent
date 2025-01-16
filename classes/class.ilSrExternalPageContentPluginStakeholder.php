@@ -17,6 +17,10 @@ use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
  */
 class ilSrExternalPageContentPluginStakeholder extends AbstractResourceStakeholder
 {
+    public function __construct()
+    {
+    }
+
     public function getId(): string
     {
         return ilSrExternalPageContentPlugin::PLUGIN_NAME;
@@ -26,5 +30,6 @@ class ilSrExternalPageContentPluginStakeholder extends AbstractResourceStakehold
     {
         return 6;
     }
+
 
 }

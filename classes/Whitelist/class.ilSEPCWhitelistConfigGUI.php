@@ -112,7 +112,7 @@ class ilSEPCWhitelistConfigGUI extends BaseGUI
 
         $confirmation = $confirmation->withAffectedItems(
             array_map(
-                fn (WhitelistedDomain $domain): InterruptiveItem => $this->ui_factory->modal()->interruptiveItem(
+                fn (WhitelistedDomain $domain): InterruptiveItem\Standard => $this->ui_factory->modal()->interruptiveItem()->standard(
                     (string) $domain->getId(),
                     $domain->getDomain()
                 ),

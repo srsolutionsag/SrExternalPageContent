@@ -76,7 +76,8 @@ class ilSEPCMigrationGUI extends BaseGUI
             )
         );
 
-        $current_page = $workflow->run()->current();
+        $runner = $workflow->run();
+        $current_page = $runner->current();
         if ($current_page === null) {
             if ($this->fallback_uri) {
                 $this->tpl->setOnScreenMessage(
@@ -126,6 +127,17 @@ class ilSEPCMigrationGUI extends BaseGUI
         $this->tpl->setContent(
             $div
         );
+
+        $workflow->start($current_page->getPageId());
+        if ($workflow->getLast() !== null) {
+            $this->ctrl->setParameter($this, self::P_LAST_WID, (string) $current_page->getPageId());
+            $this->toolbar->addComponent(
+                $this->ui_factory->button()->standard(
+                    $this->translator->txt('next_page'),
+                    $this->ctrl->getLinkTarget($this, self::CMD_INDEX)
+                )
+            );
+        }
     }
 
     protected function perform(): void

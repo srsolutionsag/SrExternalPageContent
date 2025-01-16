@@ -10,17 +10,11 @@
 
 declare(strict_types=1);
 
-namespace srag\Plugins\SrExternalPageContent\Renderer;
-
-use srag\Plugins\SrExternalPageContent\Content\Embeddable;
+namespace srag\Plugins\SrExternalPageContent\Content;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class UnknownRenderer extends BaseRenderer implements Renderer
+class iFramePreview extends iFrame
 {
-    public function render(Embeddable $embeddable): string
-    {
-        return $this->wrap($embeddable, 'unable to render embeddable: ' . get_class($embeddable));
-    }
 }
