@@ -105,28 +105,33 @@ class ilSEPCMigrationGUI extends BaseGUI
                 $this->ctrl->getLinkTarget($this, self::CMD_PERFORM)
             )
         );
+        try {
+            $preview = new Preview($this->preview_settings);
+            $proxy = $preview->previewHTML($current_page, false);
 
-        $preview = new Preview($this->preview_settings);
-        $proxy = $preview->previewHTML($current_page, false);
+            $original = $this->ui_factory->panel()->secondary()->legacy(
+                $this->translator->txt('compare_original'),
+                $this->ui_factory->legacy($preview->previewHTML($current_page, true))
+            );
 
-        $original = $this->ui_factory->panel()->secondary()->legacy(
-            $this->translator->txt('compare_original'),
-            $this->ui_factory->legacy($preview->previewHTML($current_page, true))
-        );
+            $proxy = $this->ui_factory->panel()->secondary()->legacy(
+                $this->translator->txt('compare_proxy'),
+                $this->ui_factory->legacy($preview->previewHTML($current_page, false))
+            );
 
-        $proxy = $this->ui_factory->panel()->secondary()->legacy(
-            $this->translator->txt('compare_proxy'),
-            $this->ui_factory->legacy($preview->previewHTML($current_page, false))
-        );
+            $original = $this->ui_renderer->render($original);
+            $proxy = $this->ui_renderer->render($proxy);
 
-        $original = $this->ui_renderer->render($original);
-        $proxy = $this->ui_renderer->render($proxy);
+            $div = "<div class='sr_epc_compare'>$original</div><div class='sr_epc_compare'>$proxy</div>";
 
-        $div = "<div class='sr_epc_compare'>$original</div><div class='sr_epc_compare'>$proxy</div>";
-
-        $this->tpl->setContent(
-            $div
-        );
+            $this->tpl->setContent(
+                $div
+            );
+        } catch (Throwable $t) {
+            $this->tpl->setContent(
+                'The page cannot be displayed due to an internal error: ' . $t->getMessage()
+            );
+        }
 
         $workflow->start($current_page->getPageId());
         if ($workflow->mayHaveNext() && $workflow->getLast() !== null) {
