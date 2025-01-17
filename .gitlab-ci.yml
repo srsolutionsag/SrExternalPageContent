@@ -15,7 +15,7 @@ include:
 
   - component: $CI_SERVER_FQDN/Intern/gitlab-ci-components/sync-ilias@master
     inputs:
-      src_namespace: ilias-plugins-internal-srexternalpagecontent-release_8
+      src_namespace: srexternalpagecontent-release_8
       dest_namespace: srexternalpagecontent-${CI_COMMIT_REF_SLUG}
     rules:
       - if: $CI_COMMIT_BRANCH != "release_8"
