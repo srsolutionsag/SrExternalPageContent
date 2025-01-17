@@ -30,7 +30,7 @@ class ObjectPagesProvider implements PageProvider
     {
         $this->repository->setSkipped($after);
 
-        return $this->repository->getByObjId($this->object_id);
+        return $this->repository->getByObjId($this->object_id)[0] ?? null;
     }
 
     public function count(): int
