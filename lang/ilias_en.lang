@@ -23,6 +23,7 @@ iframe_section_title#:#Manual iFrame entry
 migrate#:#Migrate existing Contents (Beta)
 migrate_info#:#Hier werden alle Seiten des ILIAS-Seiteneditors aufgeführt, welche bisher iFrames direkt eingebettet haben. Diese Inhalte können migriert werden, um die neue iFrame-Verwaltung zu nutzen. Nachfolgend eine Vorschau der Inhalte, wie sie in der Datenbank nach der Migration aussehen könnten.
 migration_info_iframes#:#The current page contains %s iFrames and can be migrated.
+migration_info_iframes_object#:#If there are any iFrames in Pages of this Learning Module, you can migrate them.
 migration_none_found#:#No pages found that can be migrated.
 migration_start#:#Start Migration
 migration_success#:#Page migrated successfully

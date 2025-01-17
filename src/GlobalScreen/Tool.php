@@ -95,7 +95,7 @@ class Tool extends AbstractDynamicToolPluginProvider
 
         // if we are in a objects which supports the multi migration (but editor not active), we maybe show the muslti tool
         if (in_array($type, $this->supported_types_full_migration, true)) {
-            // return [$this->getMultiTool($sepcContainer)]; TODO: implement multi tool
+            return [$this->getMultiTool($sepcContainer, $object_id)];
         }
 
         return [];
@@ -152,18 +152,32 @@ class Tool extends AbstractDynamicToolPluginProvider
         );
     }
 
-    protected function getMultiTool(DIC $sepcContainer): \ILIAS\GlobalScreen\Scope\Tool\Factory\Tool
+    protected function getMultiTool(DIC $c, int $object_id): \ILIAS\GlobalScreen\Scope\Tool\Factory\Tool
     {
-        return $this->factory
-            ->tool(
-                $this->if->identifier('migration_tool_multi')
-            )
-            ->withTitle($sepcContainer->translator()->txt('migration_tool'))
-            ->withContentWrapper(
-                fn(): Legacy => $this->dic->ui()->factory()->legacy(
-                    'THE MULTI TOOL'
+        $this->prepareLinkBuilder(\ilSEPCMigrationGUI::MODE_MULTI, $object_id);
+
+        $contents = [
+            $this->dic->ui()->factory()->messageBox()->info(
+                $c->translator()->txt('migration_info_iframes_object')
+            ),
+            $this->dic->ui()->factory()->button()->bulky(
+                $this->dic->ui()->factory()->symbol()->icon()->standard('nu', 'nu', 'small')->withAbbreviation('>'),
+                $c->translator()->txt('migration_start'),
+                $this->dic->ctrl()->getLinkTargetByClass(
+                    [
+                        \ilUIPluginRouterGUI::class,
+                        \ilSrExternalPagePluginDispatcherGUI::class,
+                        \ilSEPCMigrationGUI::class
+                    ]
                 )
-            );
+            )
+        ];
+
+        return $this->buildTool(
+            $c,
+            $this->if->identifier('migration_tool_single'),
+            $contents
+        );
     }
 
     private function buildTool(
