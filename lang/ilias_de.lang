@@ -34,7 +34,8 @@ msg_validation_failed#:#Die Validierung des Snippets ist fehlgeschlagen. Bitte �
 next_page#:#Nächste Seite
 not_embeddable_info#:#Der externer Inhalt von %s kann nicht eingebettet werden. <br>Grund: %s
 not_embeddable_section_title#:#Der Inhalt kann nicht bearbeitet werden, da vermutlich die URL nciht freigegeben wurde.
-perform_migration#:#Seite migrieren
+perform_migration#:#Aktuelle Seite migrieren
+perform_migration_all#:#Alle Seiten direkt migrieren
 reason_not_found#:#Noch nicht angelegt (Vorschau) oder nicht gefunden.
 reason_not_whitelisted#:#Die Domain wurde von der ILIAS-Administration nicht für das Einbetten von Inhalten freigegeben.
 reason_unknown#:#Unbekannt, bitte kontaktieren Sie die ILIAS-Administration.

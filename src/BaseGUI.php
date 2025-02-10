@@ -34,6 +34,7 @@ abstract class BaseGUI
     public const CMD_DELETE = 'delete';
     public const CMD_CONFIRM_DELETE = 'confirmDelete';
     public const CMD_PERFORM = 'perform';
+    public const CMD_PERFORM_ALL = 'performAll';
     protected BasicAccessCheckClosures $access_checks;
     protected \ilTabsGUI $tabs;
     protected Renderer $ui_renderer;
@@ -105,6 +106,9 @@ abstract class BaseGUI
                 break;
             case self::CMD_PERFORM:
                 $this->perform();
+                break;
+            case self::CMD_PERFORM_ALL:
+                $this->performAll();
                 break;
             default:
                 break;

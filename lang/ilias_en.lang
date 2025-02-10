@@ -34,7 +34,8 @@ msg_validation_failed#:#The snippet validation failed. Please review the snippet
 next_page#:#Next Page
 not_embeddable_info#:#The external content of %s cannot be embedded. <br>Reason: %s
 not_embeddable_section_title#:#The content cannot be edited because the URL has probably not been whitelisted.
-perform_migration#:#Migrate page
+perform_migration#:#Migrate current page
+perform_migration_all#:#Migrate all Pages
 reason_not_found#:#Not yet created (preview) or not found.
 reason_not_whitelisted#:#The domain has not been whitelisted by the ILIAS administration for embedding content.
 reason_unknown#:#Unknown, please contact the ILIAS administration.
