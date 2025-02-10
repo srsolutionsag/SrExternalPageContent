@@ -38,11 +38,14 @@ class ilSEPCMigrationGUI extends BaseGUI
     public const P_ID = 'wid';
     public const P_LAST_WID = 'last_wid';
     private PreviewSettings $preview_settings;
+    private ?string $mode = null;
+    private PageRepository $page_repository;
 
     public function __construct(?string $fallback_uri = null)
     {
         parent::__construct($fallback_uri);
         $this->preview_settings = new PreviewSettings();
+        $this->page_repository = $this->dic[PageRepository::class];
     }
 
     public function checkAccess(): void
@@ -60,6 +63,12 @@ class ilSEPCMigrationGUI extends BaseGUI
 
     public function executeCommand(): void
     {
+        $this->mode = $this->http_wrapper->query()->has(self::P_MODE)
+            ? $this->http_wrapper->query()->retrieve(
+                self::P_MODE,
+                $this->dic->ilias()->refinery()->kindlyTo()->string()
+            )
+            : null;
         $this->performStandardCommands();
     }
 
@@ -105,6 +114,17 @@ class ilSEPCMigrationGUI extends BaseGUI
                 $this->ctrl->getLinkTarget($this, self::CMD_PERFORM)
             )
         );
+
+        if ($this->mode !== self::MODE_SINGLE) {
+            $this->toolbar->addComponent(
+                $this->ui_factory->button()->standard(
+                    $this->translator->txt('perform_migration_all'),
+                    $this->ctrl->getLinkTarget($this, self::CMD_PERFORM_ALL)
+                )
+            );
+        }
+
+
         try {
             $preview = new Preview($this->preview_settings);
             $proxy = $preview->previewHTML($current_page, false);
@@ -157,9 +177,7 @@ class ilSEPCMigrationGUI extends BaseGUI
         $current_page = $workflow->run()->current();
 
         if ($current_page !== null) {
-            /** @var PageRepository $page_repository */
-            $page_repository = $this->dic[PageRepository::class];
-            $page_repository->store($current_page);
+            $this->page_repository->store($current_page);
         }
 
         $this->ctrl->setParameter($this, self::P_LAST_WID, (string) $current_page->getPageId());
@@ -171,28 +189,43 @@ class ilSEPCMigrationGUI extends BaseGUI
         $this->ctrl->redirect($this, self::CMD_INDEX);
     }
 
+    protected function performAll(): void
+    {
+        $workflow = $this->buildWorkflow(
+            new WorkflowSettings(
+                false,
+                $this->preview_settings
+            )
+        );
+
+        while (($page = $workflow->run()->current()) !== null) {
+            $this->page_repository->store($page);
+            $workflow->start($page->getPageId());
+        }
+
+        $this->tpl->setOnScreenMessage(
+            'success',
+            $this->translator->txt('migration_success'),
+            true
+        );
+        $this->ctrl->redirect($this, self::CMD_INDEX);
+    }
+
     protected function determinePageProvider(): PageProvider
     {
-        $page_repository = $this->dic[PageRepository::class];
-        $mode = $this->http_wrapper->query()->has(self::P_MODE)
-            ? $this->http_wrapper->query()->retrieve(
-                self::P_MODE,
-                $this->dic->ilias()->refinery()->kindlyTo()->string()
-            )
-            : null;
         $wid = $this->http_wrapper->query()->has(self::P_ID)
             ? $this->http_wrapper->query()->retrieve(self::P_ID, $this->dic->ilias()->refinery()->kindlyTo()->int())
             : null;
 
-        switch ($mode) {
+        switch ($this->mode) {
             case self::MODE_SINGLE:
-                $page_provider = new SinglePageProvider($page_repository, $wid);
+                $page_provider = new SinglePageProvider($this->page_repository, $wid);
                 break;
             case self::MODE_MULTI:
-                $page_provider = new ObjectPagesProvider($page_repository, $wid);
+                $page_provider = new ObjectPagesProvider($this->page_repository, $wid);
                 break;
             default:
-                $page_provider = new AllPagesProvider($page_repository);
+                $page_provider = new AllPagesProvider($this->page_repository);
                 break;
         }
 
