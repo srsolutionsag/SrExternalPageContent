@@ -74,7 +74,7 @@ class ilSrExternalPageContentAgent extends ilPluginDefaultAgent
      *
      * @return Objective[]
      */
-    protected function getObjectives(ObjectiveCollection $precondition): array
+    public function getObjectives(ObjectiveCollection $precondition): array
     {
         return [
             // db update steps
@@ -84,6 +84,8 @@ class ilSrExternalPageContentAgent extends ilPluginDefaultAgent
             ),
         ];
     }
+
+
 
     public function getMigrations(): array
     {

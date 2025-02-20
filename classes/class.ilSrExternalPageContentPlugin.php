@@ -14,14 +14,23 @@ use srag\Plugins\SrExternalPageContent\Init;
 use srag\Plugins\SrExternalPageContent\DIC;
 use srag\Plugins\SrExternalPageContent\GlobalScreen\Menu;
 use srag\Plugins\SrExternalPageContent\GlobalScreen\Tool;
+use ILIAS\Setup\ArrayEnvironment;
+use ILIAS\Setup\Agent;
+use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\CLI\ObjectiveHelper;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class ilSrExternalPageContentPlugin extends ilPageComponentPlugin
 {
+    use ObjectiveHelper;
+
     public const PLUGIN_NAME = "SrExternalPageContent";
     private DIC $dic;
+    private array $_run = [];
 
     public function __construct(ilDBInterface $db, ilComponentRepositoryWrite $component_repository, string $id)
     {
@@ -57,12 +66,48 @@ class ilSrExternalPageContentPlugin extends ilPageComponentPlugin
         return $sepcContainer->translator()->txt($a_var);
     }
 
+    private function achieve(Objective $c): void
+    {
+        static $inside_run; // we prevent recursion here
+        if ($inside_run === true) {
+            return;
+        }
+        $inside_run = true;
+        $environment = new ArrayEnvironment([]);
+        $this->achieveObjective($c, $environment);
+    }
+
+    protected function afterUpdate(): void
+    {
+        // Installing / Updating the plugin using the CLI works as expected. But while installing via GUI, we must
+        // perform the custom objectives update steps manually.
+        if (PHP_SAPI === 'cli') {
+            return;
+        }
+
+        $agent = new ilSrExternalPageContentAgent(
+            $this->dic->ilias()->refinery(),
+            new \ILIAS\Data\Factory(),
+            $this->dic->ilias()->language()
+        );
+
+        $this->achieve($agent->getUpdateObjective());
+    }
+
     protected function afterUninstall(): void
     {
         global $sepcContainer;
         /** @var DIC $sepcContainer */
-        $sepcContainer->ilias()->database()->dropTable("sr_epc_whitelist", false);
-        $sepcContainer->ilias()->database()->dropTable("sr_epc_content", false);
+        $db = $sepcContainer->ilias()->database();
+        $db->dropTable("sr_epc_whitelist", false);
+        $db->dropTable("sr_epc_content", false);
+        $db->dropTable("sr_epc_settings", false);
+
+        $db->manipulateF(
+            "DELETE FROM il_db_steps WHERE class = %s",
+            ["text"],
+            [ilSrExternalPageContentDBUpdateSteps::class]
+        );
     }
 
 }
