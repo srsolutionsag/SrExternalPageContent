@@ -38,13 +38,15 @@ class ilSrExternalPagePluginDispatcherGUI extends BaseGUI
 
     public function checkAccess(): void
     {
-        if (!$this->access_checks->isUserLoggedIn()) {
+        if (!$this->access_checks->isUserLoggedIn()()) {
             throw new ilException('Access Denied');
         }
     }
 
     public function executeCommand(): void
     {
+        $this->checkAccess();
+
         // Store Fallback URI if available
         if ($this->dic->ilias()->http()->wrapper()->query()->has(self::FALLBACK)) {
             $this->fallback_uri = $this->unhash(
