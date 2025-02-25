@@ -51,7 +51,14 @@ class IFrameSection extends Base implements FormElement
             ->withRequired(true)
             ->withAdditionalTransformation(
                 $this->refinery->constraint(
-                    fn($d): bool => $this->whitelist_check->isAllowed($d),
+                    function ($d): bool {
+                        $silent_creation = $this->dependencies->settings()->get('silent_creation', false);
+                        if ($silent_creation) {
+                            return $this->whitelist_check->createSilently($d);
+                        }
+
+                        return $this->whitelist_check->isAllowed($d);
+                    },
                     $this->translator->txt('embed_content_invalid_url')
                 )
             )
