@@ -66,13 +66,14 @@ class Check
         }
 
         // possible matches
-        $extracted_domain = $this->parser->extractDomain($extracted_host);
+        $extracted_domain = strtolower($this->parser->extractDomain($extracted_host));
         $matches = $this->repository->getPossibleMatches($extracted_domain);
 
         foreach ($matches as $match) {
             $whitelisted_domain = $match->getDomain(); // may contain wildcards *, which we need to replace for regex
             $whitelisted_domain = str_replace('*', '.*', $whitelisted_domain);
-            $whitelisted_domain = '/^' . $whitelisted_domain . '$/';
+            $whitelisted_domain = strtolower($whitelisted_domain);
+            $whitelisted_domain = '/^' . $whitelisted_domain . '$/i';
             if (preg_match($whitelisted_domain, $extracted_host)) {
                 return $this->cache[$extracted_host] = true;
             }
