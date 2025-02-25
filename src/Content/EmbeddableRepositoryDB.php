@@ -42,7 +42,7 @@ class EmbeddableRepositoryDB implements EmbeddableRepository
             throw new \InvalidArgumentException("NotEmbeddable cannot be stored");
         }
 
-        if ($embeddable->getId() > 0 && $this->has($embeddable->getId())) {
+        if ($embeddable->getId() !== '' && $this->has($embeddable->getId())) {
             return $this->update($embeddable);
         }
         return $this->insert($embeddable);
