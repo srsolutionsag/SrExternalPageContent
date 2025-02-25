@@ -81,6 +81,7 @@ abstract class BaseGUI
 
     protected function performStandardCommands(): void
     {
+        $this->checkAccess();
         $cmd = $this->ctrl->getCmd(self::CMD_INDEX);
         switch ($cmd) {
             case self::CMD_INDEX:

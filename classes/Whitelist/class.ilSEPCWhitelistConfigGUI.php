@@ -36,7 +36,7 @@ class ilSEPCWhitelistConfigGUI extends BaseGUI
 
     public function checkAccess(): void
     {
-        if (!$this->access_checks->hasAdministrationAccess()) {
+        if (!$this->access_checks->hasAdministrationAccess()()) {
             throw new ilException('Access Denied');
         }
     }
