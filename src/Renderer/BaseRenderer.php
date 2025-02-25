@@ -59,6 +59,7 @@ abstract class BaseRenderer
         $wrapper->setVariable('MUST_CONSENT', '1');
         $wrapper->setVariable('LAST_RESET', $this->settings->get('reset_consent', 0));
         $wrapper->setVariable('DOMAIN', $uri->getHost());
+        $wrapper->setVariable('BORDER_WIDTH', (int) ($embeddable->getProperties()['frameborder'] ?? 0));
         $wrapper->setVariable(
             'CONSENTED',
             $whitelisted_domain === null ? '0' : ($whitelisted_domain->isAutoConsent() ? '1' : '0')

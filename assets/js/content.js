@@ -17,15 +17,13 @@ document.addEventListener('DOMContentLoaded', function () {
             let iframe = document.createElement('iframe');
             iframe.src = url;
             iframe.title = title;
-            iframe.frameborder = frameborder;
+            iframe.scrolling = 'no';
             iframe.allowfullscreen = allowfullscreen;
 
             // always fill the iframe size to the parent div
             iframe.style.width = '100%';
             iframe.style.height = '100%';
-            if (iframe.frameborder === '0') {
-                iframe.style.border = 'none';
-            }
+            iframe.style.border = 'none'; // we put a boarder on the parent div using css
 
             d.appendChild(iframe);
             // show the element
