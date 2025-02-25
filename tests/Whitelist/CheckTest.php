@@ -49,6 +49,20 @@ class CheckTest extends TestCase
         );
     }
 
+    public function testMatchCaseInsensitive(): void
+    {
+        $this->repository->expects($this->once())
+                         ->method('getPossibleMatches')
+                         ->with('youtube.com')
+                         ->willReturn([
+                             new WhitelistedDomain(1, '*.Youtube.COM', Status::STATUS_ACTIVE, false, 'YouTube', 'YouTube'),
+                         ]);
+
+        $this->assertTrue(
+            $this->check->isAllowed('https://www.YouTube.com/embed/ZXiM9dqcOHI?si=o2TmeJm925khPpZ2')
+        );
+    }
+
     public function testNoMatch(): void
     {
         $this->repository->expects($this->once())
