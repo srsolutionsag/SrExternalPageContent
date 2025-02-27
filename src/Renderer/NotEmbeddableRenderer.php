@@ -38,9 +38,7 @@ class NotEmbeddableRenderer extends BaseRenderer implements Renderer
             $reason = $this->translator->txt('reason_' . $embeddable->getReason());
         }
         $wrapper->setVariable('INFO', sprintf($this->translator->txt('not_embeddable_info'), $host, $reason));
-        $wrapper->setVariable('WIDTH', $embeddable->getWidth());
-        $wrapper->setVariable('HEIGHT', $embeddable->getHeight());
-        $wrapper->setVariable('RESPONSIVE', $embeddable->isResponsive());
+        $wrapper->setVariable('DIMENSIONS', $this->dimensions->forJS($embeddable->getDimension()));
         $wrapper->setVariable('CONTENT_ID', 'srepc_' . $embeddable->getId());
 
         return $wrapper->get();

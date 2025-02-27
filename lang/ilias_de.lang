@@ -1,11 +1,19 @@
 allow#:#Funktionen erlauben
 allow_info#:#Erlaube die folgenden Funktionen des iFrames.
+aspect_ratio#:#Festes Seitenverhältnis
+aspect_ratio_dimensions#:#Seitenverhältnis
+aspect_ratio_dimensions_info#:#Das iFrame wird mit einem festen Seitenverhältnis angezeigt.
+aspect_ratio_info#:#Wählen Sie das Seitenverhältnis des iFrames.
+aspect_ratio_width#:#Maximale Breite
+aspect_ratio_width_info#:#Optional: Maximale Breite des iFrames in Pixeln.
 before_load_button#:#Inhalt anzeigen
 before_load_info#:#Externe Inhalte von %s werden geladen. Bitte bestätigen Sie, dass Sie den Inhalt sehen möchten.
 cmd_insert#:#Externen Inhalt einfügen
 compare_original#:#Original
 compare_proxy#:#Vorschau
 delete#:#Löschen
+dimensions#:#Anzeigegrösse
+dimensions_info#:#Einstellungen zur Anzeigegrösse des iFrames.
 edit_content_info#:#Externer Inhalt von %s
 embed_content#:#Snippet einfügen
 embed_content_info#:#Fügen Sie das einzubettende Snippet hier ein. Es wird verarbeitet und auf Sicherheit geprüft. Wenn das Snippet zulässig ist, wird es als iFrame gespeichert.
@@ -14,6 +22,12 @@ embed_content_invalid_content#:#Der eingegebene Inhalt ist ungültig. Es wurde k
 embed_content_invalid_url#:#Die eingegebene URL ist ungültig oder wurde nicht für diese ILIAS-Installation freigegeben. Bitte wenden Sie sich an die Plattform-Administration.
 embed_section_title#:#Snippet automatisch einbetten
 external_contents#:#Externe Inhalte
+fixed_dimensions#:#Feste Grösse
+fixed_dimensions_info#:#Das iFrame wird mit einer Festen Höhe und Breite angezeigt.
+fixed_height#:#Feste Höhe
+fixed_height_info#:#Höhe des iFrames in Pixel. Die Breite ist immer 100% des zur Verfügung stehendes Platzes.
+fixed_width#:#Breite
+fixed_width_info#:#Breite des iFrames in Pixel.
 form_title#:#Neues iFrame hinzufügen
 frameborder#:#Rahmen
 frameborder_info#:#Dicke des Rahmens um das iFrame in Pixeln

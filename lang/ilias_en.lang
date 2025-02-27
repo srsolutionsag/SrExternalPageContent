@@ -1,11 +1,19 @@
 allow#:#Allow functions
 allow_info#:#Allow the following iFrame functions.
+aspect_ratio#:#Aspect ratio
+aspect_ratio_dimensions#:#Aspect ratio
+aspect_ratio_dimensions_info#:#The iFrame is displayed with a fixed aspect ratio.
+aspect_ratio_info#:#Select the aspect ratio of the iFrame.
+aspect_ratio_width#:#Maximum width
+aspect_ratio_width_info#:#Optional: Maximum width of the iFrame in pixels.
 before_load_button#:#Display content
 before_load_info#:#External content from %s is loading. Please confirm that you want to see the content.
 cmd_insert#:#Insert external content
 compare_original#:#Original
 compare_proxy#:#Preview
 delete#:#Delete
+dimensions#:#Display size
+dimensions_info#:#Settings for the display size of the iFrame.
 edit_content_info#:#External content from %s
 embed_content#:#Insert snippet
 embed_content_info#:#Insert the snippet to embed here, it will be processed and checked for security. If the snippet is valid, it will be saved as an iFrame.
@@ -14,6 +22,12 @@ embed_content_invalid_content#:#The content entered is invalid, no content found
 embed_content_invalid_url#:#The URL entered is invalid or has not been whitelisted for this ILIAS installation. Please contact the platform administration.
 embed_section_title#:#Embed snippet automatically
 external_contents#:#External content
+fixed_dimensions#:#Fixed size
+fixed_dimensions_info#:#The iFrame is displayed with a fixed height and width.
+fixed_height#:#Fixed Height
+fixed_height_info#:#Height of the iFrame in pixels.
+fixed_width#:#fixed_width
+fixed_width_info#:#Width of the iFrame in pixels.
 form_title#:#Add new iFrame
 frameborder#:#Frame border
 frameborder_info#:#Thickness of the frame around the iFrame in pixels

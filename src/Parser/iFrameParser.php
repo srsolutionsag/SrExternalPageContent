@@ -19,6 +19,7 @@ use srag\Plugins\SrExternalPageContent\Helper\Sanitizer;
 use srag\Plugins\SrExternalPageContent\Content\NotEmbeddableReasons;
 use srag\Plugins\SrExternalPageContent\Content\UniqueIdGenerator;
 use ILIAS\Data\URI;
+use srag\Plugins\SrExternalPageContent\Content\Dimension\DimensionBuilder;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -26,14 +27,14 @@ use ILIAS\Data\URI;
 class iFrameParser implements Parser
 {
     private Sanitizer $sanitizer;
-    private int $default_width = iFrame::DEFAULT_WIDTH;
-    private int $default_height = iFrame::DEFAULT_HEIGHT;
     private UniqueIdGenerator $id_generator;
+    private DimensionBuilder $dimensions;
 
     public function __construct()
     {
         $this->sanitizer = new Sanitizer();
         $this->id_generator = new UniqueIdGenerator();
+        $this->dimensions = new DimensionBuilder();
     }
 
     public function parse(string $snippet): Embeddable
@@ -58,8 +59,11 @@ class iFrameParser implements Parser
         $url = $this->sanitizer->sanitizeURL($iframe->getAttribute('src'));
 
         // prepend https if not present
-        if (strpos($url, 'http') !== 0) {
-            $url = 'https://' . ltrim($url, '/');
+        // get first 4 caharacters of the URL
+        $url_start = substr($url, 0, 4);
+        // if the URL does not start with http, add it
+        if ($url_start !== 'http') {
+            $url = 'https://' . $url;
         }
 
         // test URL
@@ -79,45 +83,16 @@ class iFrameParser implements Parser
         if (in_array('fullscreen', $allow, true)) {
             $allowfullscreen = true;
         }
-        $style = $iframe->getAttribute('style');
 
-        $width = $iframe->getAttribute('width');
-        if (empty($width) && preg_match('/width:[ ]?(?<value>([\d]+)(px|%))/m', $style, $width_matches)) {
-            $width = $width_matches['value'] ?? '';
-        }
-
-        $height = $iframe->getAttribute('height');
-        if (empty($height) && preg_match('/height:[ ]?(?<value>([\d]+)(px|%))/m', $style, $height_matches)) {
-            $height = $height_matches['value'] ?? '';
-        }
-
-        // determine unit of width and height
-        if (strpos($width, 'px') !== false) {
-            $width = str_replace('px', '', $width);
-        } elseif (strpos($width, '%') !== false) {
-            $width = $this->default_width;
-        } else {
-            $width = (int) $width;
-        }
-
-        // determine unit of width and height
-        if (strpos($height, 'px') !== false) {
-            $height = str_replace('px', '', $height);
-        } elseif (strpos($height, '%') !== false) {
-            $height = $this->default_height;
-        } else {
-            $height = (int) $height;
-        }
+        // Determine Dimensions
+        $dimension = $this->dimensions->buildFromXML($iframe);
 
         $properties = [
             'title' => $title,
-            'height' => $height,
-            'width' => $width,
             'frameborder' => $frameborder,
             'allow' => $allow,
             'referrerpolicy' => $referrerpolicy,
             'allowfullscreen' => $allowfullscreen,
-            'responsive' => true,
         ];
 
         // scripts parsen
@@ -131,6 +106,7 @@ class iFrameParser implements Parser
         return new iFrame(
             $this->id_generator->generate(),
             $url,
+            $dimension,
             $properties,
             $scripts
         );

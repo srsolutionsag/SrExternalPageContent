@@ -76,4 +76,9 @@ class EmbeddableRepositoryWapper implements EmbeddableRepository
         );
     }
 
+    public function all(): \Generator
+    {
+        return $this->repository->all();
+    }
+
 }

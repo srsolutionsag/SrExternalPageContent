@@ -16,6 +16,10 @@ use srag\Plugins\SrExternalPageContent\Content\iFrame;
 
 class ContentCreation extends Base implements FormElement
 {
+    private const EMBED = 'embed';
+    private const IFRAME = 'iframe';
+    private const DEFAULT = self::IFRAME;
+
     protected function getSectionTitle(): string
     {
         return $this->translator->txt('form_title');
@@ -26,19 +30,19 @@ class ContentCreation extends Base implements FormElement
         $embed = new EmbedSection($this->dependencies);
         $iframe = new IFrameSection(
             $this->dependencies,
-            new iFrame('', '')
+            new iFrame('', '', $this->dependencies->dimensions()->default())
         );
         $ff = $this->ui_factory->input();
         return [
             $ff->field()
                ->switchableGroup(
                    [
-                       'embed' => $embed->getGroup(),
-                       'iframe' => $iframe->getGroup()
+                       self::EMBED => $embed->getGroup(),
+                       self::IFRAME => $iframe->getGroup()
                    ],
                    $this->getSectionTitle()
                )
-               ->withValue('embed')
+               ->withValue(self::DEFAULT)
                ->withAdditionalTransformation(
                    $this->reduceToFirstEmbeddable()
                )

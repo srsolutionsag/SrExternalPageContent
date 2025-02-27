@@ -14,7 +14,8 @@ namespace srag\Plugins\SrExternalPageContent\Tests\Parser;
 
 use PHPUnit\Framework\TestCase;
 use srag\Plugins\SrExternalPageContent\Parser\iFrameParser;
-use srag\Plugins\SrExternalPageContent\Content\iFrame;
+use srag\Plugins\SrExternalPageContent\Content\Dimension\DimensionMode;
+use srag\Plugins\SrExternalPageContent\Content\Dimension\DimensionBuilder;
 
 class ParserTest extends TestCase
 {
@@ -39,7 +40,8 @@ class ParserTest extends TestCase
                     'referrerpolicy' => 'strict-origin-when-cross-origin',
                     'allowfullscreen' => true,
                     'height' => '315',
-                    'width' => '560'
+                    'width' => '560',
+                    'mode' => DimensionMode::ASPECT_RATIO
                 ]
             ],
             [
@@ -52,7 +54,8 @@ class ParserTest extends TestCase
                     'referrerpolicy' => '',
                     'allowfullscreen' => true,
                     'height' => '851',
-                    'width' => '886'
+                    'width' => '886',
+                    'mode' => DimensionMode::ASPECT_RATIO
                 ]
             ],
             [
@@ -65,7 +68,8 @@ class ParserTest extends TestCase
                     'referrerpolicy' => '',
                     'allowfullscreen' => true,
                     'height' => '360',
-                    'width' => '640'
+                    'width' => '640',
+                    'mode' => DimensionMode::ASPECT_RATIO
                 ]
             ],
             [
@@ -78,15 +82,10 @@ class ParserTest extends TestCase
                     'referrerpolicy' => '',
                     'allowfullscreen' => true,
                     'height' => '675',
-                    'width' => '1200'
+                    'width' => '1200',
+                    'mode' => DimensionMode::ASPECT_RATIO
                 ]
             ],
-            //            [
-            //                'content'=> '<iframe id="odysee-iframe" style="width:100%; aspect-ratio:16 / 9;" src="https://odysee.com/$/embed/@theswisshiker:6/gemütliche-wanderung-in-zürich-mit:8?r=F1nzvjpeB6mpCmTwd1QTaf2bPyumSMPQ" allowfullscreen></iframe>',
-            //                'data' => [
-            //                    'url' => 'https://odysee.com/$/embed/@theswisshiker:6/gemütliche-wanderung-in-zürich-mit:8?r=F1nzvjpeB6mpCmTwd1QTaf2bPyumSMPQ',
-            //                ]
-            //            ],
             [
                 'content' => '<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;"> <iframe style="width:100%;height:100%;position:absolute;left:0px;top:0px;overflow:hidden" frameborder="0" type="text/html" src="https://www.dailymotion.com/embed/video/x7bnbnb?autoplay=1" width="100%" height="100%" allowfullscreen title="Dailymotion Video Player" allow="autoplay; web-share"> </iframe> </div>',
                 'data' => [
@@ -95,8 +94,9 @@ class ParserTest extends TestCase
                     'frameborder' => '0',
                     'allow' => ['autoplay', 'web-share'],
                     'allowfullscreen' => true,
-                    'height' => iFrame::DEFAULT_HEIGHT, // default
-                    'width' => iFrame::DEFAULT_WIDTH // default
+                    'height' => DimensionBuilder::DEFAULT_HEIGHT, // default
+                    'width' => DimensionBuilder::DEFAULT_WIDTH, // default,
+                    'mode' => DimensionMode::FIXED
                 ]
             ],
             [
@@ -109,7 +109,8 @@ class ParserTest extends TestCase
                     'allow' => ['camera', 'microphone', 'geolocation'],
                     'allowfullscreen' => false,
                     'height' => 608,
-                    'width' => iFrame::DEFAULT_WIDTH
+                    'width' => 100,
+                    'mode' => DimensionMode::FIXED_HEIGHT
                 ]
             ],
         ];
@@ -128,8 +129,9 @@ class ParserTest extends TestCase
         $this->assertEquals($data['allow'] ?? [], $embeddable->getAllow());
         $this->assertEquals($data['referrerpolicy'] ?? '', $embeddable->getReferrerpolicy());
         $this->assertEquals($data['allowfullscreen'] ?? false, $embeddable->isAllowfullscreen());
-        $this->assertEquals($data['height'], $embeddable->getHeight());
-        $this->assertEquals($data['width'], $embeddable->getWidth());
+        $this->assertEquals($data['height'], $embeddable->getDimension()->getMaxHeight());
+        $this->assertEquals($data['width'], $embeddable->getDimension()->getMaxWidth());
+        $this->assertEquals($data['mode'], $embeddable->getDimension()->getMode());
     }
 
     public function testParseScripts(): void

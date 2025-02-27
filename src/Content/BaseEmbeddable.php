@@ -12,11 +12,14 @@ declare(strict_types=1);
 
 namespace srag\Plugins\SrExternalPageContent\Content;
 
+use srag\Plugins\SrExternalPageContent\Content\Dimension\Dimension;
+
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 abstract class BaseEmbeddable implements Embeddable
 {
+    protected Dimension $dimension;
     protected array $scripts = [];
     protected string $id;
     protected string $url;
@@ -26,11 +29,13 @@ abstract class BaseEmbeddable implements Embeddable
     public function __construct(
         string $id,
         string $url,
+        Dimension $dimension,
         array $properties = [],
         array $scripts = [],
         ?string $thumbnail_rid = null
     ) {
         $this->scripts = $scripts;
+        $this->dimension = $dimension;
         $this->id = $id;
         $this->properties = $properties;
         $this->url = $url;
@@ -47,6 +52,9 @@ abstract class BaseEmbeddable implements Embeddable
         return $this->id;
     }
 
+    /**
+     * @return Embeddable
+     */
     public function withId(string $id): Embeddable
     {
         $clone = clone $this;
@@ -64,19 +72,28 @@ abstract class BaseEmbeddable implements Embeddable
         return $this->scripts;
     }
 
-    public function setScripts(array $scripts): BaseEmbeddable
+    /**
+     * @return Embeddable
+     */
+    public function setScripts(array $scripts): Embeddable
     {
         $this->scripts = $scripts;
         return $this;
     }
 
-    public function setUrl(string $url): BaseEmbeddable
+    /**
+     * @return static
+     */
+    public function setUrl(string $url): Embeddable
     {
         $this->url = $url;
         return $this;
     }
 
-    public function setProperties(array $properties): BaseEmbeddable
+    /**
+     * @return static
+     */
+    public function setProperties(array $properties): Embeddable
     {
         $this->properties = $properties;
         return $this;
@@ -87,9 +104,27 @@ abstract class BaseEmbeddable implements Embeddable
         return $this->thumbnail_rid;
     }
 
-    public function setThumbnailRid(?string $thumbnail_rid): BaseEmbeddable
+    /**
+     * @return static
+     */
+    public function setThumbnailRid(?string $thumbnail_rid): Embeddable
     {
         $this->thumbnail_rid = $thumbnail_rid;
         return $this;
     }
+
+    public function getDimension(): Dimension
+    {
+        return $this->dimension;
+    }
+
+    /**
+     * @return static
+     */
+    public function setDimension(Dimension $dimension): Embeddable
+    {
+        $this->dimension = $dimension;
+        return $this;
+    }
+
 }

@@ -31,5 +31,4 @@ class ilSrExternalPageContentPluginStakeholder extends AbstractResourceStakehold
         return 6;
     }
 
-
 }

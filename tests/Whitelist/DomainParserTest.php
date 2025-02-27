@@ -12,8 +12,6 @@ declare(strict_types=1);
 
 namespace srag\Plugins\SrExternalPageContent\Tests\Whitelist;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-
 use PHPUnit\Framework\TestCase;
 use srag\Plugins\SrExternalPageContent\Whitelist\DomainParser;
 

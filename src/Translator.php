@@ -17,9 +17,10 @@ namespace srag\Plugins\SrExternalPageContent;
  */
 class Translator
 {
-    private const DEFAULT_LANGUAGE_FILE = "ilias_en.lang";
+    private const DEFAULT_LANGUAGE_FILE = "ilias_de.lang";
     private \ilPluginLanguage $language_handler;
     private bool $auto_language_update = false;
+    private bool $sort = false;
 
     public function __construct(\ilPluginLanguage $language_handler)
     {
@@ -29,8 +30,10 @@ class Translator
             $en_lang = __DIR__ . "/../lang/" . self::DEFAULT_LANGUAGE_FILE;
             $current_content = file_get_contents($en_lang);
             $lines = explode("\n", $current_content);
-            sort($lines);
-            $lines = array_filter($lines, fn ($line): bool => trim($line) !== '' && trim($line) !== '0');
+            if ($this->sort) {
+                sort($lines);
+            }
+            $lines = array_filter($lines, fn($line): bool => trim($line) !== '' && trim($line) !== '0');
             file_put_contents($en_lang, implode("\n", $lines) . "\n");
 
             $language_handler->updateLanguages();
@@ -46,7 +49,11 @@ class Translator
             $current_content = file_get_contents($en_lang);
 
             if (!preg_match('#^' . $language_variable . '\#:\#.*#m', $current_content)) {
-                file_put_contents($en_lang, $language_variable . "#:#" . $language_variable . "\n", FILE_APPEND);
+                file_put_contents(
+                    $en_lang,
+                    $language_variable . "#:#" . $language_variable . " # TODO translate\n",
+                    FILE_APPEND
+                );
             }
         }
 

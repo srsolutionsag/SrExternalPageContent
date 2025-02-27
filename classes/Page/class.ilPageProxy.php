@@ -61,7 +61,7 @@ class ilPageProxy extends \ilPageObject
         return $this->_parent_type ?? 'copa';
     }
 
-    public function getWikiId()
+    public function getWikiId(): int
     {
         return 0;
     }
