@@ -46,15 +46,15 @@ class RendererFactory
             return new iFrameRenderer($this->translator, $this->check, $this->settings);
         }
 
-        if (!$presentation_mode) {
-            return new EditPlaceholderRenderer($this->translator, $this->check, $this->settings);
-        }
-
         // check the URL of the embeddable object against whitelist
         if ($embeddable instanceof NotEmbeddable || $this->check->isAllowed($embeddable->getUrl()) === false) {
             return new NotEmbeddableRenderer($this->translator, $this->check, $this->settings);
         }
 
+        if (!$presentation_mode) {
+            return new EditPlaceholderRenderer($this->translator, $this->check, $this->settings);
+        }
+        
         if ($embeddable instanceof iFrame) {
             return new iFrameRenderer($this->translator, $this->check, $this->settings);
         }
