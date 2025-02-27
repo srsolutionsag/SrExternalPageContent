@@ -28,6 +28,7 @@ use srag\Plugins\SrExternalPageContent\Settings\SettingsRepositoryDB;
 use srag\Plugins\SrExternalPageContent\Settings\Settings;
 use srag\Plugins\SrExternalPageContent\Content\URLTranslator;
 use srag\Plugins\SrExternalPageContent\Migration\Page\PageRepository;
+use srag\Plugins\SrExternalPageContent\Content\Dimension\DimensionBuilder;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -68,10 +69,12 @@ class Init
             $container[Check::class],
             $container[URLTranslator::class]
         );
+        $container[DimensionBuilder::class] = static fn(): DimensionBuilder => new DimensionBuilder();
         $container[RendererFactory::class] = static fn(): RendererFactory => new RendererFactory(
             $container[Check::class],
             $container[Translator::class],
-            $container[Settings::class]
+            $container[Settings::class],
+            $container[DimensionBuilder::class]
         );
         $container[SettingsRepository::class] = static fn(): SettingsRepository => new SettingsRepositoryDB(
             $DIC->database()

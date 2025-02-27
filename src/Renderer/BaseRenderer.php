@@ -18,12 +18,14 @@ use srag\Plugins\SrExternalPageContent\Content\Embeddable;
 use ILIAS\Data\URI;
 use srag\Plugins\SrExternalPageContent\Whitelist\Check;
 use srag\Plugins\SrExternalPageContent\Settings\Settings;
+use srag\Plugins\SrExternalPageContent\Content\Dimension\DimensionBuilder;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 abstract class BaseRenderer
 {
+    protected DimensionBuilder $dimensions;
     protected Settings $settings;
     protected Check $check;
     protected Services $irss;
@@ -32,13 +34,15 @@ abstract class BaseRenderer
     public function __construct(
         Translator $translator,
         Check $check,
-        Settings $settings
+        Settings $settings,
+        DimensionBuilder $dimensions
     ) {
         global $DIC;
         $this->check = $check;
         $this->settings = $settings;
         $this->translator = $translator;
         $this->irss = $DIC->resourceStorage();
+        $this->dimensions = $dimensions;
     }
 
     protected function wrap(Embeddable $embeddable, string $content): string
@@ -53,9 +57,7 @@ abstract class BaseRenderer
         $wrapper->setVariable('INFO', sprintf($this->translator->txt('before_load_info'), $uri->getHost()));
         $wrapper->setVariable('BUTTON_TEXT', $this->translator->txt('before_load_button'));
         $wrapper->setVariable('CONTENT', $content);
-        $wrapper->setVariable('WIDTH', $embeddable->getWidth());
-        $wrapper->setVariable('HEIGHT', $embeddable->getHeight());
-        $wrapper->setVariable('RESPONSIVE', $embeddable->isResponsive());
+        $wrapper->setVariable('DIMENSIONS', $this->dimensions->forJS($embeddable->getDimension()));
         $wrapper->setVariable('MUST_CONSENT', '1');
         $wrapper->setVariable('LAST_RESET', $this->settings->get('reset_consent', 0));
         $wrapper->setVariable('DOMAIN', $uri->getHost());

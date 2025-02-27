@@ -12,13 +12,15 @@ declare(strict_types=1);
 
 namespace srag\Plugins\SrExternalPageContent\Content;
 
+use srag\Plugins\SrExternalPageContent\Content\Dimension\Dimension;
+
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class iFrame extends BaseEmbeddable implements Embeddable
 {
-    public const DEFAULT_WIDTH = 160 * 3;
-    public const DEFAULT_HEIGHT = 90 * 3;
+    public const DEFAULT_WIDTH = 960;
+    public const DEFAULT_HEIGHT = 540;
 
     protected string $title;
     protected int $height;
@@ -32,48 +34,33 @@ class iFrame extends BaseEmbeddable implements Embeddable
     public function __construct(
         string $id,
         string $url,
+        Dimension $dimension = null,
         array $properties = [],
         array $scripts = [],
         ?string $thumbnail_rid = null
     ) {
-        parent::__construct($id, $url, $properties, $scripts, $thumbnail_rid);
+        parent::__construct($id, $url, $dimension, $properties, $scripts, $thumbnail_rid);
         $this->title = $properties['title'] ?? '';
-        $this->height = (int) ($properties['height'] ?? self::DEFAULT_HEIGHT);
-        $this->width = (int) ($properties['width'] ?? self::DEFAULT_WIDTH);
         $this->frameborder = (int) ($properties['frameborder'] ?? 0);
         $this->allow = $properties['allow'] ?? [];
         $this->referrerpolicy = $properties['referrerpolicy'] ?? '';
         $this->allowfullscreen = (bool) ($properties['allowfullscreen'] ?? false);
-        $this->responsive = (bool) ($properties['responsive'] ?? true);
     }
 
     public function getProperties(): array
     {
         return array_merge(parent::getProperties(), [
             'title' => $this->getTitle(),
-            'height' => $this->getHeight(),
-            'width' => $this->getWidth(),
             'frameborder' => $this->getFrameborder(),
             'allow' => $this->getAllow(),
             'referrerpolicy' => $this->getReferrerpolicy(),
             'allowfullscreen' => $this->isAllowfullscreen(),
-            'responsive' => $this->isResponsive()
         ]);
     }
 
     public function getTitle(): string
     {
         return $this->title;
-    }
-
-    public function getHeight(): int
-    {
-        return $this->height;
-    }
-
-    public function getWidth(): int
-    {
-        return $this->width;
     }
 
     public function getFrameborder(): int
@@ -96,26 +83,9 @@ class iFrame extends BaseEmbeddable implements Embeddable
         return $this->allowfullscreen;
     }
 
-    public function isResponsive(): bool
-    {
-        return $this->responsive;
-    }
-
     public function setTitle(string $title): iFrame
     {
         $this->title = $title;
-        return $this;
-    }
-
-    public function setHeight(int $height): iFrame
-    {
-        $this->height = $height;
-        return $this;
-    }
-
-    public function setWidth(int $width): iFrame
-    {
-        $this->width = $width;
         return $this;
     }
 
@@ -140,12 +110,6 @@ class iFrame extends BaseEmbeddable implements Embeddable
     public function setAllowfullscreen(bool $allowfullscreen): iFrame
     {
         $this->allowfullscreen = $allowfullscreen;
-        return $this;
-    }
-
-    public function setResponsive(bool $responsive): iFrame
-    {
-        $this->responsive = $responsive;
         return $this;
     }
 

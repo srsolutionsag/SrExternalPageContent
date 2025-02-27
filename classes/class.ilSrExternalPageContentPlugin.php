@@ -10,15 +10,13 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\Factory;
 use srag\Plugins\SrExternalPageContent\Init;
 use srag\Plugins\SrExternalPageContent\DIC;
 use srag\Plugins\SrExternalPageContent\GlobalScreen\Menu;
 use srag\Plugins\SrExternalPageContent\GlobalScreen\Tool;
 use ILIAS\Setup\ArrayEnvironment;
-use ILIAS\Setup\Agent;
-use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Setup\Objective;
-use ILIAS\Setup\Environment;
 use ILIAS\Setup\CLI\ObjectiveHelper;
 
 /**
@@ -87,7 +85,7 @@ class ilSrExternalPageContentPlugin extends ilPageComponentPlugin
 
         $agent = new ilSrExternalPageContentAgent(
             $this->dic->ilias()->refinery(),
-            new \ILIAS\Data\Factory(),
+            new Factory(),
             $this->dic->ilias()->language()
         );
 

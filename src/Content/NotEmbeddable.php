@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace srag\Plugins\SrExternalPageContent\Content;
 
+use srag\Plugins\SrExternalPageContent\Content\Dimension\Dimension;
+use srag\Plugins\SrExternalPageContent\DIC;
+
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
@@ -66,23 +69,17 @@ class NotEmbeddable implements Embeddable
         return [];
     }
 
-    public function getWidth(): int
-    {
-        return 640;
-    }
-
-    public function getHeight(): int
-    {
-        return 240;
-    }
-
-    public function isResponsive(): bool
-    {
-        return true;
-    }
-
     public function getThumbnailRid(): ?string
     {
         return null;
     }
+
+    public function getDimension(): Dimension
+    {
+        global $sepcContainer;
+        /** @var DIC $sepcContainer */
+
+        return $sepcContainer->dimensions()->default();
+    }
+
 }

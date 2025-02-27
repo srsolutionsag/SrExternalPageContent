@@ -20,12 +20,18 @@ use srag\Plugins\SrExternalPageContent\Renderer\RendererFactory;
 use srag\Plugins\SrExternalPageContent\Whitelist\Check;
 use srag\Plugins\SrExternalPageContent\Settings\Settings;
 use srag\Plugins\SrExternalPageContent\Migration\Page\PageRepository;
+use srag\Plugins\SrExternalPageContent\Content\Dimension\DimensionBuilder;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class DIC extends Container
 {
+    public function dimensions(): DimensionBuilder
+    {
+        return $this[DimensionBuilder::class];
+    }
+
     public function translator(): Translator
     {
         return $this[Translator::class];

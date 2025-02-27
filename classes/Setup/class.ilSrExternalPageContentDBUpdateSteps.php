@@ -10,6 +10,9 @@
 
 declare(strict_types=1);
 
+use srag\Plugins\SrExternalPageContent\Content\Dimension\DimensionBuilder;
+use srag\Plugins\SrExternalPageContent\Content\EmbeddableRepositoryDB;
+
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
@@ -49,5 +52,33 @@ class ilSrExternalPageContentDBUpdateSteps implements \ilDatabaseUpdateSteps
             'notnull' => true,
             'default' => 0
         ]);
+    }
+
+    public function step_3(): void
+    {
+        if ($this->db->tableColumnExists('sr_epc_content', 'dimensions')) {
+            return;
+        }
+        // introduce new columns for size settings
+        $this->db->addTableColumn('sr_epc_content', 'dimensions', [
+            'type' => 'clob',
+            'notnull' => false
+        ]);
+
+        $this->db->manipulate('UPDATE sr_epc_content SET dimensions = \'[]\'');
+    }
+
+    public function step_4(): void
+    {
+        $repo = new EmbeddableRepositoryDB($this->db);
+        $dimensions = new DimensionBuilder();
+        foreach ($repo->all() as $embeddable) {
+            try {
+                $embeddable->setDimension($dimensions->fromLegacyProperties($embeddable));
+            } catch (Throwable $e) {
+                $embeddable->setDimension($dimensions->default());
+            }
+            $repo->store($embeddable);
+        }
     }
 }

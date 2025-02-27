@@ -29,4 +29,6 @@ interface EmbeddableRepository
 
     public function getById(string $id, bool $skip_whitlist_check): ?Embeddable;
 
+    public function all(): \Generator;
+
 }

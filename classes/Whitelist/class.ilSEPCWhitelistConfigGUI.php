@@ -10,11 +10,11 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Modal\InterruptiveItem\Standard;
 use srag\Plugins\SrExternalPageContent\BaseGUI;
 use srag\Plugins\SrExternalPageContent\Whitelist\WhitelistTable;
 use srag\Plugins\SrExternalPageContent\Whitelist\WhitelistForm;
 use srag\Plugins\SrExternalPageContent\Whitelist\WhitelistedDomain;
-use ILIAS\UI\Component\Modal\InterruptiveItem;
 use srag\Plugins\SrExternalPageContent\Whitelist\WhitelistRepository;
 use srag\Plugins\SrExternalPageContent\Whitelist\Status;
 
@@ -112,7 +112,7 @@ class ilSEPCWhitelistConfigGUI extends BaseGUI
 
         $confirmation = $confirmation->withAffectedItems(
             array_map(
-                fn(WhitelistedDomain $domain): InterruptiveItem\Standard => $this->ui_factory->modal()->interruptiveItem()->standard(
+                fn(WhitelistedDomain $domain): Standard => $this->ui_factory->modal()->interruptiveItem()->standard(
                     (string) $domain->getId(),
                     $domain->getDomain()
                 ),

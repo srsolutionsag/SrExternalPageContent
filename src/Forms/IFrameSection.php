@@ -17,6 +17,7 @@ use srag\Plugins\SrExternalPageContent\Content\iFrame;
 use ILIAS\Refinery\Transformation;
 use srag\Plugins\SrExternalPageContent\Content\Embeddable;
 use ILIAS\FileUpload\MimeType;
+use srag\Plugins\SrExternalPageContent\Content\Dimension\DimensionMode;
 
 class IFrameSection extends Base implements FormElement
 {
@@ -42,6 +43,110 @@ class IFrameSection extends Base implements FormElement
 
         $factory = $this->ui_factory->input()->field();
 
+        // Dimensions
+        $dimensions = $factory->switchableGroup(
+            [
+                DimensionMode::ASPECT_RATIO => $factory->group(
+                    [
+                        $factory->select(
+                            $this->translator->txt('aspect_ratio'),
+                            [
+                                (string) DimensionMode::AS_16_9 => '16:9',
+                                (string) DimensionMode::AS_4_3 => '4:3',
+                                (string) DimensionMode::AS_1_1 => '1:1',
+                                (string) DimensionMode::AS_3_4 => '3:4',
+                                (string) DimensionMode::AS_9_16 => '9:16',
+                            ],
+                            $this->translator->txt('aspect_ratio_info')
+                        )->withRequired(true),
+                        $factory->numeric(
+                            $this->translator->txt('aspect_ratio_width'),
+                            $this->translator->txt('aspect_ratio_width_info')
+                        )
+                    ],
+                    $this->translator->txt('aspect_ratio_dimensions'),
+                    $this->translator->txt('aspect_ratio_dimensions_info')
+                )->withValue(
+                    [
+                        (string) $this->embeddable->getDimension()->getRatio(),
+                        $this->embeddable->getDimension()->getMaxWidth()
+                    ]
+                )->withAdditionalTransformation(
+                    $this->refinery->trafo(
+                        fn($d): array => [
+                            $this->embeddable->getDimension()
+                                             ->setRatio((float) $d[0])
+                                             ->getRatio(),
+                            $this->embeddable->getDimension()
+                                             ->setMaxHeight(null)
+                                             ->setMaxWidth($d[1])
+                                             ->getMaxWidth()
+                        ]
+                    )
+                ),
+                DimensionMode::FIXED => $factory->group(
+                    [
+                        $factory->numeric(
+                            $this->translator->txt('fixed_width'),
+                            $this->translator->txt('fixed_width_info')
+                        )->withRequired(true),
+                        $factory->numeric(
+                            $this->translator->txt('fixed_height'),
+                            $this->translator->txt('fixed_height_info')
+                        )->withRequired(true)
+                    ],
+                    $this->translator->txt('fixed_dimensions'),
+                    $this->translator->txt('fixed_dimensions_info')
+                )->withValue(
+                    [
+                        $this->embeddable->getDimension()->getMaxWidth(),
+                        $this->embeddable->getDimension()->getMaxHeight()
+                    ]
+                )->withAdditionalTransformation(
+                    $this->refinery->trafo(
+                        fn($d): array => [
+                            $this->embeddable->getDimension()
+                                             ->setRatio(null)
+                                             ->setMaxWidth($d[0])
+                                             ->getMaxWidth(),
+                            $this->embeddable->getDimension()
+                                             ->setRatio(null)
+                                             ->setMaxHeight($d[1])
+                                             ->getMaxHeight()
+                        ]
+                    )
+                ),
+                DimensionMode::FIXED_HEIGHT => $factory->group(
+                    [
+                        $factory->numeric(
+                            $this->translator->txt('fixed_height'),
+                            $this->translator->txt('fixed_height_info')
+                        )->withRequired(true)
+                    ],
+                    $this->translator->txt('fixed_height'),
+                    $this->translator->txt('fixed_height_info')
+                )->withValue(
+                    [$this->embeddable->getDimension()->getMaxHeight()]
+                )->withAdditionalTransformation(
+                    $this->refinery->trafo(
+                        fn($d): int => $this->embeddable->getDimension()
+                                                        ->setMaxWidth(null)
+                                                        ->setMaxHeight($d[0])
+                                                        ->getMaxHeight()
+                    )
+                ),
+            ],
+            $this->translator->txt('dimensions'),
+            $this->translator->txt('dimensions_info'),
+        )->withValue(
+            $this->embeddable->getDimension()->getMode()
+        )->withAdditionalTransformation(
+            $this->refinery->trafo(
+                fn($d): int => $this->embeddable->getDimension()->setMode((int) $d[0])->getMode()
+            )
+        );
+
+        // full form
         $inputs[] = $factory
             ->text(
                 $this->translator->txt('url'),
@@ -76,35 +181,7 @@ class IFrameSection extends Base implements FormElement
                 $this->refinery->trafo(fn($d): string => $this->embeddable->setTitle($d)->getTitle())
             );
 
-        $inputs[] = $factory
-            ->numeric(
-                $this->translator->txt('width'),
-                $this->translator->txt('width_info')
-            )
-            ->withValue($this->embeddable->getWidth())
-            ->withAdditionalTransformation(
-                $this->refinery->trafo(fn($d): int => $this->embeddable->setWidth((int) $d)->getWidth())
-            );
-
-        $inputs[] = $factory
-            ->numeric(
-                $this->translator->txt('height'),
-                $this->translator->txt('height_info')
-            )
-            ->withValue($this->embeddable->getHeight())
-            ->withAdditionalTransformation(
-                $this->refinery->trafo(fn($d): int => $this->embeddable->setHeight((int) $d)->getHeight())
-            );
-
-        $inputs[] = $factory
-            ->checkbox(
-                $this->translator->txt('responsive'),
-                $this->translator->txt('responsive_info')
-            )
-            ->withValue($this->embeddable->isResponsive())
-            ->withAdditionalTransformation(
-                $this->refinery->trafo(fn($d): bool => $this->embeddable->setResponsive((bool) $d)->isResponsive())
-            );
+        $inputs[] = $dimensions;
 
         $inputs[] = $factory
             ->numeric(
@@ -131,7 +208,9 @@ class IFrameSection extends Base implements FormElement
             ->withMaxFiles(1)
             ->withValue($this->embeddable->getThumbnailRid() === null ? [] : [$this->embeddable->getThumbnailRid()])
             ->withAdditionalTransformation(
-                $this->refinery->trafo(fn($d): ?string => $this->embeddable->setThumbnailRid($d[0] ?? null)->getThumbnailRid())
+                $this->refinery->trafo(
+                    fn($d): ?string => $this->embeddable->setThumbnailRid($d[0] ?? null)->getThumbnailRid()
+                )
             )->withAdditionalTransformation(
                 $this->getFinalTransformation()
             );

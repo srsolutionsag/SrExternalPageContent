@@ -124,7 +124,6 @@ class ilSEPCMigrationGUI extends BaseGUI
             );
         }
 
-
         try {
             $preview = new Preview($this->preview_settings);
             $proxy = $preview->previewHTML($current_page, false);

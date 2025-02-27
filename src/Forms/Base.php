@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace srag\Plugins\SrExternalPageContent\Forms;
 
+use srag\Plugins\SrExternalPageContent\Content\Dimension\DimensionBuilder;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Component\Input\Field\Section;
 use ReflectionClass;
@@ -29,6 +30,7 @@ use srag\Plugins\SrExternalPageContent\Content\Embeddable;
 
 abstract class Base implements FormElement
 {
+    protected DimensionBuilder $dimensions;
     protected EmbeddableRepository $embeddable_repository;
     protected Check $whitelist_check;
     protected DIC $dependencies;
@@ -50,6 +52,7 @@ abstract class Base implements FormElement
         $this->whitelist_repository = $dependencies[WhitelistRepository::class];
         $this->whitelist_check = $dependencies[Check::class];
         $this->embeddable_repository = $dependencies[EmbeddableRepository::class];
+        $this->dimensions = $dependencies->dimensions();
     }
 
     public function getSection(): Section
@@ -77,7 +80,7 @@ abstract class Base implements FormElement
     protected function getFinalTransformation(): Transformation
     {
         return $this->refinery->trafo(
-            fn ($data) => $data
+            fn($data) => $data
         );
     }
 

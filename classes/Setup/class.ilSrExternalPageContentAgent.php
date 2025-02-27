@@ -85,8 +85,6 @@ class ilSrExternalPageContentAgent extends ilPluginDefaultAgent
         ];
     }
 
-
-
     public function getMigrations(): array
     {
         return [

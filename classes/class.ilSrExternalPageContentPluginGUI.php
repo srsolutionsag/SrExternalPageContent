@@ -25,7 +25,7 @@ use srag\Plugins\SrExternalPageContent\Migration\Preview\PreviewDTO;
 /**
  * @author            Fabian Schmid <fabian@sr.solution>
  * @ilCtrl_isCalledBy ilSrExternalPageContentPluginGUI: ilPCPluggedGUI
- * @ilCtrl_Calls ilSrExternalPageContentPluginGUI: ilCtrlAwareStorageUploadHandler
+ * @ilCtrl_Calls      ilSrExternalPageContentPluginGUI: ilCtrlAwareStorageUploadHandler
  */
 class ilSrExternalPageContentPluginGUI extends ilPageComponentPluginGUI
 {
@@ -81,10 +81,10 @@ class ilSrExternalPageContentPluginGUI extends ilPageComponentPluginGUI
         $this->translator = $this->dependencies->translator();
 
         $this->ui->mainTemplate()->addJavaScript(
-            './Customizing/global/plugins/Services/COPage/PageComponent/SrExternalPageContent/assets/js/content.js?version=2'
+            './Customizing/global/plugins/Services/COPage/PageComponent/SrExternalPageContent/assets/js/content.js?version=3'
         );
         $this->ui->mainTemplate()->addCss(
-            './Customizing/global/plugins/Services/COPage/PageComponent/SrExternalPageContent/assets/css/content.css?version=2'
+            './Customizing/global/plugins/Services/COPage/PageComponent/SrExternalPageContent/assets/css/content.css?version=3'
         );
 
         parent::__construct();
@@ -97,7 +97,7 @@ class ilSrExternalPageContentPluginGUI extends ilPageComponentPluginGUI
         $embeddable_id = $properties[self::EMBEDDABLE_ID] ?? null;
         if ($embeddable_id === null || !$this->dependencies->embeddables()->has((string) $embeddable_id)) {
             if ($ensure_iframe) {
-                $embeddable = new iFrame('', $properties['url'] ?? '');
+                $embeddable = new iFrame('', $properties['url'] ?? '', $this->dependencies->dimensions()->default());
             } else {
                 $embeddable = null;
                 if (isset($properties['preview'])) {

@@ -11,15 +11,25 @@
 namespace srag\Plugins\SrExternalPageContent\Content;
 
 use srag\Plugins\SrExternalPageContent\Helper\DBStringKeyRepository;
+use srag\Plugins\SrExternalPageContent\Content\Dimension\DimensionBuilder;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class EmbeddableRepositoryDB implements EmbeddableRepository
 {
-    use DBStringKeyRepository;
+    use DBStringKeyRepository {
+        DBStringKeyRepository::__construct as private __dbStringKeyRepositoryConstruct;
+    }
 
     private const TYPE_INT_IFRAME = 1;
+    private DimensionBuilder $dimensions;
+
+    public function __construct(\ilDBInterface $db)
+    {
+        $this->__dbStringKeyRepositoryConstruct($db);
+        $this->dimensions = new DimensionBuilder();
+    }
 
     protected function getIdName(): string
     {
@@ -33,7 +43,7 @@ class EmbeddableRepositoryDB implements EmbeddableRepository
 
     public function blankIFrame(): iFrame
     {
-        return new iFrame($this->newId(), "");
+        return new iFrame($this->newId(), "", $this->dimensions->default());
     }
 
     public function store(Embeddable $embeddable): Embeddable
@@ -59,6 +69,7 @@ class EmbeddableRepositoryDB implements EmbeddableRepository
             "properties" => ["clob", $this->sleep($embeddable->getProperties())],
             "scripts" => ["clob", $this->sleep($embeddable->getScripts())],
             "thumb_rid" => ["text", $embeddable->getThumbnailRid()],
+            "dimensions" => ["clob", $this->sleep($this->dimensions->toArray($embeddable->getDimension()))],
         ]);
 
         return $embeddable->withId($next_id);
@@ -73,6 +84,7 @@ class EmbeddableRepositoryDB implements EmbeddableRepository
             "properties" => ["clob", $this->sleep($embeddable->getProperties())],
             "scripts" => ["clob", $this->sleep($embeddable->getScripts())],
             "thumb_rid" => ["text", $embeddable->getThumbnailRid()],
+            "dimensions" => ["clob", $this->sleep($this->dimensions->toArray($embeddable->getDimension()))],
         ], [
             "id" => ["text", $embeddable->getId()]
         ]);
@@ -104,13 +116,21 @@ class EmbeddableRepositoryDB implements EmbeddableRepository
     {
         $class = $this->typeToClass($set["type"]);
         /** @var Embeddable $instance */
-        return new $class(
-            (int) $set["id"],
+        $dimension = $this->dimensions->fromArray($this->wakeProperties($set["dimensions"] ?? ''));
+        $embeddable = new $class(
+            (string) $set["id"],
             $set["url"],
+            $dimension,
             $this->wakeProperties($set["properties"]),
             $this->wakeProperties($set["scripts"]),
             $set["thumb_rid"] ?? null
         );
+
+        if ($set["dimensions"] === null) { // can be removed after all existing entries have been updated
+            $embeddable->setDimension($this->dimensions->fromLegacyProperties($embeddable));
+        }
+
+        return $embeddable;
     }
 
     private function typeToClass(int $type): string
@@ -129,7 +149,7 @@ class EmbeddableRepositoryDB implements EmbeddableRepository
             case iFrame::class:
                 return self::TYPE_INT_IFRAME;
             default:
-                throw new \InvalidArgumentException("Unknown class $class");
+                throw new \InvalidArgumentException("Unknown class " . get_class($class));
         }
     }
 
@@ -141,6 +161,14 @@ class EmbeddableRepositoryDB implements EmbeddableRepository
     protected function wakeProperties(string $properties): array
     {
         return json_decode($properties, true) ?? [];
+    }
+
+    public function all(): \Generator
+    {
+        $q = $this->db->query("SELECT * FROM " . $this->getTableName());
+        while ($row = $this->db->fetchAssoc($q)) {
+            yield $this->buildFromDBSet($row);
+        }
     }
 
 }

@@ -14,6 +14,7 @@ namespace srag\Plugins\SrExternalPageContent\Migration\Preview;
 
 use srag\Plugins\SrExternalPageContent\Content\iFrame;
 use srag\Plugins\SrExternalPageContent\Content\iFramePreview;
+use srag\Plugins\SrExternalPageContent\DIC;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -34,6 +35,9 @@ class PreviewDTO
 
     public static function wakeup(string $iframe_data): ?iFrame
     {
+        global $sepcContainer;
+        /** @var DIC $sepcContainer */
+
         try {
             $iframe_data = json_decode(hex2bin($iframe_data), true, 512, JSON_THROW_ON_ERROR);
         } catch (\Throwable $e) {
@@ -42,6 +46,7 @@ class PreviewDTO
         return new iFramePreview(
             $iframe_data['id'],
             $iframe_data['url'],
+            $sepcContainer->dimensions()->default(),
             $iframe_data['properties'],
             $iframe_data['scripts']
         );

@@ -27,9 +27,7 @@ class EditPlaceholderRenderer extends BaseRenderer implements Renderer
 
         $wrapper = new \ilTemplate(__DIR__ . '/../../templates/default/tpl.edit_placeholder.html', false, false);
         $wrapper->setVariable('INFO', sprintf($this->translator->txt('edit_content_info'), $uri->getHost()));
-        $wrapper->setVariable('WIDTH', $embeddable->getWidth());
-        $wrapper->setVariable('HEIGHT', $embeddable->getHeight());
-        $wrapper->setVariable('RESPONSIVE', $embeddable->isResponsive());
+        $wrapper->setVariable('DIMENSIONS', $this->dimensions->forJS($embeddable->getDimension()));
         $wrapper->setVariable('CONTENT_ID', 'srepc_' . $embeddable->getId());
 
         return $wrapper->get();
