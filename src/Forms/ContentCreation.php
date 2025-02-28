@@ -18,7 +18,7 @@ class ContentCreation extends Base implements FormElement
 {
     private const EMBED = 'embed';
     private const IFRAME = 'iframe';
-    private const DEFAULT = self::IFRAME;
+    private const DEFAULT = self::EMBED;
 
     protected function getSectionTitle(): string
     {
