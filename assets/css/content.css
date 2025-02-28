@@ -5,16 +5,13 @@
     align-items: center; /* center vertically */
     border: 0px solid #7e7e7e;
     margin-bottom: 12px;
-    overflow: scroll;
-
-    /*background-image: url('https://picture.mactechnews.de/GalleryMedium/Gallery-Testbild-von-jan_jan.391762.jpg');*/
+    overflow: hidden;
     background-size: cover;
     background-repeat: no-repeat;
     background-origin: box;
     background-position-x: center;
     background-position-y: center;
 }
-
 
 .sr-external-page-content-iframe {
     width: 100%;
@@ -52,7 +49,6 @@
 .sr_epc_compare {
     display: block;
     width: 49%;
-    /*border: 1px solid #7e7e7e;*/
     float: left;
     margin-right: 5px;
 }
