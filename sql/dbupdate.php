@@ -60,8 +60,9 @@ $ilDB->modifyTableColumn('sr_epc_content', 'id', [
     'type' => 'text',
     'length' => 64
 ]);
-
-$ilDB->dropSequence('sr_epc_content');
+if ($ilDB->sequenceExists('sr_epc_content')) {
+    $ilDB->dropSequence('sr_epc_content');
+}
 
 // ********************************************************************
 // NO MORE STEPS AFTER HERE
