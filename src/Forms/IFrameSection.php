@@ -68,7 +68,7 @@ class IFrameSection extends Base implements FormElement
                     $this->translator->txt('aspect_ratio_dimensions_info')
                 )->withValue(
                     [
-                        (string) $this->embeddable->getDimension()->getRatio(),
+                        (string) $this->embeddable->getDimension()->getClosestRatio(),
                         $this->embeddable->getDimension()->getMaxWidth()
                     ]
                 )->withAdditionalTransformation(

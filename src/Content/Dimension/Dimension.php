@@ -54,7 +54,24 @@ class Dimension
 
     public function getRatio(): ?float
     {
-        return $this->ratio ?? ($this->max_width > 0 && $this->max_height > 0 ? ($this->max_width / $this->max_height) : null) ?? null;
+        return $this->ratio;
+    }
+
+    public function getClosestRatio(): ?float
+    {
+        if ($this->ratio === null) {
+            return null;
+        }
+        $ratios = [
+            DimensionMode::AS_16_9,
+            DimensionMode::AS_4_3,
+            DimensionMode::AS_1_1,
+            DimensionMode::AS_3_4,
+            DimensionMode::AS_9_16
+        ];
+
+        usort($ratios, fn($a, $b): float|int => abs($a - $this->ratio) - abs($b - $this->ratio));
+        return array_shift($ratios);
     }
 
     public function getSetRatio(): ?float
