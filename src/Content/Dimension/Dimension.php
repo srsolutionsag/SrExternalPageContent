@@ -62,6 +62,7 @@ class Dimension
         if ($this->ratio === null) {
             return null;
         }
+
         $ratios = [
             DimensionMode::AS_16_9,
             DimensionMode::AS_4_3,
@@ -70,8 +71,19 @@ class Dimension
             DimensionMode::AS_9_16
         ];
 
-        usort($ratios, fn($a, $b): float|int => abs($a - $this->ratio) - abs($b - $this->ratio));
-        return array_shift($ratios);
+        $closest_ratio = null;
+        $closest_diff = PHP_FLOAT_MAX;
+
+        foreach ($ratios as $ratio) {
+            $diff = abs($ratio - $this->ratio);
+
+            if ($diff < $closest_diff) {
+                $closest_diff = $diff;
+                $closest_ratio = $ratio;
+            }
+        }
+
+        return $closest_ratio;
     }
 
     public function getSetRatio(): ?float
