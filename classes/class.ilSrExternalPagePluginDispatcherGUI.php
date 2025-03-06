@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 use srag\Plugins\SrExternalPageContent\BaseGUI;
 use srag\Plugins\SrExternalPageContent\Helper\Hasher;
+use ILIAS\Data\URI;
 
 /**
  * @author            Fabian Schmid <fabian@sr.solution>
@@ -49,12 +50,19 @@ class ilSrExternalPagePluginDispatcherGUI extends BaseGUI
 
         // Store Fallback URI if available
         if ($this->dic->ilias()->http()->wrapper()->query()->has(self::FALLBACK)) {
-            $this->fallback_uri = $this->unhash(
+            $fallback_uri = $this->unhash(
                 $this->dic->ilias()->http()->wrapper()->query()->retrieve(
                     self::FALLBACK,
                     $this->dic->ilias()->refinery()->kindlyTo()->string()
                 )
             );
+            try {
+                $fallback_uri = new URI($fallback_uri);
+                $this->fallback_uri = $fallback_uri->getPath() . '?' . $fallback_uri->getQuery();
+            } catch (Throwable $e) {
+                $this->fallback_uri = null;
+            }
+
             $this->ctrl->saveParameter($this, self::FALLBACK);
         }
 
