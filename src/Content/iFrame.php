@@ -19,8 +19,6 @@ use srag\Plugins\SrExternalPageContent\Content\Dimension\Dimension;
  */
 class iFrame extends BaseEmbeddable implements Embeddable
 {
-    public const DEFAULT_WIDTH = 960;
-    public const DEFAULT_HEIGHT = 540;
 
     protected string $title;
     protected int $height;

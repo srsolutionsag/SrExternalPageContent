@@ -25,10 +25,13 @@ class EmbeddableRepositoryDB implements EmbeddableRepository
     private const TYPE_INT_IFRAME = 1;
     private DimensionBuilder $dimensions;
 
-    public function __construct(\ilDBInterface $db)
+    public function __construct(
+        \ilDBInterface $db,
+        DimensionBuilder $dimensions
+    )
     {
         $this->__dbStringKeyRepositoryConstruct($db);
-        $this->dimensions = new DimensionBuilder();
+        $this->dimensions = $dimensions;
     }
 
     protected function getIdName(): string
