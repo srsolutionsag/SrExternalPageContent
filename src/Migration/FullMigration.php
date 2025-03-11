@@ -25,6 +25,7 @@ use srag\Plugins\SrExternalPageContent\Content\EmbeddableRepository;
 use srag\Plugins\SrExternalPageContent\Whitelist\Check;
 use srag\Plugins\SrExternalPageContent\Whitelist\WhitelistRepositoryDB;
 use srag\Plugins\SrExternalPageContent\Whitelist\DomainParser;
+use srag\Plugins\SrExternalPageContent\Content\Dimension\DimensionBuilder;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -72,7 +73,7 @@ class FullMigration implements Migration
         $this->embeddable_repository = new EmbeddableRepositoryDB($this->db);
         $this->page_repository = new PageRepository($this->db);
         $this->workflow = new PageByPageWorkflow(
-            new ParserFactory(),
+            new ParserFactory(new DimensionBuilder()),
             $this->page_provider,
             $this->embeddable_repository,
             $this->settings,

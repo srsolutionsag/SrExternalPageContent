@@ -48,12 +48,12 @@ class Init
         global $DIC;
 
         $container = new DIC();
-        $container[Container::class] = static fn (): Container => $DIC;
-        $container[Refinery::class] = static fn (): Refinery => new Refinery($DIC->refinery());
-        $container[\ilSrExternalPageContentPlugin::class] = static fn (): \ilSrExternalPageContentPlugin => $plugin;
-        $container[Translator::class] = static fn (): Translator => new Translator($language_handler);
-        $container[ParserFactory::class] = static fn (): ParserFactory => new ParserFactory();
-        $container[WhitelistRepository::class] = static fn (): WhitelistRepository => new WhitelistRepositoryDB(
+        $container[Container::class] = static fn(): Container => $DIC;
+        $container[Refinery::class] = static fn(): Refinery => new Refinery($DIC->refinery());
+        $container[\ilSrExternalPageContentPlugin::class] = static fn(): \ilSrExternalPageContentPlugin => $plugin;
+        $container[Translator::class] = static fn(): Translator => new Translator($language_handler);
+        $container[ParserFactory::class] = static fn(): ParserFactory => new ParserFactory($container[DimensionBuilder::class]);
+        $container[WhitelistRepository::class] = static fn(): WhitelistRepository => new WhitelistRepositoryDB(
             $DIC->database()
         );
         $container[DomainParser::class] = static fn (): DomainParser => new DomainParser();
