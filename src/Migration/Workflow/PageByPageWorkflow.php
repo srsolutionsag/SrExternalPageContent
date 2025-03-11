@@ -58,7 +58,10 @@ class PageByPageWorkflow implements MigrationWorkflow
             return;
         }
 
-        yield $this->page->withContent($this->transfomation->transform($this->page->getContent()));
+        $content = $this->transfomation->transform($this->page->getContent());
+        $this->page = $this->page->increaseFailed($this->transfomation->getAmountOfFailedAndReset());
+
+        yield $this->page->withContent($content);
     }
 
     public function getLast(): ?Page

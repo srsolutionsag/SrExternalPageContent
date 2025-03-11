@@ -21,6 +21,8 @@ class Page
     private string $content = '';
     private string $parent_type;
 
+    private int $failed_contents = 0;
+
     public function __construct(
         int $page_id,
         string $parent_type,
@@ -51,6 +53,18 @@ class Page
     public function getContent(): string
     {
         return $this->content;
+    }
+
+    public function increaseFailed(int $by): self
+    {
+        $this->failed_contents += $by;
+
+        return $this;
+    }
+
+    public function getFailed():int
+    {
+        return $this->failed_contents;
     }
 
 }

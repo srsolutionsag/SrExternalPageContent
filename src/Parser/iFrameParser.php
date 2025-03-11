@@ -59,11 +59,11 @@ class iFrameParser implements Parser
         $url = $this->sanitizer->sanitizeURL($iframe->getAttribute('src'));
 
         // prepend https if not present
-        // get first 4 caharacters of the URL
+        // get first 4 characters of the URL
         $url_start = substr($url, 0, 4);
         // if the URL does not start with http, add it
         if ($url_start !== 'http') {
-            $url = 'https://' . $url;
+            $url = 'https://' . ltrim($url, '/');
         }
 
         // test URL
