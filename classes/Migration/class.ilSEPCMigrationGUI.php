@@ -59,10 +59,12 @@ class ilSEPCMigrationGUI extends BaseGUI
     {
         $this->ctrl->saveParameter($this, self::P_MODE);
         $this->ctrl->saveParameter($this, self::P_ID);
+        $this->ctrl->saveParameter($this, self::P_LAST_WID);
     }
 
     public function executeCommand(): void
     {
+        $this->saveParameters();
         $this->mode = $this->http_wrapper->query()->has(self::P_MODE)
             ? $this->http_wrapper->query()->retrieve(
                 self::P_MODE,

@@ -41,6 +41,8 @@ class XMLTransformation implements Transformation
     private bool $create_silently;
     private Check $whitelist_check;
 
+    private int $amount_of_failed = 0;
+
     public function __construct(
         EmbeddableRepository $embeddable_repository,
         ParserFactory $parser_factory,
@@ -72,6 +74,7 @@ class XMLTransformation implements Transformation
             $parser = $this->parser_factory->createParser($content);
             $embeddable = $parser->parse($content);
             if (!$embeddable instanceof iFrame) {
+                $this->amount_of_failed++;
                 continue;
             }
 
@@ -127,6 +130,13 @@ class XMLTransformation implements Transformation
         }
 
         return $dom->saveXML($dom->documentElement);
+    }
+
+    public function getAmountOfFailedAndReset(): int
+    {
+        $amount = $this->amount_of_failed;
+        $this->amount_of_failed = 0;
+        return $amount;
     }
 
 }

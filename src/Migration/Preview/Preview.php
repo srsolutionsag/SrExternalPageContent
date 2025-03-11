@@ -40,6 +40,10 @@ class Preview
 
     public function previewHTML(Page $page, bool $original = false): string
     {
+        if (!$original && $page->getFailed() > 0) {
+            return "Failed to transform content. This page cannot be migrated.";
+        }
+
         $page_proxy = new \ilPageProxyGUI($page, $original);
 
         return $this->prepareOutput(

@@ -18,4 +18,6 @@ namespace srag\Plugins\SrExternalPageContent\Migration\Transformation;
 interface Transformation
 {
     public function transform(string $content): string;
+
+    public function getAmountOfFailedAndReset(): int;
 }
