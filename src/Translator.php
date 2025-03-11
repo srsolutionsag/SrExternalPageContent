@@ -19,7 +19,7 @@ class Translator
 {
     private const DEFAULT_LANGUAGE_FILE = "ilias_de.lang";
     private \ilPluginLanguage $language_handler;
-    private bool $auto_language_update = true;
+    private bool $auto_language_update = false;
     private bool $sort = false;
 
     public function __construct(\ilPluginLanguage $language_handler)
