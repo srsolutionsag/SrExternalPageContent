@@ -6,7 +6,7 @@ aspect_ratio_dimensions_info#:#The iFrame is displayed with a fixed aspect ratio
 aspect_ratio_info#:#Select the aspect ratio of the iFrame.
 aspect_ratio_width#:#Maximum width
 aspect_ratio_width_info#:#Optional: Maximum width of the iFrame in pixels.
-before_load_button#:#Display content
+before_load_button#:#Confirm
 before_load_info#:#External content from %s is loading. Please confirm that you want to see the content.
 cmd_insert#:#Insert external content
 compare_original#:#Original
@@ -99,3 +99,8 @@ whitelist_toggle#:#Activate/Deactivate
 whitelist_updated#:#Updated
 width#:#Width
 width_info#:#Width of the iFrame in pixels
+default_width#:#Maximum default width
+default_width_info#:#Optional: Maximum default width of the iFrame in pixels. If no value is entered, no maximum width is set as a default.
+close_thumbnail_button#:#Show Content
+grey_buttons#:#Grey Buttons
+grey_buttons_info#:#Use grey buttons instead of the default ILIAS buttons colors.
