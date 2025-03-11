@@ -55,6 +55,7 @@ class DimensionBuilder
      */
     public function fromArray(array $dimension_properties): Dimension
     {
+        $default = $this->default();
         $height = $dimension_properties[self::HEIGHT] ?? null;
         $width = $dimension_properties[self::WIDTH] ?? null;
         return $this->build(
