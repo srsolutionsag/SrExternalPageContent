@@ -23,11 +23,17 @@ class PreviewDTO
 {
     public static function sleep(iFrame $iframe): string
     {
+        global $sepcContainer;
+        /** @var DIC $sepcContainer */
+
+        $dimension = $sepcContainer->dimensions();
+
         $encoded = json_encode([
             'id' => $iframe->getId(),
             'url' => $iframe->getUrl(),
             'properties' => $iframe->getProperties(),
-            'scripts' => $iframe->getScripts()
+            'scripts' => $iframe->getScripts(),
+            'dimensions' => $dimension->toArray($iframe->getDimension())
         ]);
 
         return bin2hex($encoded);
@@ -46,7 +52,7 @@ class PreviewDTO
         return new iFramePreview(
             $iframe_data['id'],
             $iframe_data['url'],
-            $sepcContainer->dimensions()->default(),
+            $sepcContainer->dimensions()->fromArray($iframe_data['dimensions']),
             $iframe_data['properties'],
             $iframe_data['scripts']
         );

@@ -120,7 +120,7 @@ class DimensionBuilder
             $width = (int) ($width_matches['value'] ?? $default->getMaxWidth());
             $width_unit = $width_matches['unit'] ?? 'px';
         } else {
-            $width = $this->default_width;
+            $width = $default->getMaxWidth();
             $width_unit = 'px';
         }
 
@@ -134,7 +134,7 @@ class DimensionBuilder
             $height = (int) ($height_matches['value'] ?? $default->getMaxHeight());
             $height_unit = $height_matches['unit'] ?? 'px';
         } else {
-            $height = $this->default_height;
+            $height = $default->getMaxHeight();
             $height_unit = 'px';
         }
 
