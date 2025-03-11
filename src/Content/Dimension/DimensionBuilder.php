@@ -55,25 +55,8 @@ class DimensionBuilder
      */
     public function fromArray(array $dimension_properties): Dimension
     {
-        $default = $this->default();
-        /**
-         * @noinspection NullCoalescingOperatorCanBeUsedInspection
-         */
-        /**
-         * @noRector TernaryToNullCoalescingRector
-         */
-        $width = isset($dimension_properties[self::WIDTH])
-            ? $dimension_properties[self::WIDTH]
-            : $default->getMaxWidth();
-        /**
-         * @noinspection NullCoalescingOperatorCanBeUsedInspection
-         */
-        /**
-         * @noRector TernaryToNullCoalescingRector
-         */
-        $height = isset($dimension_properties[self::HEIGHT])
-            ? $dimension_properties[self::HEIGHT]
-            : $default->getMaxHeight();
+        $height = $dimension_properties[self::HEIGHT] ?? null;
+        $width = $dimension_properties[self::WIDTH] ?? null;
         return $this->build(
             $dimension_properties[self::MODE] ?? $default->getMode(),
             $dimension_properties[self::RATIO] ?? $default->getRatio(),
