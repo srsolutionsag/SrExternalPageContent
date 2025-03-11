@@ -65,7 +65,8 @@ class Init
         $container[EmbeddableRepository::class] = static fn(): EmbeddableRepository => new EmbeddableRepositoryWapper(
             new EmbeddableRepositoryDB(
                 $DIC->database(),
-                $container[DimensionBuilder::class]
+                $container[DimensionBuilder::class],
+                $DIC->resourceStorage()
             ),
             $container[Check::class],
             $container[URLTranslator::class],

@@ -28,6 +28,7 @@ interface EmbeddableRepository
     public function delete(Embeddable $embeddable): void;
 
     public function getById(string $id, bool $skip_whitlist_check): ?Embeddable;
+    public function cloneById(string $id): ?Embeddable;
 
     public function all(): \Generator;
 

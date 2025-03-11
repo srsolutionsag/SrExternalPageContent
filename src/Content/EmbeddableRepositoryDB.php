@@ -12,6 +12,7 @@ namespace srag\Plugins\SrExternalPageContent\Content;
 
 use srag\Plugins\SrExternalPageContent\Helper\DBStringKeyRepository;
 use srag\Plugins\SrExternalPageContent\Content\Dimension\DimensionBuilder;
+use ILIAS\ResourceStorage\Services;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -24,14 +25,16 @@ class EmbeddableRepositoryDB implements EmbeddableRepository
 
     private const TYPE_INT_IFRAME = 1;
     private DimensionBuilder $dimensions;
+    private Services $irss;
 
     public function __construct(
         \ilDBInterface $db,
-        DimensionBuilder $dimensions
-    )
-    {
+        DimensionBuilder $dimensions,
+        Services $irss
+    ) {
         $this->__dbStringKeyRepositoryConstruct($db);
         $this->dimensions = $dimensions;
+        $this->irss = $irss;
     }
 
     protected function getIdName(): string
@@ -172,6 +175,26 @@ class EmbeddableRepositoryDB implements EmbeddableRepository
         while ($row = $this->db->fetchAssoc($q)) {
             yield $this->buildFromDBSet($row);
         }
+    }
+
+    public function cloneById(string $id): ?Embeddable
+    {
+        $embeddable = $this->getById($id, true);
+        if ($embeddable === null) {
+            return null;
+        }
+        $clone = $embeddable->withId($this->newId());
+
+        // if there is a thumbnail, we need to clone it as well
+        if ($embeddable->getThumbnailRid() !== null) {
+            $thumbnail = $this->irss->manage()->find($embeddable->getThumbnailRid());
+            if ($thumbnail !== null) {
+                $new_tbumbnail = $this->irss->manage()->clone($thumbnail);
+                $clone->setThumbnailRid($new_tbumbnail->serialize());
+            }
+        }
+
+        return $this->insert($clone);
     }
 
 }

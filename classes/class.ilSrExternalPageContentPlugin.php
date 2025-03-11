@@ -43,6 +43,34 @@ class ilSrExternalPageContentPlugin extends ilPageComponentPlugin
         }
     }
 
+    public function onClone(array &$a_properties, string $a_plugin_version): void
+    {
+        $embeddable_id = $a_properties[ilSrExternalPageContentPluginGUI::EMBEDDABLE_ID] ?? null;
+        if ($embeddable_id === null) {
+            return;
+        }
+        $new_id = $this->dic->embeddables()->cloneById($embeddable_id);
+        if ($new_id === null) {
+            return;
+        }
+        $id = $new_id->getId();
+        $a_properties[ilSrExternalPageContentPluginGUI::EMBEDDABLE_ID] = $id;
+    }
+
+    public function afterRepositoryCopy(
+        array &$a_properties,
+        array $mapping,
+        int $source_ref_id,
+        string $a_plugin_version
+    ): void {
+        $a_properties = $a_properties;
+    }
+
+    public function onDelete(array $a_properties, string $a_plugin_version, bool $move_operation = false): void
+    {
+
+    }
+
     public function getPluginName(): string
     {
         return self::PLUGIN_NAME;
