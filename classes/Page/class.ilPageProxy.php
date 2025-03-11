@@ -61,9 +61,23 @@ class ilPageProxy extends \ilPageObject
         return $this->_parent_type ?? 'copa';
     }
 
+    public function getWikiRefId(): int {
+        $references = ilObject2::_getAllReferences($this->getWikiId());
+
+        return reset($references) ?: 0;
+    }
+
     public function getWikiId(): int
     {
-        return 0;
+        global $DIC;
+
+        $wiki_id = $DIC->database()->queryF(
+            'SELECT wiki_id FROM il_wiki_page WHERE id = %s',
+            ['integer'],
+            [$this->id]
+        )->fetchAssoc()['wiki_id'] ?? 0;
+
+        return (int) $wiki_id;
     }
 
 }
