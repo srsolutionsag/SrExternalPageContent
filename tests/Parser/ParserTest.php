@@ -121,7 +121,7 @@ class ParserTest extends TestCase
      */
     public function testIFrameParser(string $content, array $data): void
     {
-        $iframe_parser = new iFrameParser();
+        $iframe_parser = new iFrameParser(new DimensionBuilder());
         $embeddable = $iframe_parser->parse($content);
         $this->assertEquals($data['url'], $embeddable->getUrl());
         $this->assertEquals($data['title'], $embeddable->getTitle());
@@ -136,7 +136,7 @@ class ParserTest extends TestCase
 
     public function testParseScripts(): void
     {
-        $iframe_parser = new iFrameParser();
+        $iframe_parser = new iFrameParser(new DimensionBuilder());
 
         $content = '<iframe src="https://zuugs.hfh.ch/h5panwendungen/wp-admin/admin-ajax.php?action=h5p_embed&id=1" width="1062" height="622" frameborder="0" allowfullscreen="allowfullscreen" title="Die sensomotorische Entwicklung (0-2 Jahre) Alois Bigger"></iframe><script src="https://zuugs.hfh.ch/h5panwendungen/wp-content/plugins/h5p/h5p-php-library/js/h5p-resizer.js" charset="UTF-8"></script>';
 

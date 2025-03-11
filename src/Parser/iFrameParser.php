@@ -30,11 +30,11 @@ class iFrameParser implements Parser
     private UniqueIdGenerator $id_generator;
     private DimensionBuilder $dimensions;
 
-    public function __construct()
+    public function __construct(DimensionBuilder $dimensions)
     {
         $this->sanitizer = new Sanitizer();
         $this->id_generator = new UniqueIdGenerator();
-        $this->dimensions = new DimensionBuilder();
+        $this->dimensions = $dimensions;
     }
 
     public function parse(string $snippet): Embeddable

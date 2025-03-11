@@ -64,12 +64,16 @@ class Init
         $container[URLTranslator::class] = static fn (): URLTranslator => new URLTranslator();
         $container[EmbeddableRepository::class] = static fn (): EmbeddableRepository => new EmbeddableRepositoryWapper(
             new EmbeddableRepositoryDB(
-                $DIC->database()
+                $DIC->database(),
+                $container[DimensionBuilder::class]
             ),
             $container[Check::class],
-            $container[URLTranslator::class]
+            $container[URLTranslator::class],
         );
-        $container[DimensionBuilder::class] = static fn(): DimensionBuilder => new DimensionBuilder();
+        $container[Settings::class] = static fn(): Settings => new Settings(
+            $container[SettingsRepository::class]
+        );
+        $container[DimensionBuilder::class] = static fn(): DimensionBuilder => new DimensionBuilder($container[Settings::class]);
         $container[RendererFactory::class] = static fn(): RendererFactory => new RendererFactory(
             $container[Check::class],
             $container[Translator::class],
@@ -79,10 +83,8 @@ class Init
         $container[SettingsRepository::class] = static fn (): SettingsRepository => new SettingsRepositoryDB(
             $DIC->database()
         );
-        $container[Settings::class] = static fn (): Settings => new Settings(
-            $container[SettingsRepository::class]
-        );
-        $container[PageRepository::class] = static fn (): PageRepository => new PageRepository(
+
+        $container[PageRepository::class] = static fn(): PageRepository => new PageRepository(
             $DIC->database()
         );
 

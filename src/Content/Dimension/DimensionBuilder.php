@@ -11,6 +11,7 @@
 namespace srag\Plugins\SrExternalPageContent\Content\Dimension;
 
 use srag\Plugins\SrExternalPageContent\Content\Embeddable;
+use srag\Plugins\SrExternalPageContent\Settings\Settings;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -20,15 +21,24 @@ use srag\Plugins\SrExternalPageContent\Content\Embeddable;
  */
 class DimensionBuilder
 {
-    public $default_width;
-    public $default_height;
     public const DEFAULT_WIDTH = 960;
     public const DEFAULT_HEIGHT = 540;
+
+    protected ?int $default_width = self::DEFAULT_WIDTH;
+    protected ?int $default_height = self::DEFAULT_HEIGHT;
 
     private const MODE = 'mode';
     private const RATIO = 'ratio';
     private const WIDTH = 'width';
     private const HEIGHT = 'height';
+
+    public function __construct(?Settings $settings = null)
+    {
+        if ($settings !== null) {
+            $this->default_width = $settings->get('default_width', null);
+            $this->default_height = $settings->get('default_height', null);
+        }
+    }
 
     public function forJS(Dimension $dimension): string
     {
@@ -210,8 +220,8 @@ class DimensionBuilder
         return new Dimension(
             DimensionMode::ASPECT_RATIO,
             DimensionMode::AS_16_9,
-            self::DEFAULT_WIDTH,
-            self::DEFAULT_HEIGHT
+            $this->default_width,
+            $this->default_height
         );
     }
 
