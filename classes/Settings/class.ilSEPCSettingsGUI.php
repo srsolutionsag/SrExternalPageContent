@@ -90,6 +90,26 @@ class ilSEPCSettingsGUI extends BaseGUI
                                 fn (bool $checked): bool => $this->settings->set('silent_creation', $checked)
                             )
                         ),
+                        'default_width' => $factory->field()->numeric(
+                            $this->translator->txt('default_width'),
+                            $this->translator->txt('default_width_info')
+                        )->withValue(
+                            $this->settings->get('default_width', null)
+                        )->withAdditionalTransformation(
+                            $this->refinery->trafo(
+                                fn(?int $width): ?int => $this->settings->set('default_width', $width)
+                            )
+                        ),
+                        'grey_buttons' => $factory->field()->checkbox(
+                            $this->translator->txt('grey_buttons'),
+                            $this->translator->txt('grey_buttons_info')
+                        )->withValue(
+                            $this->settings->get('grey_buttons', true)
+                        )->withAdditionalTransformation(
+                            $this->refinery->trafo(
+                                fn(bool $grey_buttons): bool => $this->settings->set('grey_buttons', $grey_buttons)
+                            )
+                        )
                     ],
                     $this->translator->txt('settings_title')
                 ),

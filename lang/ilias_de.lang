@@ -6,7 +6,7 @@ aspect_ratio_dimensions_info#:#Das iFrame wird mit einem festen Seitenverhältni
 aspect_ratio_info#:#Wählen Sie das Seitenverhältnis des iFrames.
 aspect_ratio_width#:#Maximale Breite
 aspect_ratio_width_info#:#Optional: Maximale Breite des iFrames in Pixeln.
-before_load_button#:#Inhalt anzeigen
+before_load_button#:#Anzeigen bestätigen
 before_load_info#:#Externe Inhalte von %s werden geladen. Bitte bestätigen Sie, dass Sie den Inhalt sehen möchten.
 cmd_insert#:#Externen Inhalt einfügen
 compare_original#:#Original
@@ -99,3 +99,8 @@ whitelist_toggle#:#De-/Aktivieren
 whitelist_updated#:#Aktualisiert
 width#:#Breite
 width_info#:#Breite des iFrames in Pixeln
+default_width#:#Maximale Standardbreite
+default_width_info#:#Optional: Wenn kein Wert angegeben wird, wird keine maximale Breite ausausgefüllt.
+close_thumbnail_button#:#Inhalt anzeigen
+grey_buttons#:#Graue Buttons
+grey_buttons_info#:#Die Buttons für das Schlissen von Vorschaubildern und die Bestätigung zum Laden der Inhalte werden grau dargestellt.

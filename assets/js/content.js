@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const resizer = function (d) {
     const dimensions = JSON.parse(d.getAttribute('data-dimensions'));
-    console.log(dimensions);
+    // console.log(dimensions);
 
     // properties
     // eslint-disable-next-line max-len
@@ -64,8 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
     switch (mode) {
       case 1: // FIXED
         {
-          console.log('FIXED');
-          console.log(ratio);
+          // console.log('FIXED');
+          // console.log(ratio);
           const width = Math.min(parentWidth, maxWidth);
           const height = Math.min((parentWidth / ratio), maxHeight);
 
@@ -77,16 +77,16 @@ document.addEventListener('DOMContentLoaded', () => {
         break;
       case 2: // FIXED_HEIGHT
         {
-          console.log('FIXED_HEIGHT');
+          // console.log('FIXED_HEIGHT');
           d.style.width = `${parentWidth}px`;
           d.style.height = `${maxHeight}px`;
         }
         break;
       case 3: // ASPECT_RATIO
         {
-          console.log('ASPECT_RATIO');
+          // console.log('ASPECT_RATIO');
           d.style.width = `${parentWidth}px`;
-          d.style.height = `${( parentWidth / ratio)}px`;
+          d.style.height = `${(parentWidth / ratio)}px`;
           if (maxWidth) {
             d.style.maxWidth = `${maxWidth}px`;
             d.style.maxHeight = `${maxWidth / ratio}px`;
@@ -113,9 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.clear();
       localStorage.setItem('last_reset', reset);
     }
-    let mustConsent = d.getAttribute('data-must-consent');
+    const mustConsent = d.getAttribute('data-must-consent');
     let consentedId = localStorage.getItem(contentId);
-    let consentedDomain = localStorage.getItem(domain);
+    const consentedDomain = localStorage.getItem(domain);
     if (d.getAttribute('data-consented') === '1' || consentedDomain === '1') {
       consentedId = '1';
     }
@@ -132,11 +132,14 @@ document.addEventListener('DOMContentLoaded', () => {
       resizer(d);
     });
 
-    if (thumbnail !== '') {
-      d.style.backgroundImage = `url(${thumbnail})`;
-      mustConsent = '1';
-      consentedId = '0';
-      consentedDomain = '0';
+    if (thumbnail !== '' && thumbnail !== null) {
+      const thumb_div = d.getElementsByClassName('sr-external-page-content-thumbnail')[0];
+      thumb_div.style.backgroundImage = `url(${thumbnail})`;
+      thumb_div.style.display = 'flex';
+      //const button = thumb_div.getElementsByClassName('sr-external-page-content-closer')[0];
+      thumb_div.addEventListener('click', () => {
+        thumb_div.style.display = 'none';
+      });
     }
 
     const content = d.getElementsByClassName('sr-external-page-loadable')[0];

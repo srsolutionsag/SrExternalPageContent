@@ -71,6 +71,11 @@ abstract class BaseRenderer
             $this->irss->manage()->find($embeddable->getThumbnailRid())
         )->getSrc();
         $wrapper->setVariable('THUMBNAIL', $thumbnail_src);
+        $wrapper->setVariable('BUTTON_TEXT_THUMBNAIL', $this->translator->txt('close_thumbnail_button'));
+
+        if($this->settings->get('grey_buttons', true)) {
+            $wrapper->setVariable('BUTTON_CLASS', 'sr-external-page-content-grey-buttons');
+        }
 
         foreach ($embeddable->getScripts() as $script) {
             $wrapper->setCurrentBlock('script');
