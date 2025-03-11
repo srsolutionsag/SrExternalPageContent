@@ -81,4 +81,9 @@ class EmbeddableRepositoryWapper implements EmbeddableRepository
         return $this->repository->all();
     }
 
+    public function cloneById(string $id): ?Embeddable
+    {
+        return $this->repository->cloneById($id);
+    }
+
 }
