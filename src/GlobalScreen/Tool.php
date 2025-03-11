@@ -41,7 +41,8 @@ class Tool extends AbstractDynamicToolPluginProvider
         'root',
         'grp',
         'cat',
-        'fold'
+        'fold',
+        'copa',
     ];
 
     public function isInterestedInContexts(): ContextCollection
