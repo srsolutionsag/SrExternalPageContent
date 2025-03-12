@@ -25,12 +25,12 @@ class EmbeddableRepositoryDB implements EmbeddableRepository
 
     private const TYPE_INT_IFRAME = 1;
     private DimensionBuilder $dimensions;
-    private Services $irss;
+    private ?Services $irss = null;
 
     public function __construct(
         \ilDBInterface $db,
         DimensionBuilder $dimensions,
-        Services $irss
+        ?Services $irss = null
     ) {
         $this->__dbStringKeyRepositoryConstruct($db);
         $this->dimensions = $dimensions;
@@ -179,6 +179,10 @@ class EmbeddableRepositoryDB implements EmbeddableRepository
 
     public function cloneById(string $id): ?Embeddable
     {
+        if ($this->irss === null) {
+            throw new \LogicException("IRSS is not set");
+        }
+
         $embeddable = $this->getById($id, true);
         if ($embeddable === null) {
             return null;

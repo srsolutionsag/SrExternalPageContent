@@ -70,8 +70,11 @@ class ilSrExternalPageContentDBUpdateSteps implements \ilDatabaseUpdateSteps
 
     public function step_4(): void
     {
-        $repo = new EmbeddableRepositoryDB($this->db);
         $dimensions = new DimensionBuilder();
+        $repo = new EmbeddableRepositoryDB(
+            $this->db,
+            $dimensions
+        );
         foreach ($repo->all() as $embeddable) {
             try {
                 $embeddable->setDimension($dimensions->fromLegacyProperties($embeddable));
