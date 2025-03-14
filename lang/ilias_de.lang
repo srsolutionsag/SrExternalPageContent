@@ -63,8 +63,8 @@ settings#:#Einstellungen
 settings_roles#:#Rollen
 settings_roles_info#:#Rollen, die neue externe Inhalte im Seiteneditor hinzufügen können.
 settings_title#:#Einstellungen
-silent_creation#:#"Stille" Erstellung von Whitelist-Einträgen
-silent_creation_info#:#Werden neue Einhalte mit URLs erstellt, die bisher nicht auf der Whitelist sind, wird ein Whitelisteintrag erstellt, aber nicht aktiviert.
+silent_creation#:#Automatisches Hinzufügen von Domains
+silent_creation_info#:#Werden neue Einhalte mit URLs erstellt, die bisher nicht auf der Liste "Freigegebene Domains" stehen, wird ein Eintrag erstellt, aber nicht aktiviert.
 tab_fb#:#Zurück
 tab_migration#:#Migration
 tab_settings#:#Einstellungen
@@ -99,8 +99,8 @@ whitelist_toggle#:#De-/Aktivieren
 whitelist_updated#:#Aktualisiert
 width#:#Breite
 width_info#:#Breite des iFrames in Pixeln
-default_width#:#Maximale Standardbreite
-default_width_info#:#Optional: Wenn kein Wert angegeben wird, wird keine maximale Breite ausausgefüllt.
+default_width#:#Vorgeschlagene Maximalbreite
+default_width_info#:#Vorausgefüllte Breite, die überschrieben werden kann. Wird kein Wert angegeben, wird immer die maximal verfügbare Breite genutzt.
 close_thumbnail_button#:#Inhalt anzeigen
 grey_buttons#:#Graue Buttons
-grey_buttons_info#:#Die Buttons für das Schlissen von Vorschaubildern und die Bestätigung zum Laden der Inhalte werden grau dargestellt.
+grey_buttons_info#:#Die Buttons für die Bestätigung zum Laden des Inhalts werden grau dargestellt.
