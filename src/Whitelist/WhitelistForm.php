@@ -75,6 +75,7 @@ class WhitelistForm extends BaseUIComponent
                 $this->getInputs(),
                 $this->post_url,
             )
+            ->withSubmitCaption($this->translator->txt('save', 'whitelist'))
             ->withAdditionalTransformation(
                 $this->travo(fn ($value): WhitelistedDomain => $this->domain)
             );
