@@ -87,12 +87,12 @@ class IFrameSection extends Base implements FormElement
                 DimensionMode::FIXED => $factory->group(
                     [
                         $factory->numeric(
-                            $this->translator->txt('fixed_width'),
-                            $this->translator->txt('fixed_width_info')
+                            $this->translator->txt('fixed_dimensions_width'),
+                            $this->translator->txt('fixed_dimensions_width_info')
                         )->withRequired(true),
                         $factory->numeric(
-                            $this->translator->txt('fixed_height'),
-                            $this->translator->txt('fixed_height_info')
+                            $this->translator->txt('fixed_dimensions_height'),
+                            $this->translator->txt('fixed_dimensions_height_info')
                         )->withRequired(true)
                     ],
                     $this->translator->txt('fixed_dimensions'),
@@ -119,8 +119,8 @@ class IFrameSection extends Base implements FormElement
                 DimensionMode::FIXED_HEIGHT => $factory->group(
                     [
                         $factory->numeric(
-                            $this->translator->txt('fixed_height'),
-                            $this->translator->txt('fixed_height_info')
+                            $this->translator->txt('fixed_height_height'),
+                            $this->translator->txt('fixed_height_height_info')
                         )->withRequired(true)
                     ],
                     $this->translator->txt('fixed_height'),
