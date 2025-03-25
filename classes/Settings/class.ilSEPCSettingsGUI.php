@@ -69,17 +69,6 @@ class ilSEPCSettingsGUI extends BaseGUI
             [
                 $factory->field()->section(
                     [
-                        'roles' => $factory->field()->multiSelect(
-                            $this->translator->txt('settings_roles'),
-                            $options,
-                            $this->translator->txt('settings_roles_info')
-                        )->withValue(
-                            $currently_selected_roles
-                        )->withAdditionalTransformation(
-                            $this->refinery->trafo(
-                                fn(array $role_ids): array => $this->settings->set('roles', $role_ids)
-                            )
-                        ),
                         'silent_creation' => $factory->field()->checkbox(
                             $this->translator->txt('silent_creation'),
                             $this->translator->txt('silent_creation_info')
@@ -109,7 +98,18 @@ class ilSEPCSettingsGUI extends BaseGUI
                             $this->refinery->trafo(
                                 fn(bool $grey_buttons): bool => $this->settings->set('grey_buttons', $grey_buttons)
                             )
-                        )
+                        ),
+                        'roles' => $factory->field()->multiSelect(
+                            $this->translator->txt('settings_roles'),
+                            $options,
+                            $this->translator->txt('settings_roles_info')
+                        )->withValue(
+                            $currently_selected_roles
+                        )->withAdditionalTransformation(
+                            $this->refinery->trafo(
+                                fn(array $role_ids): array => $this->settings->set('roles', $role_ids)
+                            )
+                        ),
                     ],
                     $this->translator->txt('settings_title')
                 ),
