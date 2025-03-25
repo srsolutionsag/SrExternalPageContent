@@ -8,9 +8,12 @@ aspect_ratio_width#:#Maximum width
 aspect_ratio_width_info#:#Optional: Maximum width of the iFrame in pixels.
 before_load_button#:#Confirm
 before_load_info#:#External content from %s is loading. Please confirm that you want to see the content.
+close_thumbnail_button#:#Show Content
 cmd_insert#:#Insert external content
 compare_original#:#Original
 compare_proxy#:#Preview
+default_width#:#Maximum default width
+default_width_info#:#Optional: Maximum default width of the iFrame in pixels. If no value is entered, no maximum width is set as a default.
 delete#:#Delete
 dimensions#:#Display size
 dimensions_info#:#Settings for the display size of the iFrame.
@@ -23,14 +26,20 @@ embed_content_invalid_url#:#The URL entered is invalid or has not been whitelist
 embed_section_title#:#Embed snippet automatically
 external_contents#:#External content
 fixed_dimensions#:#Fixed size
+fixed_dimensions_height#:#Width
+fixed_dimensions_height_info#:#Width of the iFrame in pixels.
 fixed_dimensions_info#:#The iFrame is displayed with a fixed height and width.
-fixed_height#:#Fixed Height
-fixed_height_info#:#Height of the iFrame in pixels.
-fixed_width#:#fixed_width
-fixed_width_info#:#Width of the iFrame in pixels.
+fixed_dimensions_width#:#Height
+fixed_dimensions_width_info#:#Height of the iFrame in pixels.
+fixed_height#:#Fixed height
+fixed_height_height#:#Height of the iFrame.
+fixed_height_height_info#:#In pixels
+fixed_height_info#:#The height of the iFrame is fixed. The width uses the available space.
 form_title#:#Add new iFrame
 frameborder#:#Frame border
 frameborder_info#:#Thickness of the frame around the iFrame in pixels
+grey_buttons#:#Grey Buttons
+grey_buttons_info#:#Use grey buttons instead of the default ILIAS buttons colors.
 height#:#Height
 height_info#:#Height of the iFrame in pixels
 iframe_section_title#:#Manual iFrame entry
@@ -99,8 +108,3 @@ whitelist_toggle#:#Activate/Deactivate
 whitelist_updated#:#Updated
 width#:#Width
 width_info#:#Width of the iFrame in pixels
-default_width#:#Maximum default width
-default_width_info#:#Optional: Maximum default width of the iFrame in pixels. If no value is entered, no maximum width is set as a default.
-close_thumbnail_button#:#Show Content
-grey_buttons#:#Grey Buttons
-grey_buttons_info#:#Use grey buttons instead of the default ILIAS buttons colors.

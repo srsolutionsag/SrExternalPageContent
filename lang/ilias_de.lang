@@ -8,9 +8,12 @@ aspect_ratio_width#:#Maximale Breite
 aspect_ratio_width_info#:#Optional: Maximale Breite des iFrames in Pixeln.
 before_load_button#:#Anzeigen bestätigen
 before_load_info#:#Externe Inhalte von %s werden geladen. Bitte bestätigen Sie, dass Sie den Inhalt sehen möchten.
+close_thumbnail_button#:#Inhalt anzeigen
 cmd_insert#:#Externen Inhalt einfügen
 compare_original#:#Original
 compare_proxy#:#Vorschau
+default_width#:#Vorgeschlagene Maximalbreite
+default_width_info#:#Vorausgefüllte Breite, die überschrieben werden kann. Wird kein Wert angegeben, wird immer die maximal verfügbare Breite genutzt.
 delete#:#Löschen
 dimensions#:#Anzeigegrösse
 dimensions_info#:#Einstellungen zur Anzeigegrösse des iFrames.
@@ -23,16 +26,20 @@ embed_content_invalid_url#:#Die eingegebene URL ist ungültig oder wurde nicht f
 embed_section_title#:#Einbettungscode automatisch einbetten
 external_contents#:#Externe Inhalte
 fixed_dimensions#:#Feste Grösse
-fixed_dimensions_info#:#Das iFrame wird mit einer Festen Höhe und Breite angezeigt.
+fixed_dimensions_height#:#Breite
+fixed_dimensions_height_info#:#Breite des iFrames in Pixel.
+fixed_dimensions_info#:#Die angegebene Höhe und Breite gelten als maximale Abmessungen. Das iFrame wird sich automatisch an die Breite des Containers anpassen und behält das Verhältnis aus der Höhe und Breite.
+fixed_dimensions_width#:#Höhe
+fixed_dimensions_width_info#:#Höhe des iFrames in Pixel.
 fixed_height#:#Feste Höhe
-fixed_height_info#:#Höhe des iFrames in Pixel. Die Breite ist immer 100% des zur Verfügung stehendes Platzes.
-fixed_width#:#Breite
-fixed_width_info#:#Breite des iFrames in Pixel.
+fixed_height_height#:#Höhe des iFrames.
+fixed_height_height_info#:#In Pixeln
+fixed_height_info#:#Die Höhe des iFrames wird fix festgelegt. Die Breite nutzt den verfügbaren Platz.
 form_title#:#Neues iFrame hinzufügen
 frameborder#:#Rahmen
 frameborder_info#:#Dicke des Rahmens um das iFrame in Pixeln
-height#:#Höhe
-height_info#:#Höhe des iFrames in Pixeln
+grey_buttons#:#Graue Buttons
+grey_buttons_info#:#Die Buttons für die Bestätigung zum Laden des Inhalts werden grau dargestellt.
 iframe_section_title#:#Manuelle iFrame-Eingabe
 migrate#:#Bestehende Inhalte migrieren (Beta)
 migrate_info#:#Hier werden alle Seiten des ILIAS-Seiteneditors aufgeführt, welche bisher iFrames direkt eingebettet haben. Diese Inhalte können migriert werden, um die neue iFrame-Verwaltung zu nutzen. Nachfolgend eine Vorschau der Inhalte, wie sie in der Datenbank nach der Migration aussehen könnten.
@@ -99,8 +106,3 @@ whitelist_toggle#:#De-/Aktivieren
 whitelist_updated#:#Aktualisiert
 width#:#Breite
 width_info#:#Breite des iFrames in Pixeln
-default_width#:#Vorgeschlagene Maximalbreite
-default_width_info#:#Vorausgefüllte Breite, die überschrieben werden kann. Wird kein Wert angegeben, wird immer die maximal verfügbare Breite genutzt.
-close_thumbnail_button#:#Inhalt anzeigen
-grey_buttons#:#Graue Buttons
-grey_buttons_info#:#Die Buttons für die Bestätigung zum Laden des Inhalts werden grau dargestellt.
