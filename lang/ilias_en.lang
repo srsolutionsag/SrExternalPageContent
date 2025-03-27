@@ -28,7 +28,7 @@ external_contents#:#External content
 fixed_dimensions#:#Fixed size
 fixed_dimensions_height#:#Width
 fixed_dimensions_height_info#:#Width of the iFrame in pixels.
-fixed_dimensions_info#:#The iFrame is displayed with a fixed height and width.
+fixed_dimensions_info#:#The specified height and width are maximum dimensions. The Frame will automatically adjust to the specified height and width and keeps the ratio of the height and width.
 fixed_dimensions_width#:#Height
 fixed_dimensions_width_info#:#Height of the iFrame in pixels.
 fixed_height#:#Fixed height
