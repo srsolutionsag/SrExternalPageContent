@@ -78,7 +78,7 @@ class iFrame extends BaseEmbeddable implements Embeddable
 
     public function isAllowfullscreen(): bool
     {
-        return $this->allowfullscreen;
+        return $this->allowfullscreen || (bool) ($this->properties['allowfullscreen'] ?? false);
     }
 
     public function setTitle(string $title): iFrame
