@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
       iframe.src = url;
       iframe.title = title;
       iframe.scrolling = 'no';
-      iframe.allowfullscreen = allowfullscreen;
+      iframe.allowfullscreen = allowfullscreen ? 'allowfullscreen' : '';
 
       // always fill the iframe size to the parent div
       iframe.style.width = '100%';
