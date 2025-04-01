@@ -42,7 +42,7 @@ class iFrame extends BaseEmbeddable implements Embeddable
         $this->frameborder = (int) ($properties['frameborder'] ?? 0);
         $this->allow = $properties['allow'] ?? [];
         $this->referrerpolicy = $properties['referrerpolicy'] ?? '';
-        $this->allowfullscreen = (bool) ($properties['allowfullscreen'] ?? false);
+        $this->allowfullscreen = isset($properties['allowfullscreen']);
     }
 
     public function getProperties(): array
@@ -78,7 +78,7 @@ class iFrame extends BaseEmbeddable implements Embeddable
 
     public function isAllowfullscreen(): bool
     {
-        return $this->allowfullscreen || (bool) ($this->properties['allowfullscreen'] ?? false);
+        return $this->allowfullscreen;
     }
 
     public function setTitle(string $title): iFrame

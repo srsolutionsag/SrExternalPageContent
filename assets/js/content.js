@@ -7,8 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const d = iframeData[i];
     const url = d.getAttribute('data-url');
     const title = d.getAttribute('data-title');
-    const allowfullscreen = d.getAttribute('data-allowfullscreen');
+    const allowfullscreen = d.getAttribute('data-allowfullscreen') === '1';
     const contentId = d.getAttribute('data-content-id');
+
+    console.log(allowfullscreen);
 
     // add click event listener to the button
     d.addEventListener(contentId, () => {
@@ -17,8 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
       iframe.src = url;
       iframe.title = title;
       iframe.scrolling = 'no';
-      iframe.allowfullscreen = allowfullscreen;
 
+      if(allowfullscreen) {
+        iframe.setAttribute('allowfullscreen', 'allowfullscreen');
+      }
       // always fill the iframe size to the parent div
       iframe.style.width = '100%';
       iframe.style.height = '100%';
