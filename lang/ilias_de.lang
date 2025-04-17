@@ -8,6 +8,8 @@ aspect_ratio_width#:#Maximale Breite
 aspect_ratio_width_info#:#Optional: Maximale Breite des iFrames in Pixeln.
 before_load_button#:#Anzeigen bestätigen
 before_load_info#:#Externe Inhalte von %s werden geladen. Bitte bestätigen Sie, dass Sie den Inhalt sehen möchten.
+button_zoom#:#Button-Grösse
+button_zoom_info#:#Zoom-Faktor für die Buttons, die den externen Inhalt laden.
 close_thumbnail_button#:#Inhalt anzeigen
 cmd_insert#:#Externen Inhalt einfügen
 compare_original#:#Original

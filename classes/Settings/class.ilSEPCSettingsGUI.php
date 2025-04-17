@@ -99,6 +99,25 @@ class ilSEPCSettingsGUI extends BaseGUI
                                 fn(bool $grey_buttons): bool => $this->settings->set('grey_buttons', $grey_buttons)
                             )
                         ),
+                        'botton_zoom' =>$factory->field()->select(
+                            $this->translator->txt('button_zoom'),
+                            [
+                                '0.5' => '0.5',
+                                '0.75' => '0.75',
+                                '1.0' => '1.0',
+                                '1.25' => '1.25',
+                                '1.5' => '1.5',
+                                '1.75' => '1.75',
+                                '2.0' => '2.0',
+                            ],
+                            $this->translator->txt('button_zoom_info')
+                        )->withValue(
+                            $this->settings->get('button_zoom', '1.0')
+                        )->withAdditionalTransformation(
+                            $this->refinery->trafo(
+                                fn(string $button_zoom): string => $this->settings->set('button_zoom', $button_zoom)
+                            )
+                        ),
                         'roles' => $factory->field()->multiSelect(
                             $this->translator->txt('settings_roles'),
                             $options,

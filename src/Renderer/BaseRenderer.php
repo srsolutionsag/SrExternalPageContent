@@ -25,6 +25,7 @@ use srag\Plugins\SrExternalPageContent\Content\Dimension\DimensionBuilder;
  */
 abstract class BaseRenderer
 {
+    protected \ilGlobalTemplateInterface $main_tpl;
     protected DimensionBuilder $dimensions;
     protected Settings $settings;
     protected Check $check;
@@ -38,6 +39,7 @@ abstract class BaseRenderer
         DimensionBuilder $dimensions
     ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->check = $check;
         $this->settings = $settings;
         $this->translator = $translator;
@@ -51,6 +53,11 @@ abstract class BaseRenderer
         $uri = new URI($url);
 
         $whitelisted_domain = $this->check->getBest($url);
+
+        // add button zoom css
+        $this->main_tpl->addInlineCss(
+            '.sr-external-page-content-button { zoom: ' . $this->settings->get('button_zoom', '1.0') . '; }'
+        );
 
         // content wrapper, we will move that later if there are other renderers
         $wrapper = new \ilTemplate(__DIR__ . '/../../templates/default/tpl.content_wrapper.html', false, false);
