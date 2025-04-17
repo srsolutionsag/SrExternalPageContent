@@ -1,5 +1,17 @@
 # Changelog
 
+## Version 1.1.1
+- [FIX] missing en translation
+- [FIX] edit and delete whitelist modals
+- [FIX] order of settings in form
+- [FIX] some missing or misleading translations
+- Update ilias_de.lang
+- [FIX] German language improvements
+- [FIX] set iframe property for allowfullscreen
+- [FIX] respect allow fullscreen
+- [FIX] update step not working
+- Update .gitlab-ci.yml
+
 ## Version 1.1.0
 - [FEATURE] 2-click thumbnail and new style
 - [FEATURE] new Dimension Settings
