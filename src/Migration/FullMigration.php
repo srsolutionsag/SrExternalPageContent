@@ -70,7 +70,7 @@ class FullMigration implements Migration
         $this->settings = new WorkflowSettings(
             false,
         );
-        $this->embeddable_repository = new EmbeddableRepositoryDB($this->db);
+        $this->embeddable_repository = new EmbeddableRepositoryDB($this->db, new DimensionBuilder());
         $this->page_repository = new PageRepository($this->db);
         $this->workflow = new PageByPageWorkflow(
             new ParserFactory(new DimensionBuilder()),
