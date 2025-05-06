@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 2.2.0
+- [FEATURE] Button-Zoom
+- [FIX] overlapping menues
+- [FIX] missing parameter for migration
+
 ## Version 2.1.1
 - [FIX] set iframe property for allowfullscreen
 - [FIX] respect allow fullscreen
