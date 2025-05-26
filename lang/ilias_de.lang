@@ -8,7 +8,7 @@ aspect_ratio_width#:#Maximale Breite
 aspect_ratio_width_info#:#Optional: Maximale Breite des iFrames in Pixeln.
 before_load_button#:#Anzeigen bestätigen
 before_load_info#:#Externe Inhalte von %s werden geladen. Bitte bestätigen Sie, dass Sie den Inhalt sehen möchten.
-button_zoom#:#Button-Grösse
+button_zoom#:#Button-Größe
 button_zoom_info#:#Zoom-Faktor für die Buttons, die den externen Inhalt laden.
 close_thumbnail_button#:#Inhalt anzeigen
 cmd_insert#:#Externen Inhalt einfügen
@@ -17,8 +17,8 @@ compare_proxy#:#Vorschau
 default_width#:#Vorgeschlagene Maximalbreite
 default_width_info#:#Vorausgefüllte Breite, die überschrieben werden kann. Wird kein Wert angegeben, wird immer die maximal verfügbare Breite genutzt.
 delete#:#Löschen
-dimensions#:#Anzeigegrösse
-dimensions_info#:#Einstellungen zur Anzeigegrösse des iFrames.
+dimensions#:#Anzeigegröße
+dimensions_info#:#Einstellungen zur Anzeigegröße des iFrames.
 edit_content_info#:#Externer Inhalt von %s
 embed_content#:#Einbettungscode einfügen
 embed_content_info#:#Fügen Sie den einzubettenden Code hier ein. Es wird verarbeitet und auf Sicherheit geprüft. Wenn der Einbettungscode zulässig ist, wird er als iFrame gespeichert.
@@ -27,7 +27,7 @@ embed_content_invalid_content#:#Der eingegebene Inhalt ist ungültig. Es wurde k
 embed_content_invalid_url#:#Die eingegebene URL ist ungültig oder wurde nicht für diese ILIAS-Installation freigegeben. Bitte wenden Sie sich an die Plattform-Administration.
 embed_section_title#:#Einbettungscode automatisch einbetten
 external_contents#:#Externe Inhalte
-fixed_dimensions#:#Feste Grösse
+fixed_dimensions#:#Feste Größe
 fixed_dimensions_height#:#Breite
 fixed_dimensions_height_info#:#Breite des iFrames in Pixel.
 fixed_dimensions_info#:#Die angegebene Höhe und Breite gelten als maximale Abmessungen. Das iFrame wird sich automatisch an die Breite des Containers anpassen und behält das Verhältnis aus der Höhe und Breite.
@@ -55,7 +55,7 @@ msg_form_invalid#:#Bitte prüfen Sie Ihre Eingaben im Formular.
 msg_form_saved#:#msg_form_saved
 msg_validation_failed#:#Die Validierung des Snippets ist fehlgeschlagen. Bitte überprüfen Sie das Snippet und versuchen Sie es erneut.
 next_page#:#Nächste Seite
-not_embeddable_info#:#Der externer Inhalt von %s kann nicht eingebettet werden. <br>Grund: %s
+not_embeddable_info#:#Der externe Inhalt von %s kann nicht eingebettet werden. <br>Grund: %s
 not_embeddable_section_title#:#Der Inhalt kann nicht bearbeitet werden, da vermutlich die URL nicht freigegeben wurde.
 perform_migration#:#Aktuelle Seite migrieren
 perform_migration_all#:#Alle Seiten direkt migrieren
@@ -73,7 +73,7 @@ settings_roles#:#Rollen
 settings_roles_info#:#Rollen, die neue externe Inhalte im Seiteneditor hinzufügen können.
 settings_title#:#Einstellungen
 silent_creation#:#Automatisches Hinzufügen von Domains
-silent_creation_info#:#Werden neue Einhalte mit URLs erstellt, die bisher nicht auf der Liste "Freigegebene Domains" stehen, wird ein Eintrag erstellt, aber nicht aktiviert.
+silent_creation_info#:#Werden neue Inhalte mit URLs erstellt, die bisher nicht auf der Liste "Freigegebene Domains" stehen, wird ein Eintrag erstellt, aber nicht aktiviert.
 tab_fb#:#Zurück
 tab_migration#:#Migration
 tab_settings#:#Einstellungen
