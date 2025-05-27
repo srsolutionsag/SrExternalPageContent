@@ -45,8 +45,8 @@ grey_buttons_info#:#Die Buttons für die Bestätigung zum Laden des Inhalts werd
 iframe_section_title#:#Manuelle iFrame-Eingabe
 migrate#:#Bestehende Inhalte migrieren (Beta)
 migrate_info#:#Hier werden alle Seiten des ILIAS-Seiteneditors aufgeführt, welche bisher iFrames direkt eingebettet haben. Diese Inhalte können migriert werden, um die neue iFrame-Verwaltung zu nutzen. Nachfolgend eine Vorschau der Inhalte, wie sie in der Datenbank nach der Migration aussehen könnten.
-migration_info_iframes#:#Die aktuelle Seite Seite enthält %s iFrames und kann migriert werden.
-migration_info_iframes_object#:#Wenn das aktuelle Lernmdoul Seiten mit iFrames enthält, können diese migriert werden.
+migration_info_iframes#:#Die aktuelle Seite enthält %s iFrames und kann migriert werden.
+migration_info_iframes_object#:#Wenn das aktuelle Lernmodul Seiten mit iFrames enthält, können diese migriert werden.
 migration_none_found#:#Keine Seiten gefunden, die migriert werden können.
 migration_start#:#Migration starten
 migration_success#:#Seite erfolgreich migriert
@@ -55,7 +55,7 @@ msg_form_invalid#:#Bitte prüfen Sie Ihre Eingaben im Formular.
 msg_form_saved#:#msg_form_saved
 msg_validation_failed#:#Die Validierung des Snippets ist fehlgeschlagen. Bitte überprüfen Sie das Snippet und versuchen Sie es erneut.
 next_page#:#Nächste Seite
-not_embeddable_info#:#Der externer Inhalt von %s kann nicht eingebettet werden. <br>Grund: %s
+not_embeddable_info#:#Der externe Inhalt von %s kann nicht eingebettet werden. <br>Grund: %s
 not_embeddable_section_title#:#Der Inhalt kann nicht bearbeitet werden, da vermutlich die URL nicht freigegeben wurde.
 perform_migration#:#Aktuelle Seite migrieren
 perform_migration_all#:#Alle Seiten direkt migrieren
@@ -73,7 +73,7 @@ settings_roles#:#Rollen
 settings_roles_info#:#Rollen, die neue externe Inhalte im Seiteneditor hinzufügen können.
 settings_title#:#Einstellungen
 silent_creation#:#Automatisches Hinzufügen von Domains
-silent_creation_info#:#Werden neue Einhalte mit URLs erstellt, die bisher nicht auf der Liste "Freigegebene Domains" stehen, wird ein Eintrag erstellt, aber nicht aktiviert.
+silent_creation_info#:#Werden neue Inhalte mit URLs erstellt, die bisher nicht auf der Liste "Freigegebene Domains" stehen, wird ein Eintrag erstellt, aber nicht aktiviert.
 tab_fb#:#Zurück
 tab_migration#:#Migration
 tab_settings#:#Einstellungen
