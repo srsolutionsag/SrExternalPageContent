@@ -8,7 +8,7 @@ aspect_ratio_width#:#Maximale Breite
 aspect_ratio_width_info#:#Optional: Maximale Breite des iFrames in Pixeln.
 before_load_button#:#Anzeigen bestätigen
 before_load_info#:#Externe Inhalte von %s werden geladen. Bitte bestätigen Sie, dass Sie den Inhalt sehen möchten.
-button_zoom#:#Button-Größe
+button_zoom#:#Button-Grösse
 button_zoom_info#:#Zoom-Faktor für die Buttons, die den externen Inhalt laden.
 close_thumbnail_button#:#Inhalt anzeigen
 cmd_insert#:#Externen Inhalt einfügen
@@ -17,8 +17,8 @@ compare_proxy#:#Vorschau
 default_width#:#Vorgeschlagene Maximalbreite
 default_width_info#:#Vorausgefüllte Breite, die überschrieben werden kann. Wird kein Wert angegeben, wird immer die maximal verfügbare Breite genutzt.
 delete#:#Löschen
-dimensions#:#Anzeigegröße
-dimensions_info#:#Einstellungen zur Anzeigegröße des iFrames.
+dimensions#:#Anzeigegrösse
+dimensions_info#:#Einstellungen zur Anzeigegrösse des iFrames.
 edit_content_info#:#Externer Inhalt von %s
 embed_content#:#Einbettungscode einfügen
 embed_content_info#:#Fügen Sie den einzubettenden Code hier ein. Es wird verarbeitet und auf Sicherheit geprüft. Wenn der Einbettungscode zulässig ist, wird er als iFrame gespeichert.
@@ -27,7 +27,7 @@ embed_content_invalid_content#:#Der eingegebene Inhalt ist ungültig. Es wurde k
 embed_content_invalid_url#:#Die eingegebene URL ist ungültig oder wurde nicht für diese ILIAS-Installation freigegeben. Bitte wenden Sie sich an die Plattform-Administration.
 embed_section_title#:#Einbettungscode automatisch einbetten
 external_contents#:#Externe Inhalte
-fixed_dimensions#:#Feste Größe
+fixed_dimensions#:#Feste Grösse
 fixed_dimensions_height#:#Breite
 fixed_dimensions_height_info#:#Breite des iFrames in Pixel.
 fixed_dimensions_info#:#Die angegebene Höhe und Breite gelten als maximale Abmessungen. Das iFrame wird sich automatisch an die Breite des Containers anpassen und behält das Verhältnis aus der Höhe und Breite.
