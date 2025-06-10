@@ -20,15 +20,11 @@ use srag\Plugins\SrExternalPageContent\Migration\Page\Page;
 class Preview
 {
     private PreviewSettings $preview_settings;
-    private \XSLTProcessor $xslt;
 
     public function __construct(
         PreviewSettings $setting
     ) {
         $this->preview_settings = $setting;
-
-        $this->xslt = new \XSLTProcessor();
-        $this->xslt->importStylesheet(new \SimpleXMLElement(file_get_contents('./Services/COPage/xsl/page.xsl')));
     }
 
     public function preview(Page $page): string
