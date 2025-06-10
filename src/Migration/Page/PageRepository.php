@@ -131,4 +131,16 @@ class PageRepository
         return (int) $matches;
     }
 
+    public function countPossiblePagesWithIframes(int $object_id): int
+    {
+        $res = $this->db->queryF(
+            "SELECT page_id, content, parent_type 
+                        FROM page_object 
+                        WHERE content LIKE %s AND parent_id = %s",
+            ['text', 'integer'],
+            ['%&lt;%iframe%', $object_id]
+        );
+        return $res->rowCount();
+    }
+
 }
