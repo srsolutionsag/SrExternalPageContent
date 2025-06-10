@@ -100,11 +100,17 @@ class Tool extends AbstractDynamicToolPluginProvider
         }
 
         // if we are in a objects which supports the multi migration (but editor not active), we maybe show the muslti tool
-        if (in_array($type, $this->supported_types_full_migration, true)) {
+        if (in_array($type, $this->supported_types_full_migration, true) && $this->maybeHasMigratableContents($sepcContainer, $object_id)) {
             return [$this->getMultiTool($sepcContainer, $object_id)];
         }
 
         return [];
+    }
+
+    private function maybeHasMigratableContents(DIC $c, int $object_id): bool
+    {
+        // check if we have migratable contents
+        return $c->pageRepo()->countPossiblePagesWithIframes($object_id) > 0;
     }
 
     private function prepareLinkBuilder(string $mode, int $id): void
