@@ -94,14 +94,14 @@ class Tool extends AbstractDynamicToolPluginProvider
             }
 
             if (in_array($type, $this->supported_types_single_migration, true)) {
-                return [$this->getSingleTool($sepcContainer, $page_id)]; // show single tool
+                return [$this->getSingleTool($sepcContainer, $page_id, $ref_id->toInt())]; // show single tool
             }
             return []; // show no tool
         }
 
         // if we are in a objects which supports the multi migration (but editor not active), we maybe show the muslti tool
         if (in_array($type, $this->supported_types_full_migration, true) && $this->maybeHasMigratableContents($sepcContainer, $object_id)) {
-            return [$this->getMultiTool($sepcContainer, $object_id)];
+            return [$this->getMultiTool($sepcContainer, $object_id, $ref_id->toInt())];
         }
 
         return [];
@@ -113,7 +113,7 @@ class Tool extends AbstractDynamicToolPluginProvider
         return $c->pageRepo()->countPossiblePagesWithIframes($object_id) > 0;
     }
 
-    private function prepareLinkBuilder(string $mode, int $id): void
+    private function prepareLinkBuilder(string $mode, int $id, int $ref_id): void
     {
         $this->dic->ctrl()->setParameterByClass(
             \ilSrExternalPagePluginDispatcherGUI::class,
@@ -132,13 +132,19 @@ class Tool extends AbstractDynamicToolPluginProvider
             \ilSEPCMigrationGUI::P_ID,
             $id
         );
+
+        $this->dic->ctrl()->setParameterByClass(
+            \ilSEPCMigrationGUI::class,
+            \ilSEPCMigrationGUI::P_R_REF_ID,
+            $ref_id
+        );
     }
 
-    protected function getSingleTool(DIC $c, int $page_id): \ILIAS\GlobalScreen\Scope\Tool\Factory\Tool
+    protected function getSingleTool(DIC $c, int $page_id, int $ref_id): \ILIAS\GlobalScreen\Scope\Tool\Factory\Tool
     {
         $migratable_contents = $c->pageRepo()->countMigratableContents($page_id);
 
-        $this->prepareLinkBuilder(\ilSEPCMigrationGUI::MODE_SINGLE, $page_id);
+        $this->prepareLinkBuilder(\ilSEPCMigrationGUI::MODE_SINGLE, $page_id, $ref_id);
 
         $contents = [
             $this->dic->ui()->factory()->messageBox()->info(
@@ -164,9 +170,9 @@ class Tool extends AbstractDynamicToolPluginProvider
         );
     }
 
-    protected function getMultiTool(DIC $c, int $object_id): \ILIAS\GlobalScreen\Scope\Tool\Factory\Tool
+    protected function getMultiTool(DIC $c, int $object_id, int $ref_id): \ILIAS\GlobalScreen\Scope\Tool\Factory\Tool
     {
-        $this->prepareLinkBuilder(\ilSEPCMigrationGUI::MODE_MULTI, $object_id);
+        $this->prepareLinkBuilder(\ilSEPCMigrationGUI::MODE_MULTI, $object_id, $ref_id);
 
         $contents = [
             $this->dic->ui()->factory()->messageBox()->info(
