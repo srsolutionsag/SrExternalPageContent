@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 1.2.0
+- [FIX] AccessDenied for Write-permissions
+- [FIX] show tool only if there are maybe iframes
+- [FEATURE] Setting for Migration Tool
+- [FIX] Typo corrected, thanks to @mhilbert
+- [FIX] missing parameter for migration
+
 ## Version 1.1.1
 - [FIX] missing en translation
 - [FIX] edit and delete whitelist modals
