@@ -58,6 +58,11 @@ class Tool extends AbstractDynamicToolPluginProvider
         global $sepcContainer;
         /** @var DIC $sepcContainer */
 
+        $settings = $sepcContainer->settings();
+        if($settings->get('show_tool', true) === false) {
+            return [];
+        }
+
         $standard_access = BasicAccessCheckClosuresSingleton::getInstance();
         $editor_shown = $called_contexts->current()->getAdditionalData()->is('copg_show_editor', true);
         $ref_id = $called_contexts->current()->getReferenceId();
