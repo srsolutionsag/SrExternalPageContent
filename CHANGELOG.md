@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.3.0
+- [FEATURE] Setting for Migration Tool
+- [FIX] AccessDenied for Write-permissions
+- [FIX] show tool only if there are maybe iframes
+- [FIX] Typo corrected, thanks to @mhilbert
+
 ## Version 2.2.0
 - [FEATURE] Button-Zoom
 - [FIX] overlapping menues
