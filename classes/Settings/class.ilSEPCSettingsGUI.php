@@ -22,7 +22,6 @@ use srag\Plugins\SrExternalPageContent\Settings\Settings;
  */
 class ilSEPCSettingsGUI extends BaseGUI
 {
-    private const CMD_MIGRATE = 'migrate';
     public const CMD_RESET = 'reset';
     private array $default_roles = [2, 4];
     private Settings $settings;
@@ -79,6 +78,11 @@ class ilSEPCSettingsGUI extends BaseGUI
                                 fn (bool $checked): bool => $this->settings->set('silent_creation', $checked)
                             )
                         ),
+
+                        'display_header' => $factory->field()->section([],
+                            $this->translator->txt('display_header_info')
+                        ),
+
                         'default_width' => $factory->field()->numeric(
                             $this->translator->txt('default_width'),
                             $this->translator->txt('default_width_info')
@@ -108,6 +112,21 @@ class ilSEPCSettingsGUI extends BaseGUI
                         )->withAdditionalTransformation(
                             $this->refinery->trafo(
                                 fn(array $role_ids): array => $this->settings->set('roles', $role_ids)
+                            )
+                        ),
+
+                        'migration_header' => $factory->field()->section([],
+                            $this->translator->txt('migration_header_info')
+                        ),
+
+                        'show_tool' => $factory->field()->checkbox(
+                            $this->translator->txt('show_tool'),
+                            $this->translator->txt('show_tool_info')
+                        )->withValue(
+                            (bool) ($this->settings->get('show_tool', true))
+                        )->withAdditionalTransformation(
+                            $this->refinery->trafo(
+                                fn(bool $show_tool): bool => $this->settings->set('show_tool', $show_tool)
                             )
                         ),
                     ],

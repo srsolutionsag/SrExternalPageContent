@@ -106,3 +106,7 @@ whitelist_toggle#:#De-/Aktivieren
 whitelist_updated#:#Aktualisiert
 width#:#Breite
 width_info#:#Breite des iFrames in Pixeln
+show_tool#:#Migrations-Tool anzeigen
+show_tool_info#:#Zeigt das Migrations-Tool in ILIAS-Objekten an, um bestehende iFrames zu migrieren.
+display_header_info#:#Anzeige-Einstellungen
+migration_header_info#:#Migrations-Einstellungen
