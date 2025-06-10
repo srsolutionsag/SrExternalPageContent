@@ -37,6 +37,7 @@ class ilSEPCMigrationGUI extends BaseGUI
     public const MODE_MULTI = 'multi';
     public const P_ID = 'wid';
     public const P_LAST_WID = 'last_wid';
+    const P_R_REF_ID = 'r_ref_id';
     private PreviewSettings $preview_settings;
     private ?string $mode = null;
     private PageRepository $page_repository;
@@ -50,6 +51,13 @@ class ilSEPCMigrationGUI extends BaseGUI
 
     public function checkAccess(): void
     {
+        $ref_id = $this->http->request()->getQueryParams()[self::P_R_REF_ID] ?? null;
+
+        if ($ref_id !== null && $this->dic->ilias()->access()->checkAccess('write', '', (int) $ref_id)) {
+            // If the user has write access to the current page, we allow access to the migration GUI
+            return;
+        }
+
         if (!$this->access_checks->hasAdministrationAccess()()) {
             throw new ilException('Access Denied');
         }
@@ -60,6 +68,7 @@ class ilSEPCMigrationGUI extends BaseGUI
         $this->ctrl->saveParameter($this, self::P_MODE);
         $this->ctrl->saveParameter($this, self::P_ID);
         $this->ctrl->saveParameter($this, self::P_LAST_WID);
+        $this->ctrl->saveParameter($this, self::P_R_REF_ID);
     }
 
     public function executeCommand(): void
