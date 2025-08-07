@@ -17,20 +17,15 @@ namespace srag\Plugins\SrExternalPageContent\Migration\Page;
  */
 class Page
 {
-    private int $page_id;
-    private string $content = '';
-    private string $parent_type;
-
     private int $failed_contents = 0;
 
     public function __construct(
-        int $page_id,
-        string $parent_type,
-        string $content = ''
+        private int $page_id,
+        private string $parent_type,
+        private string $lang,
+        private string $content = ''
     ) {
-        $this->page_id = $page_id;
-        $this->parent_type = $parent_type;
-        $this->content = $content;
+
     }
 
     public function getPageId(): int
@@ -62,9 +57,16 @@ class Page
         return $this;
     }
 
-    public function getFailed():int
+    public function getFailed(): int
     {
         return $this->failed_contents;
     }
+
+    public function getLang(): string
+    {
+        return $this->lang;
+    }
+
+
 
 }
