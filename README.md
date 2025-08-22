@@ -10,7 +10,8 @@ This project is licensed under the GPL-3.0-only license
 
 # Important information about migration
 
-The migration of content in versions prior to 22 August 2025 contained a serious error. This error may have resulted in not only pages with iFrames being migrated, but also other pages being overwritten with new content. The reason for this is an incorrect assumption about how the page editor in ILAIS stores data in the database.
+The migration of content in versions prior to 1.3.0 contained a serious error. 
+This error may have resulted in not only pages with iFrames being migrated, but also other pages being overwritten with new content. The reason for this is an incorrect assumption about how the page editor in ILAIS stores data in the database.
 It is necessary to restore the page content using a combination of the page history and a backup of the `page_object` table, if possible. This backup table must be named `page_object_backup` and should contain the status prior to the migration.
 
 Procedure:

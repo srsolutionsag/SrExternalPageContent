@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 1.3.0
+- [FIX] Faulty Migration and restore command
+- [FIX] Removed unused import
+
 ## Version 1.2.0
 - [FIX] AccessDenied for Write-permissions
 - [FIX] show tool only if there are maybe iframes
