@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 2.4.0
+- [FIX] Faulty Migration and restore command
+- [FIX] Removed unused import
+
 ## Version 2.3.0
 - [FEATURE] Setting for Migration Tool
 - [FIX] AccessDenied for Write-permissions
