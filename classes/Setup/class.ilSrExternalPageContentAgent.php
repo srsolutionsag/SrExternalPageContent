@@ -10,12 +10,14 @@
 
 declare(strict_types=1);
 
+use srag\Plugins\SrExternalPageContent\Restore\RestoreFromHistory;
 use ILIAS\Setup\Metrics\Storage;
 use ILIAS\Setup\Config;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Refinery\Factory;
 use srag\Plugins\SrExternalPageContent\Migration\FullMigration;
+use ILIAS\Setup\ObjectiveConstructor;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -87,6 +89,10 @@ class ilSrExternalPageContentAgent extends ilPluginDefaultAgent
 
     public function getMigrations(): array
     {
+        if (!\ilSEPCMigrationGUI::ENABLE_ALL) {
+            return [];
+        }
+
         return [
             new FullMigration()
         ];
@@ -97,6 +103,11 @@ class ilSrExternalPageContentAgent extends ilPluginDefaultAgent
      */
     public function getNamedObjectives(?Config $config = null): array
     {
-        return [];
+        return [
+            "restoreFromHistory" => new ObjectiveConstructor(
+                'Restore page_content from page_history for pages migrated with faulty FullMigration',
+                fn(): RestoreFromHistory => new RestoreFromHistory()
+            )
+        ];
     }
 }

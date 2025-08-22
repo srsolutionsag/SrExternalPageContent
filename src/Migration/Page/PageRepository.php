@@ -30,15 +30,15 @@ class PageRepository
         $this->skipped = $page_id;
     }
 
-    public function getByObjId(int $parent_id): array
+    public function getByObjId(int $parent_id, string $language = 'de'): array
     {
         $res = $this->db->queryF(
-            "SELECT page_id, content, parent_type 
+            "SELECT page_id, content, parent_type, lang
                         FROM page_object 
-                        WHERE content LIKE %s AND parent_id = %s AND page_id > %s 
+                        WHERE content LIKE %s AND parent_id = %s AND page_id > %s AND lang = %s
                         ORDER BY page_id ASC ",
-            ['text', 'integer', 'integer'],
-            ['%&lt;%iframe%', $parent_id, $this->skipped ?? 0]
+            ['text', 'integer', 'integer', 'text'],
+            ['%&lt;%iframe%', $parent_id, $this->skipped ?? 0, $language]
         );
         $pages = [];
         while ($d = $this->db->fetchObject($res)) {
@@ -52,24 +52,25 @@ class PageRepository
         return $pages;
     }
 
-    public function get(int $page_id): ?Page
+    public function get(int $page_id, string $parent_type, string $language = 'de'): ?Page
     {
         $res = $this->db->queryF(
-            "SELECT page_id, content, parent_type 
+            "SELECT page_id, content, parent_type, lang
                         FROM page_object 
-                        WHERE content LIKE %s AND page_id = %s",
-            ['text', 'integer'],
-            ['%&lt;%iframe%', $page_id]
+                        WHERE content LIKE %s AND page_id = %s AND parent_type = %s AND lang = %s",
+            ['text', 'integer', 'text', 'text'],
+            ['%&lt;%iframe%', $page_id, $parent_type, $language]
         );
         $first = $this->db->fetchObject($res);
 
-        if ($first === false || $first === null) {
+        if ($first === null) {
             return null;
         }
 
         return new Page(
             (int) $first->page_id,
             (string) $first->parent_type,
+            (string) $first->lang,
             (string) $first->content
         );
     }
@@ -77,16 +78,16 @@ class PageRepository
     public function store(Page $page): void
     {
         $this->db->manipulateF(
-            "UPDATE page_object SET content = %s WHERE page_id = %s ",
-            ['clob', 'integer'],
-            [$page->getContent(), $page->getPageId()]
+            "UPDATE page_object SET content = %s WHERE page_id = %s AND parent_type = %s AND lang = %s",
+            ['clob', 'integer', 'text', 'text'],
+            [$page->getContent(), $page->getPageId(), $page->getParentType(), $page->getLang()]
         );
     }
 
     public function getNext(): ?Page
     {
         $res = $this->db->queryF(
-            "SELECT page_id, content, parent_type 
+            "SELECT page_id, content, parent_type, lang
                         FROM page_object 
                         WHERE content LIKE %s AND page_id > %s 
                         ORDER BY page_id ASC 
@@ -96,13 +97,14 @@ class PageRepository
         );
         $first = $this->db->fetchObject($res);
 
-        if ($first === false || $first === null) {
+        if ($first === null) {
             return null;
         }
 
         return new Page(
             (int) $first->page_id,
             (string) $first->parent_type,
+            (string) $first->lang,
             (string) $first->content
         );
     }
@@ -119,9 +121,9 @@ class PageRepository
         return $res->rowCount();
     }
 
-    public function countMigratableContents(int $page_id): int
+    public function countMigratableContents(int $page_id, string $parent_type): int
     {
-        $page = $this->get($page_id);
+        $page = $this->get($page_id, $parent_type);
         if ($page === null) {
             return 0;
         }

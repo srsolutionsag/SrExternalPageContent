@@ -32,12 +32,13 @@ use srag\Plugins\SrExternalPageContent\Whitelist\Check;
  */
 class ilSEPCMigrationGUI extends BaseGUI
 {
+    public const ENABLE_ALL = false; // Enable the "Perform All" button and the CLI command
     public const P_MODE = 'mode';
     public const MODE_SINGLE = 'single';
     public const MODE_MULTI = 'multi';
     public const P_ID = 'wid';
     public const P_LAST_WID = 'last_wid';
-    const P_R_REF_ID = 'r_ref_id';
+    public const P_R_REF_ID = 'r_ref_id';
     private PreviewSettings $preview_settings;
     private ?string $mode = null;
     private PageRepository $page_repository;
@@ -126,7 +127,7 @@ class ilSEPCMigrationGUI extends BaseGUI
             )
         );
 
-        if ($this->mode !== self::MODE_SINGLE) {
+        if (self::ENABLE_ALL && $this->mode !== self::MODE_SINGLE) {
             $this->toolbar->addComponent(
                 $this->ui_factory->button()->standard(
                     $this->translator->txt('perform_migration_all'),
@@ -229,17 +230,12 @@ class ilSEPCMigrationGUI extends BaseGUI
 
         switch ($this->mode) {
             case self::MODE_SINGLE:
-                $page_provider = new SinglePageProvider($this->page_repository, $wid);
-                break;
+                return new SinglePageProvider($this->page_repository, $wid);
             case self::MODE_MULTI:
-                $page_provider = new ObjectPagesProvider($this->page_repository, $wid);
-                break;
+                return new ObjectPagesProvider($this->page_repository, $wid);
             default:
-                $page_provider = new AllPagesProvider($this->page_repository);
-                break;
+                return new AllPagesProvider($this->page_repository);
         }
-
-        return $page_provider;
     }
 
     protected function buildWorkflow(WorkflowSettings $workflow_settings): MigrationWorkflow
