@@ -52,6 +52,7 @@ class Tool extends AbstractDynamicToolPluginProvider
 
     public function getToolsForContextStack(CalledContexts $called_contexts): array
     {
+        return [];
         if (!$called_contexts->current()->hasReferenceId()) {
             return [];
         }
