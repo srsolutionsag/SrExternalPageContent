@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 1.3.1
+- [FIX] temp. disabled tool
+
 ## Version 1.3.0
 - [FIX] Faulty Migration and restore command
 - [FIX] Removed unused import
