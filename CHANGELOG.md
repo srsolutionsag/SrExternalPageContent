@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 2.4.1
+- [FIX] temp. disabled tool
+
 ## Version 2.4.0
 - [FIX] Faulty Migration and restore command
 - [FIX] Removed unused import
