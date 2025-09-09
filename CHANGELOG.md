@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 1.3.2
+- [FIX] reenabled migrations agains
+
 ## Version 1.3.1
 - [FIX] temp. disabled tool
 
