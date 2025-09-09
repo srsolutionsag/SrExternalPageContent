@@ -32,19 +32,20 @@ use srag\Plugins\SrExternalPageContent\Whitelist\Check;
  */
 class ilSEPCMigrationGUI extends BaseGUI
 {
-    public const ENABLE_ALL = false; // Enable the "Perform All" button and the CLI command
     public const P_MODE = 'mode';
     public const MODE_SINGLE = 'single';
     public const MODE_MULTI = 'multi';
     public const P_ID = 'wid';
+    public const P_PTYPE = 'wptype';
     public const P_LAST_WID = 'last_wid';
     public const P_R_REF_ID = 'r_ref_id';
     private PreviewSettings $preview_settings;
     private ?string $mode = null;
     private PageRepository $page_repository;
 
-    public function __construct(?string $fallback_uri = null)
-    {
+    public function __construct(
+        ?string $fallback_uri = null
+    ) {
         parent::__construct($fallback_uri);
         $this->preview_settings = new PreviewSettings();
         $this->page_repository = $this->dic[PageRepository::class];
@@ -70,6 +71,7 @@ class ilSEPCMigrationGUI extends BaseGUI
         $this->ctrl->saveParameter($this, self::P_ID);
         $this->ctrl->saveParameter($this, self::P_LAST_WID);
         $this->ctrl->saveParameter($this, self::P_R_REF_ID);
+        $this->ctrl->saveParameter($this, self::P_PTYPE);
     }
 
     public function executeCommand(): void
@@ -127,7 +129,7 @@ class ilSEPCMigrationGUI extends BaseGUI
             )
         );
 
-        if (self::ENABLE_ALL && $this->mode !== self::MODE_SINGLE) {
+        if ($this->mode !== self::MODE_SINGLE) {
             $this->toolbar->addComponent(
                 $this->ui_factory->button()->standard(
                     $this->translator->txt('perform_migration_all'),
@@ -189,9 +191,12 @@ class ilSEPCMigrationGUI extends BaseGUI
 
         if ($current_page !== null) {
             $this->page_repository->store($current_page);
+            $last_page_id = (string) $current_page->getPageId();
+        } else {
+            $last_page_id = '';
         }
 
-        $this->ctrl->setParameter($this, self::P_LAST_WID, (string) $current_page->getPageId());
+        $this->ctrl->setParameter($this, self::P_LAST_WID, $last_page_id);
         $this->tpl->setOnScreenMessage(
             'success',
             $this->translator->txt('migration_success'),
@@ -228,9 +233,13 @@ class ilSEPCMigrationGUI extends BaseGUI
             ? $this->http_wrapper->query()->retrieve(self::P_ID, $this->dic->ilias()->refinery()->kindlyTo()->int())
             : null;
 
+        $parent_type = $this->http_wrapper->query()->has(self::P_PTYPE)
+            ? $this->http_wrapper->query()->retrieve(self::P_PTYPE, $this->dic->ilias()->refinery()->kindlyTo()->string())
+            : '';
+
         switch ($this->mode) {
             case self::MODE_SINGLE:
-                return new SinglePageProvider($this->page_repository, $wid);
+                return new SinglePageProvider($this->page_repository, $wid, $parent_type);
             case self::MODE_MULTI:
                 return new ObjectPagesProvider($this->page_repository, $wid);
             default:

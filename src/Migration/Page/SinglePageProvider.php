@@ -19,18 +19,21 @@ class SinglePageProvider implements PageProvider
 {
     private PageRepository $repository;
     private int $page_id;
+    private string $parent_type;
+    private string $language = '-';
 
-    public function __construct(PageRepository $repository, int $page_id)
+    public function __construct(PageRepository $repository, int $page_id, string $parent_type)
     {
         $this->repository = $repository;
         $this->page_id = $page_id;
+        $this->parent_type = $parent_type;
     }
 
     public function next(?int $after = null): ?Page
     {
         $this->repository->setSkipped($after);
 
-        return $this->repository->get($this->page_id);
+        return $this->repository->get($this->page_id, $this->parent_type, $this->language);
     }
 
     public function count(): int

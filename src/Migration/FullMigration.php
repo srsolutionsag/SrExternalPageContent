@@ -26,7 +26,6 @@ use srag\Plugins\SrExternalPageContent\Whitelist\Check;
 use srag\Plugins\SrExternalPageContent\Whitelist\WhitelistRepositoryDB;
 use srag\Plugins\SrExternalPageContent\Whitelist\DomainParser;
 use srag\Plugins\SrExternalPageContent\Content\Dimension\DimensionBuilder;
-use ILIAS\Setup\UnachievableException;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -83,12 +82,6 @@ class FullMigration implements Migration
 
     public function step(Environment $environment): void
     {
-        if (!\ilSEPCMigrationGUI::ENABLE_ALL) {
-            throw new UnachievableException(
-                'The full migration is currently diabled.'
-            );
-        }
-
         $this->workflow->start($this->after);
         $page_id = ($maybe_page = $this->workflow->getLast()) !== null ? $maybe_page->getPageId() : null;
         $this->io->text("Migrate page with id: " . $page_id);

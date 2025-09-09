@@ -89,10 +89,6 @@ class ilSrExternalPageContentAgent extends ilPluginDefaultAgent
 
     public function getMigrations(): array
     {
-        if (!\ilSEPCMigrationGUI::ENABLE_ALL) {
-            return [];
-        }
-
         return [
             new FullMigration()
         ];
