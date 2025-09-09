@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 2.4.2
+- [FIX] reenabled migrations agains
+
 ## Version 2.4.1
 - [FIX] temp. disabled tool
 
