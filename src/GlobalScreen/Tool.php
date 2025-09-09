@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace srag\Plugins\SrExternalPageContent\GlobalScreen;
 
 use srag\Plugins\SrExternalPageContent\DIC;
-use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolPluginProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\UI\Component\Legacy\Legacy;
@@ -43,6 +42,7 @@ class Tool extends AbstractDynamicToolPluginProvider
         'cat',
         'fold',
         'copa',
+        'cont',
     ];
 
     public function isInterestedInContexts(): ContextCollection
@@ -52,7 +52,6 @@ class Tool extends AbstractDynamicToolPluginProvider
 
     public function getToolsForContextStack(CalledContexts $called_contexts): array
     {
-        return [];
         if (!$called_contexts->current()->hasReferenceId()) {
             return [];
         }
@@ -60,11 +59,10 @@ class Tool extends AbstractDynamicToolPluginProvider
         /** @var DIC $sepcContainer */
 
         $settings = $sepcContainer->settings();
-        if($settings->get('show_tool', true) === false) {
+        if ($settings->get('show_tool', true) === false) {
             return [];
         }
 
-        $standard_access = BasicAccessCheckClosuresSingleton::getInstance();
         $editor_shown = $called_contexts->current()->getAdditionalData()->is('copg_show_editor', true);
         $ref_id = $called_contexts->current()->getReferenceId();
 
@@ -72,15 +70,8 @@ class Tool extends AbstractDynamicToolPluginProvider
         if (!$this->dic->access()->checkAccess('write', '', $ref_id->toInt())) {
             return [];
         }
-
-        $show_tool = false;
-
-        // check type
-        $supported_types = [
-            'lm'
-        ];
         $object_id = $ref_id->toObjectId()->toInt();
-        $type = \ilObject2::_lookupType($object_id);
+        $parent_type = \ilObject2::_lookupType($object_id);
 
         // if we are on a single page using the page editor, we maybe show the single tool
         if ($editor_shown) {
@@ -92,17 +83,30 @@ class Tool extends AbstractDynamicToolPluginProvider
                     return [];
                 }
                 $page_id = $pages[0]->getPageId();
+                $parent_type = $pages[0]->getParentType();
             }
 
-            if (in_array($type, $this->supported_types_single_migration, true)) {
-                return [$this->getSingleTool($sepcContainer, $page_id, $ref_id->toInt())]; // show single tool
+            if (
+                in_array($parent_type, $this->supported_types_single_migration, true)
+                && $sepcContainer->pageRepo()->countMigratableContents($page_id, $parent_type) > 0) {
+                return [
+                    $this->getSingleTool(
+                        $sepcContainer,
+                        $page_id,
+                        $ref_id->toInt(),
+                        $parent_type
+                    )
+                ]; // show single tool
             }
             return []; // show no tool
         }
 
         // if we are in a objects which supports the multi migration (but editor not active), we maybe show the muslti tool
-        if (in_array($type, $this->supported_types_full_migration, true) && $this->maybeHasMigratableContents($sepcContainer, $object_id)) {
-            return [$this->getMultiTool($sepcContainer, $object_id, $ref_id->toInt())];
+        if (in_array($parent_type, $this->supported_types_full_migration, true) && $this->maybeHasMigratableContents(
+            $sepcContainer,
+            $object_id
+        )) {
+            return [$this->getMultiTool($sepcContainer, $object_id, $ref_id->toInt(), $parent_type)];
         }
 
         return [];
@@ -114,7 +118,7 @@ class Tool extends AbstractDynamicToolPluginProvider
         return $c->pageRepo()->countPossiblePagesWithIframes($object_id) > 0;
     }
 
-    private function prepareLinkBuilder(string $mode, int $id, int $ref_id): void
+    private function prepareLinkBuilder(string $mode, int $id, int $ref_id, string $parent_type): void
     {
         $this->dic->ctrl()->setParameterByClass(
             \ilSrExternalPagePluginDispatcherGUI::class,
@@ -133,6 +137,11 @@ class Tool extends AbstractDynamicToolPluginProvider
             \ilSEPCMigrationGUI::P_ID,
             $id
         );
+        $this->dic->ctrl()->setParameterByClass(
+            \ilSEPCMigrationGUI::class,
+            \ilSEPCMigrationGUI::P_PTYPE,
+            $parent_type
+        );
 
         $this->dic->ctrl()->setParameterByClass(
             \ilSEPCMigrationGUI::class,
@@ -141,11 +150,15 @@ class Tool extends AbstractDynamicToolPluginProvider
         );
     }
 
-    protected function getSingleTool(DIC $c, int $page_id, int $ref_id): \ILIAS\GlobalScreen\Scope\Tool\Factory\Tool
-    {
-        $migratable_contents = $c->pageRepo()->countMigratableContents($page_id);
+    protected function getSingleTool(
+        DIC $c,
+        int $page_id,
+        int $ref_id,
+        string $parent_type
+    ): ?\ILIAS\GlobalScreen\Scope\Tool\Factory\Tool {
+        $migratable_contents = $c->pageRepo()->countMigratableContents($page_id, $parent_type);
 
-        $this->prepareLinkBuilder(\ilSEPCMigrationGUI::MODE_SINGLE, $page_id, $ref_id);
+        $this->prepareLinkBuilder(\ilSEPCMigrationGUI::MODE_SINGLE, $page_id, $ref_id, $parent_type);
 
         $contents = [
             $this->dic->ui()->factory()->messageBox()->info(
@@ -171,9 +184,13 @@ class Tool extends AbstractDynamicToolPluginProvider
         );
     }
 
-    protected function getMultiTool(DIC $c, int $object_id, int $ref_id): \ILIAS\GlobalScreen\Scope\Tool\Factory\Tool
-    {
-        $this->prepareLinkBuilder(\ilSEPCMigrationGUI::MODE_MULTI, $object_id, $ref_id);
+    protected function getMultiTool(
+        DIC $c,
+        int $object_id,
+        int $ref_id,
+        string $parent_type
+    ): \ILIAS\GlobalScreen\Scope\Tool\Factory\Tool {
+        $this->prepareLinkBuilder(\ilSEPCMigrationGUI::MODE_MULTI, $object_id, $ref_id, $parent_type);
 
         $contents = [
             $this->dic->ui()->factory()->messageBox()->info(
