@@ -58,7 +58,7 @@ class ilSrExternalPagePluginDispatcherGUI extends BaseGUI
             );
             try {
                 $fallback_uri = new URI($fallback_uri);
-                $this->fallback_uri = $fallback_uri->getPath() . '?' . $fallback_uri->getQuery();
+                $this->fallback_uri = basename($fallback_uri->getPath()) . '?' . $fallback_uri->getQuery();
             } catch (Throwable $e) {
                 $this->fallback_uri = null;
             }
