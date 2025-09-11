@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 2.4.3
+- [FIX] fallback url wrong if in subdirectory
+
 ## Version 2.4.2
 - [FIX] reenabled migrations agains
 
