@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.4.4
+- [FIX] YouTube short links (youtu.be), shorts and live URLs could not be embedded
+- [FIX] Height and width labels swapped in fixed dimensions
+- [FIX] DomainParser returned the exception message instead of null on invalid URLs
+- [FIX] Fatal error instead of NotEmbeddable when the content no longer exists
+
 ## Version 2.4.3
 - [FIX] fallback url wrong if in subdirectory
 
