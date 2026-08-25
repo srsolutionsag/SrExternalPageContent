@@ -14,6 +14,7 @@ namespace srag\Plugins\SrExternalPageContent\Forms;
 
 use srag\Plugins\SrExternalPageContent\DIC;
 use srag\Plugins\SrExternalPageContent\Content\iFrame;
+use srag\Plugins\SrExternalPageContent\Content\URLTranslator;
 use ILIAS\Refinery\Transformation;
 use srag\Plugins\SrExternalPageContent\Content\Embeddable;
 use ILIAS\FileUpload\MimeType;
@@ -154,6 +155,11 @@ class IFrameSection extends Base implements FormElement
             )
             ->withValue($this->embeddable->getUrl())
             ->withRequired(true)
+            ->withAdditionalTransformation(
+                $this->refinery->trafo(
+                    fn(string $d): string => $this->dependencies[URLTranslator::class]->translate(trim($d))
+                )
+            )
             ->withAdditionalTransformation(
                 $this->refinery->constraint(
                     function ($d): bool {

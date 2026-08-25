@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace srag\Plugins\SrExternalPageContent\Forms;
 
+use srag\Plugins\SrExternalPageContent\Content\BaseEmbeddable;
 use srag\Plugins\SrExternalPageContent\Content\Embeddable;
+use srag\Plugins\SrExternalPageContent\Content\URLTranslator;
 use srag\Plugins\SrExternalPageContent\Content\NotEmbeddable;
 use ILIAS\Refinery\Transformation;
 
@@ -47,9 +49,15 @@ class EmbedSection extends Base implements FormElement
                      )
                      ->withAdditionalTransformation(
                          $this->refinery->trafo(
-                             fn($value): Embeddable => $this->embeddable = $this->parser->createParser($value)->parse(
-                                 $value
-                             )
+                             function ($value): Embeddable {
+                                 $embeddable = $this->parser->createParser($value)->parse($value);
+                                 if ($embeddable instanceof BaseEmbeddable) {
+                                     $embeddable->setUrl(
+                                         $this->dependencies[URLTranslator::class]->translate($embeddable->getUrl())
+                                     );
+                                 }
+                                 return $this->embeddable = $embeddable;
+                             }
                          )
                      )
                      ->withAdditionalTransformation(
