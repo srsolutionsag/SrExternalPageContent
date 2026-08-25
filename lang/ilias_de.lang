@@ -28,11 +28,11 @@ embed_content_invalid_url#:#Die eingegebene URL ist ungültig oder wurde nicht f
 embed_section_title#:#Einbettungscode automatisch einbetten
 external_contents#:#Externe Inhalte
 fixed_dimensions#:#Feste Grösse
-fixed_dimensions_height#:#Breite
-fixed_dimensions_height_info#:#Breite des iFrames in Pixel.
+fixed_dimensions_height#:#Höhe
+fixed_dimensions_height_info#:#Höhe des iFrames in Pixel.
 fixed_dimensions_info#:#Die angegebene Höhe und Breite gelten als maximale Abmessungen. Das iFrame wird sich automatisch an die Breite des Containers anpassen und behält das Verhältnis aus der Höhe und Breite.
-fixed_dimensions_width#:#Höhe
-fixed_dimensions_width_info#:#Höhe des iFrames in Pixel.
+fixed_dimensions_width#:#Breite
+fixed_dimensions_width_info#:#Breite des iFrames in Pixel.
 fixed_height#:#Feste Höhe
 fixed_height_height#:#Höhe des iFrames.
 fixed_height_height_info#:#In Pixeln

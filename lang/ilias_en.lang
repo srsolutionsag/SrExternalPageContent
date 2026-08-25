@@ -28,11 +28,11 @@ embed_content_invalid_url#:#The URL entered is invalid or has not been whitelist
 embed_section_title#:#Embed snippet automatically
 external_contents#:#External content
 fixed_dimensions#:#Fixed size
-fixed_dimensions_height#:#Width
-fixed_dimensions_height_info#:#Width of the iFrame in pixels.
+fixed_dimensions_height#:#Height
+fixed_dimensions_height_info#:#Height of the iFrame in pixels.
 fixed_dimensions_info#:#The specified height and width are maximum dimensions. The Frame will automatically adjust to the specified height and width and keeps the ratio of the height and width.
-fixed_dimensions_width#:#Height
-fixed_dimensions_width_info#:#Height of the iFrame in pixels.
+fixed_dimensions_width#:#Width
+fixed_dimensions_width_info#:#Width of the iFrame in pixels.
 fixed_height#:#Fixed height
 fixed_height_height#:#Height of the iFrame.
 fixed_height_height_info#:#In pixels
