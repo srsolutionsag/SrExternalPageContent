@@ -65,7 +65,10 @@ class EmbeddableRepositoryWapper implements EmbeddableRepository
     public function getById(string $id, bool $skip_whitlist_check): ?Embeddable
     {
         $embeddable = $this->repository->getById($id, $skip_whitlist_check);
-        if (($embeddable !== null) && ($skip_whitlist_check || $this->check->isAllowed($embeddable->getUrl()))) {
+        if ($embeddable === null) {
+            return new NotEmbeddable('', NotEmbeddableReasons::NOT_FOUND);
+        }
+        if ($skip_whitlist_check || $this->check->isAllowed($embeddable->getUrl())) {
             $embeddable->setUrl($this->translator->translate($embeddable->getUrl()));
 
             return $embeddable;

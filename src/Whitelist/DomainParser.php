@@ -33,7 +33,6 @@ class DomainParser
         try {
             $uri = new URI($url_string);
         } catch (\Throwable $e) {
-            return $e->getMessage();
             return null;
         }
 
